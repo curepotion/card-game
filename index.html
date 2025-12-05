@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <title>角色扮演抽籤卡牌｜黑金版</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Favicon - Golden Intertwined Hearts (Intimate Feel) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23facc15'/%3E%3Cstop offset='50%25' stop-color='%23f5d76e'/%3E%3Cstop offset='100%25' stop-color='%23facc15'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M35 30 C30 20 20 20 15 30 C15 40 25 50 35 70 C45 50 55 40 55 30 C50 20 40 20 35 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M65 30 C60 20 50 20 45 30 C45 40 55 50 65 70 C75 50 85 40 85 30 C80 20 70 20 65 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M50 50 C48 45 45 45 42 50 C42 55 46 60 50 65 C54 60 58 55 58 50 C55 45 52 45 50 50 Z' fill='%23facc15' opacity='0.8'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23facc15'/%3E%3Cstop offset='50%25' stop-color='%23f5d76e'/%3E%3Cstop offset='100%25' stop-color='%23facc15'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M35 30 C30 20 20 20 15 30 C15 40 25 50 35 70 C45 50 55 40 55 30 C50 20 40 20 35 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M65 30 C60 20 50 20 45 30 C45 40 55 50 65 70 C75 50 85 40 85 30 C80 20 70 20 65 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M50 50 C48 45 45 45 42 50 C42 55 46 60 50 65 C54 60 58 55 58 50 C55 45 52 45 50 50 Z' fill='%23facc15' opacity='0.8'/%3E%3C/svg%3E" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -27,16 +31,123 @@
     body {
       margin: 0;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background:
         radial-gradient(circle at top, rgba(250, 204, 21, 0.12), transparent 55%),
         radial-gradient(circle at bottom, rgba(148, 163, 184, 0.18), transparent 60%),
         var(--bg-black);
       color: var(--text-main);
+      padding: 0;
+      overflow-x: hidden;
     }
 
+    /* Navigation Tabs */
+    .nav-container {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(2, 6, 23, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(250, 204, 21, 0.3);
+      padding: 12px 16px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+      justify-content: center;
+    }
+
+    .nav-tab {
+      flex: 1;
+      padding: 10px 16px;
+      background: transparent;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .nav-tab:hover {
+      border-color: rgba(250, 204, 21, 0.5);
+      color: var(--text-sub);
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(250, 204, 21, 0.1));
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.3);
+    }
+
+    /* Page Container */
+    .page-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px 16px;
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Story Plots Page Container - Full Width */
+    .page-container.story-plots-active {
+      max-width: 100%;
+      padding: 20px;
+      align-items: flex-start;
+    }
+
+    /* Hero Story Page Container - Full Width, No Padding */
+    .page-container:has(#hero-story-page.active) {
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* Fallback for browsers that don't support :has() */
+    .page-container.hero-story-active {
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.3s ease-in;
+      width: 100%;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    #role-draw-page.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* App Card Style */
     .app {
       background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
       border-radius: 20px;
@@ -44,7 +155,6 @@
         0 20px 55px rgba(0, 0, 0, 0.85),
         0 0 0 1px rgba(148, 163, 184, 0.3);
       padding: 22px 20px 26px;
-      max-width: 420px;
       width: 100%;
       color: var(--text-main);
     }
@@ -68,6 +178,7 @@
       margin-top: 6px;
     }
 
+    /* Card Styles */
     .card-wrapper {
       display: flex;
       justify-content: center;
@@ -127,7 +238,7 @@
       transform: translateY(1px) scale(0.99);
       box-shadow:
         0 12px 26px rgba(0, 0, 0, 0.9),
-        0 0 0 1pxrgba(250, 204, 21, 0.65);
+        0 0 0 1px rgba(250, 204, 21, 0.65);
     }
 
     .card-title {
@@ -157,7 +268,692 @@
       z-index: 1;
     }
 
-    /* 洗牌動畫 */
+    /* Story Plots Page - Full Width */
+    #story-plots-page .app {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    /* Story Cards Grid */
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .story-card {
+      background:
+        radial-gradient(circle at top left, rgba(250, 204, 21, 0.2), transparent 50%),
+        var(--card-black);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .story-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .story-card:hover::before {
+      opacity: 1;
+    }
+
+    .story-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .story-card-preview {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .story-card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Life Planning Page - Articles List */
+    #life-planning-page .app {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    /* Hero Story Page - Full Width */
+    #hero-story-page {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    #hero-story-page.active {
+      display: block;
+    }
+
+    /* Hero Section Layout */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Background Visuals Placeholder */
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.15), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(250, 204, 21, 0.12), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.08), transparent 60%),
+        var(--bg-black);
+      z-index: 0;
+    }
+
+    /* Hero Content Block - Centered */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      width: 100%;
+      padding: 60px 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* Hero Header */
+    .hero-header {
+      width: 100%;
+    }
+
+    /* Large Title */
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0 0 24px 0;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+    }
+
+    /* Medium Subtitle Paragraph */
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-sub);
+      line-height: 1.8;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* Hero Actions */
+    .hero-actions {
+      margin-top: 8px;
+    }
+
+    /* Primary CTA Button */
+    .hero-cta-primary {
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #facc15, #f5d76e);
+      color: #111827;
+      border: 2px solid rgba(250, 204, 21, 0.5);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.3);
+      letter-spacing: 0.05em;
+    }
+
+    .hero-cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(250, 204, 21, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.5);
+      background: linear-gradient(135deg, #f5d76e, #facc15);
+    }
+
+    .hero-cta-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Hero Footer - Optional Small Secondary Text */
+    .hero-footer {
+      margin-top: 8px;
+    }
+
+    .hero-description {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0;
+      font-style: italic;
+      letter-spacing: 0.01em;
+    }
+
+    /* Optional: Cover Illustration Placeholder */
+    .hero-illustration {
+      margin-top: 24px;
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      /* Placeholder for cover illustration */
+      background: radial-gradient(circle at center, rgba(250, 204, 21, 0.1), transparent 70%);
+      border-radius: 16px;
+      border: 1px dashed rgba(250, 204, 21, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .articles-container {
+      margin-top: 24px;
+      width: 100%;
+    }
+
+    .article-item {
+      background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.15), transparent 50%),
+        var(--card-black);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .article-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 16px;
+    }
+
+    .article-item-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      flex: 1;
+      margin: 0;
+    }
+
+    .article-item-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .article-item-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: rgba(2, 6, 23, 0.8);
+      color: var(--gold);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .article-item-btn:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+
+    .article-item-btn.delete-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .article-item-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .article-item-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .article-item-meta-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .article-item-meta-value {
+      color: var(--text-sub);
+    }
+
+    .article-item-content {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.7;
+      margin-top: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .add-article-btn {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(250, 204, 21, 0.1));
+      border: 2px dashed rgba(250, 204, 21, 0.5);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--gold);
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    .add-article-btn:hover {
+      border-color: var(--gold);
+      background: rgba(250, 204, 21, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .add-article-btn::before {
+      content: "+";
+      display: block;
+      font-size: 32px;
+      margin-bottom: 8px;
+      font-weight: 300;
+    }
+
+    .story-card-actions {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .story-card-edit-btn,
+    .story-card-delete-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: rgba(2, 6, 23, 0.8);
+      color: var(--gold);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .story-card-edit-btn:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+
+    .story-card-delete-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
+      transform: scale(1.1);
+    }
+
+    /* Floating Action Button for Add Story */
+    .add-story-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #facc15, #f5d76e);
+      border: 2px solid rgba(250, 204, 21, 0.5);
+      color: #111827;
+      font-size: 36px;
+      font-weight: 300;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.3);
+      transition: all 0.3s ease;
+      z-index: 999;
+      line-height: 1;
+    }
+
+    .add-story-btn:hover {
+      transform: scale(1.1) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(250, 204, 21, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.5);
+      background: linear-gradient(135deg, #f5d76e, #facc15);
+    }
+
+    .add-story-btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Edit Modal Styles */
+    .edit-form {
+      padding: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(2, 6, 23, 0.7);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 10px;
+      color: var(--text-sub);
+      font-size: 16px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      line-height: 1.6;
+      box-sizing: border-box;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(2, 6, 23, 0.85);
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
+    }
+
+    .form-input {
+      min-height: 48px;
+    }
+
+    .form-textarea {
+      min-height: 300px;
+      resize: vertical;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    .btn-cancel,
+    .btn-save {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border-color: rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+    }
+
+    .btn-cancel:hover {
+      border-color: var(--text-muted);
+      color: var(--text-sub);
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, #facc15, #f5d76e);
+      border-color: rgba(250, 204, 21, 0.7);
+      color: #111827;
+    }
+
+    .btn-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+    }
+
+    /* Modal for Story Details */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 0;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.active {
+      display: block;
+    }
+
+    .modal-content {
+      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(2, 6, 23, 0.9);
+      border: 1px solid rgba(250, 204, 21, 0.5);
+      color: var(--gold);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.2s ease;
+      z-index: 1001;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-close:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+
+    .modal-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0;
+      padding: 80px 20px 30px;
+      text-align: center;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+      background: rgba(250, 204, 21, 0.05);
+    }
+
+    .modal-body {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.9;
+      white-space: pre-line;
+      padding: 40px 20px;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      letter-spacing: 0.02em;
+    }
+
+    /* 文章内容样式 - 大标题 */
+    .modal-body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Noto Sans TC", system-ui, sans-serif;
+    }
+
+    /* 使用CSS来样式化文本内容 */
+    .modal-body {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* 通过JavaScript处理的样式类 */
+    .article-main-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 32px 0 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid rgba(250, 204, 21, 0.3);
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+
+    .article-main-title:first-child {
+      margin-top: 0;
+    }
+
+    .article-chapter-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gold-soft);
+      margin: 32px 0 16px;
+      padding: 12px 0 12px 12px;
+      border-left: 4px solid rgba(250, 204, 21, 0.6);
+      background: rgba(250, 204, 21, 0.05);
+      letter-spacing: 0.03em;
+    }
+
+    .article-theme {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin: 20px 0 16px;
+      padding: 8px 0 8px 16px;
+      border-left: 2px solid rgba(250, 204, 21, 0.3);
+      font-style: italic;
+      background: rgba(148, 163, 184, 0.05);
+    }
+
+    .article-content {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.9;
+      margin: 12px 0;
+      padding: 0 4px;
+      letter-spacing: 0.01em;
+    }
+
+    .article-role {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--gold-soft);
+      margin: 24px 0 12px;
+      padding: 8px 12px;
+      background: rgba(250, 204, 21, 0.08);
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    /* Shuffle Animation */
     @keyframes shuffle {
       0%   { transform: translateX(0) rotate(0deg); }
       25%  { transform: translateX(-6px) rotate(-2deg); }
@@ -170,6 +966,7 @@
       animation: shuffle 0.26s ease-in-out infinite;
     }
 
+    /* Controls */
     .controls {
       display: flex;
       flex-direction: column;
@@ -263,14 +1060,18 @@
       border-bottom: none;
     }
 
-    /* 手機友善調整 */
+    /* Mobile Responsive */
     @media (max-width: 480px) {
-      body {
-        align-items: stretch;
+      .page-container {
+        padding: 16px 12px;
+      }
+
+      .page-container.story-plots-active {
+        padding: 12px 8px;
       }
 
       .app {
-        margin: 16px;
+        margin: 0;
         border-radius: 18px;
         padding: 18px 16px 22px;
       }
@@ -282,7 +1083,7 @@
 
       .card {
         max-width: 100%;
-        padding: 14px 14px;
+        padding: 14px;
       }
 
       .card-main {
@@ -293,139 +1094,561 @@
         width: 100%;
         max-width: 260px;
       }
+
+      .nav-tabs {
+        gap: 6px;
+      }
+
+      .nav-tab {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .story-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .story-card {
+        padding: 16px;
+      }
+
+      .story-card-title {
+        font-size: 16px;
+      }
+
+      .article-item {
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      .article-item-title {
+        font-size: 16px;
+      }
+
+      .article-item-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .article-item-actions {
+        align-self: flex-end;
+      }
+
+      .article-item-meta {
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12px;
+      }
+
+      .article-item-content {
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      .add-article-btn {
+        padding: 20px;
+        font-size: 14px;
+      }
+
+      .add-story-btn {
+        width: 56px;
+        height: 56px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 32px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.3);
+      }
+
+      .add-story-btn:hover {
+        transform: scale(1.05) translateY(-2px);
+      }
+
+      .hero-content {
+        padding: 40px 20px;
+        gap: 24px;
+      }
+
+      .hero-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      .hero-subtitle {
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .hero-cta-primary {
+        padding: 14px 32px;
+        font-size: 15px;
+      }
+
+      .hero-description {
+        font-size: 13px;
+      }
+
+      .hero-illustration {
+        height: 200px;
+        margin-top: 20px;
+      }
+
+      .modal-content {
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+      }
+
+      .modal-title {
+        font-size: 22px;
+        padding: 70px 16px 24px;
+      }
+
+      .modal-body {
+        font-size: 15px;
+        padding: 24px 16px;
+        line-height: 1.8;
+      }
+
+      .modal-close {
+        top: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .article-main-title {
+        font-size: 20px;
+        margin: 24px 0 16px;
+        padding-bottom: 12px;
+      }
+
+      .article-chapter-title {
+        font-size: 18px;
+        margin: 28px 0 12px;
+        padding: 10px 0 10px 10px;
+        border-left-width: 3px;
+      }
+
+      .article-theme {
+        font-size: 14px;
+        margin: 16px 0 12px;
+        padding: 6px 0 6px 12px;
+      }
+
+      .article-content {
+        font-size: 15px;
+        line-height: 1.8;
+        margin: 10px 0;
+      }
+
+      .article-role {
+        font-size: 16px;
+        margin: 20px 0 10px;
+        padding: 6px 10px;
+      }
+
+      .story-card-actions {
+        top: 8px;
+        right: 8px;
+        gap: 6px;
+      }
+
+      .story-card-edit-btn,
+      .story-card-delete-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+      }
+
+      .edit-form {
+        padding: 20px 16px;
+        max-width: 100%;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .form-input,
+      .form-textarea {
+        padding: 12px 14px;
+        font-size: 16px;
+        border-radius: 8px;
+        line-height: 1.6;
+      }
+
+      .form-input {
+        min-height: 44px;
+      }
+
+      .form-textarea {
+        min-height: 250px;
+        line-height: 1.7;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+        gap: 8px;
+      }
+
+      .btn-cancel,
+      .btn-save {
+        width: 100%;
+        padding: 12px;
+      }
+    }
+
+    /* Tablet and Medium Screens */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .story-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .modal-body {
+        max-width: 700px;
+        padding: 40px 24px;
+      }
+
+      .modal-title {
+        font-size: 26px;
+        padding: 80px 24px 30px;
+      }
+
+      .edit-form {
+        padding: 24px 20px;
+        max-width: 100%;
+      }
+
+      .form-input,
+      .form-textarea {
+        font-size: 16px;
+        padding: 13px 15px;
+      }
+
+      .form-textarea {
+        min-height: 280px;
+      }
+    }
+
+    /* Large Screens */
+    @media (min-width: 769px) {
+      .story-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 16px;
+        width: 100%;
+      }
+
+      .modal-body {
+        max-width: 800px;
+        padding: 40px 32px;
+      }
+
+      .modal-title {
+        font-size: 28px;
+        padding: 80px 32px 30px;
+      }
+
+      .edit-form {
+        padding: 32px;
+        max-width: 900px;
+      }
+
+      .form-input,
+      .form-textarea {
+        font-size: 16px;
+        padding: 14px 16px;
+      }
+
+      .form-textarea {
+        min-height: 320px;
+      }
+    }
+
+    /* Scrollbar Styling */
+    .history-list::-webkit-scrollbar,
+    .modal-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .history-list::-webkit-scrollbar-track,
+    .modal-content::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 3px;
+    }
+
+    .history-list::-webkit-scrollbar-thumb,
+    .modal-content::-webkit-scrollbar-thumb {
+      background: rgba(250, 204, 21, 0.4);
+      border-radius: 3px;
+    }
+
+    .history-list::-webkit-scrollbar-thumb:hover,
+    .modal-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(250, 204, 21, 0.6);
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="app-header">
-      <div class="app-title">ROLE DRAW</div>
-      <div class="app-subtitle">抽出今天要扮演的身分與傾向，其餘自己設計劇本</div>
+  <!-- Navigation Tabs -->
+  <div class="nav-container">
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-page="role-draw">角色抽籤</button>
+      <button class="nav-tab" data-page="story-plots">故事劇情</button>
+      <button class="nav-tab" data-page="life-planning">人生未來規劃</button>
+      <button class="nav-tab" data-page="hero-story">關於</button>
     </div>
+  </div>
 
-    <div class="card-wrapper">
-      <div class="card" id="card">
-        <div class="card-title">TAP TO DRAW</div>
-        <div class="card-main" id="card-main">
-          ？
+  <!-- Page Container -->
+  <div class="page-container">
+    <!-- Role Draw Page -->
+    <div class="page active" id="role-draw-page">
+      <div class="app">
+        <div class="app-header">
+          <div class="app-title">角色抽籤</div>
+          <div class="app-subtitle">抽出今天要扮演的身分與傾向，其餘自己設計劇本</div>
         </div>
-        <div class="card-hint" id="card-hint">
-          點擊卡牌或下方按鈕開始洗牌
+        <div class="card-wrapper">
+          <div class="card" id="card">
+            <div class="card-title">TAP TO DRAW</div>
+            <div class="card-main" id="card-main">？</div>
+            <div class="card-hint" id="card-hint">點擊卡牌或下方按鈕開始洗牌</div>
+          </div>
+        </div>
+        <div class="controls">
+          <button id="draw-btn">開始抽卡</button>
+          <div class="result">抽到的角色：</div>
+          <div class="result-highlight" id="result">尚未抽籤</div>
+        </div>
+        <div class="history">
+          <div class="history-title">歷史紀錄</div>
+          <ul class="history-list" id="history-list"></ul>
         </div>
       </div>
     </div>
 
-    <div class="controls">
-      <button id="draw-btn">開始抽卡</button>
-      <div class="result">抽到的角色：</div>
-      <div class="result-highlight" id="result">尚未抽籤</div>
+    <!-- Story Plots Page -->
+    <div class="page" id="story-plots-page">
+      <div class="app">
+        <div class="app-header">
+          <div class="app-title">STORY PLOTS</div>
+          <div class="app-subtitle">點擊卡片查看完整劇情內容</div>
+        </div>
+        <div class="story-grid" id="story-grid">
+          <!-- Story cards will be generated here -->
+        </div>
+      </div>
     </div>
 
-    <div class="history">
-      <div class="history-title">歷史紀錄</div>
-      <ul class="history-list" id="history-list"></ul>
+    <!-- Life Planning Page -->
+    <div class="page" id="life-planning-page">
+      <div class="app">
+        <div class="app-header">
+          <div class="app-title">人生未來規劃</div>
+          <div class="app-subtitle">管理你的未來規劃文章</div>
+        </div>
+        <div class="articles-container" id="articles-container">
+          <!-- Articles will be generated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Story Page -->
+    <div class="page" id="hero-story-page">
+      <section class="hero-section">
+        <!-- Background visuals placeholder - apply dynamic, cinematic gradient background with energetic flowing particles, soft motion trails, subtle depth, futuristic but warm atmosphere, symbolizing renewal and intertwined life paths -->
+        <div class="hero-background"></div>
+        
+        <div class="hero-content">
+          <header class="hero-header">
+            <h1 class="hero-title">Ann & Lawrence 的人生攻略書</h1>
+            <p class="hero-subtitle">
+              這是 Ann & Lawrence 的人生規劃書。<br>
+              在各自經歷六年的曲折感情歷練後，<br>
+              Ann & Lawrence 終於重新邂逅，<br>
+              在這裡重新出發，展開新的愛情與人生。
+            </p>
+          </header>
+          
+          <div class="hero-actions">
+            <button class="hero-cta-primary" id="hero-start-reading-btn">開始閱讀</button>
+          </div>
+          
+          <footer class="hero-footer">
+            <p class="hero-description">一段重新開始的愛情故事，記錄著兩人的成長與未來規劃</p>
+          </footer>
+          
+          <!-- Optional: Cover illustration placeholder -->
+          <div class="hero-illustration">
+            <!-- Placeholder for cover illustration -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Story Detail Modal -->
+  <div class="modal" id="story-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Edit/Add Story Modal -->
+  <div class="modal" id="edit-story-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="edit-modal-close">&times;</button>
+      <div class="modal-title" id="edit-modal-title">新增故事</div>
+      <div class="edit-form">
+        <div class="form-group">
+          <label for="edit-story-title">標題</label>
+          <input type="text" id="edit-story-title" class="form-input" placeholder="輸入故事標題">
+        </div>
+        <div class="form-group">
+          <label for="edit-story-preview">預覽文字</label>
+          <textarea id="edit-story-preview" class="form-textarea" rows="2" placeholder="輸入預覽文字（會顯示在卡片上）"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit-story-content">完整內容</label>
+          <textarea id="edit-story-content" class="form-textarea" rows="15" placeholder="輸入完整故事內容"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-cancel" id="btn-cancel">取消</button>
+          <button class="btn-save" id="btn-save">儲存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Action Button for Add Story -->
+  <button class="add-story-btn" id="floating-add-story-btn" title="新增故事">+</button>
+
+  <!-- Edit/Add Article Modal -->
+  <div class="modal" id="edit-article-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="edit-article-modal-close">&times;</button>
+      <div class="modal-title" id="edit-article-modal-title">新增文章</div>
+      <div class="edit-form">
+        <div class="form-group">
+          <label for="edit-article-title">標題</label>
+          <input type="text" id="edit-article-title" class="form-input" placeholder="輸入文章標題">
+        </div>
+        <div class="form-group">
+          <label for="edit-article-author">作者</label>
+          <input type="text" id="edit-article-author" class="form-input" placeholder="輸入作者名稱">
+        </div>
+        <div class="form-group">
+          <label for="edit-article-content">內容</label>
+          <textarea id="edit-article-content" class="form-textarea" rows="15" placeholder="輸入文章內容"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-cancel" id="btn-article-cancel">取消</button>
+          <button class="btn-save" id="btn-article-save">儲存</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    // 抽籤職業清單
+    // Initialize Supabase
+    const SUPABASE_URL = 'https://olqgjmuadoohbkplvhhd.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9scWdqbXVhZG9vaGJrcGx2aGhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5MDgxNDcsImV4cCI6MjA4MDQ4NDE0N30.QOVguUcqG_h7l-ZTE6U9qOT9DejGOr6pdnEMBoBqxbo';
+    
+    let supabase = null;
+    try {
+      if (window.supabase) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('Supabase 连接成功');
+      } else {
+        console.error('Supabase 库未加载');
+      }
+    } catch (error) {
+      console.error('Supabase 初始化失败:', error);
+    }
+
+    // Navigation System
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const pages = document.querySelectorAll('.page');
+
+    const pageContainer = document.querySelector('.page-container');
+    
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetPage = tab.getAttribute('data-page');
+        
+        // Update active tab
+        navTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Update active page
+        pages.forEach(p => p.classList.remove('active'));
+        document.getElementById(`${targetPage}-page`).classList.add('active');
+        
+        // Update page container for story-plots, life-planning, and hero-story pages (full width)
+        if (targetPage === 'story-plots' || targetPage === 'life-planning' || targetPage === 'hero-story') {
+          pageContainer.classList.add('story-plots-active');
+        } else {
+          pageContainer.classList.remove('story-plots-active');
+        }
+        
+        // Special handling for hero-story page (no padding)
+        if (targetPage === 'hero-story') {
+          pageContainer.classList.add('hero-story-active');
+        } else {
+          pageContainer.classList.remove('hero-story-active');
+        }
+        
+        // Initialize articles when switching to life-planning page
+        if (targetPage === 'life-planning') {
+          initArticles();
+        }
+        
+        // Show/hide floating add story button
+        const floatingBtn = document.getElementById('floating-add-story-btn');
+        if (floatingBtn) {
+          if (targetPage === 'story-plots') {
+            floatingBtn.style.display = 'flex';
+          } else {
+            floatingBtn.style.display = 'none';
+          }
+        }
+      });
+    });
+
+    // Role Draw System
     const jobs = [
-      // 食（餐飲）
-      "廚師",
-      "調酒師",
-      "咖啡師",
-      "餐廳服務生",
-      "外送員",
-      "飲料店店員",
-      "烘焙師",
-
-      // 衣（美業）
-      "造型師",
-      "美髮師",
-      "化妝師",
-      "美甲師",
-      "服飾店員",
-      "模特兒",
-
-      // 住（建築 / 房產 / 維修）
-      "建築師",
-      "室內設計師",
-      "房仲業務",
-      "水電工",
-      "清潔人員",
-
-      // 行（交通 / 運輸）
-      "計程車司機",
-      "公車司機",
-      "客運司機",
-      "鐵路員工",
-      "飛行員",
-      "空服員",
-      "物流／倉儲人員",
-
-      // 育：學生
-      "小學生",
-      "國中生",
-      "高中生",
-      "大學生",
-
-      // 育：教職
-      "幼教老師",
-      "小學老師",
-      "國中老師",
-      "高中老師",
-      "大學教授",
-      "補習班老師",
-      "家教",
-      "教練",
-
-      // 樂
-      "演員",
-      "攝影師",
-      "導演",
-
-      // 資訊科技
+      "廚師", "調酒師", "咖啡師", "餐廳服務生", "外送員", "飲料店店員", "烘焙師",
+      "造型師", "美髮師", "化妝師", "美甲師", "服飾店員", "模特兒",
+      "建築師", "室內設計師", "房仲業務", "水電工", "清潔人員",
+      "計程車司機", "公車司機", "客運司機", "鐵路員工", "飛行員", "空服員", "物流／倉儲人員",
+      "小學生", "國中生", "高中生", "大學生",
+      "幼教老師", "小學老師", "國中老師", "高中老師", "大學教授", "補習班老師", "家教", "教練",
+      "演員", "攝影師", "導演",
       "工程師",
-
-      // 商業 / 行銷 / 服務
-      "行銷人員",
-      "業務",
-      "客服",
-      "人資",
-      "財務／會計",
-      "行政助理",
-      "公關",
-      "企劃",
-      "超商店員",
-      "超市員工",
-      "百貨專櫃",
-      "書店店員",
-      "電影院員工",
-      "飯店櫃檯",
-      "房務員",
-      "導遊",
-      "領隊",
-      "觀光接待",
-
-      // 公共服務
+      "行銷人員", "業務", "客服", "人資", "財務／會計", "行政助理", "公關", "企劃",
+      "超商店員", "超市員工", "百貨專櫃", "書店店員", "電影院員工",
+      "飯店櫃檯", "房務員", "導遊", "領隊", "觀光接待",
       "社工",
-
-      // 專業職業
-      "醫生",
-      "護士",
-      "心理諮商師"
+      "醫生", "護士", "心理諮商師"
     ];
 
-    // S / M 傾向
     const roles = ["S", "M"];
-
     const card = document.getElementById("card");
     const cardMain = document.getElementById("card-main");
     const cardHint = document.getElementById("card-hint");
     const drawBtn = document.getElementById("draw-btn");
     const resultEl = document.getElementById("result");
     const historyList = document.getElementById("history-list");
-
     let isDrawing = false;
 
     function randomSM() {
@@ -434,15 +1657,13 @@
 
     function drawCard() {
       if (isDrawing) return;
-
       isDrawing = true;
       drawBtn.disabled = true;
-
       card.classList.add("shuffling");
       cardMain.textContent = "…";
       cardHint.textContent = "洗牌中";
 
-      const shuffleDuration = 900; // 總洗牌時間 ms
+      const shuffleDuration = 900;
       const intervalTime = 90;
       let elapsed = 0;
 
@@ -454,7 +1675,6 @@
 
         if (elapsed >= shuffleDuration) {
           clearInterval(shuffleTimer);
-
           const chosenJob = jobs[Math.floor(Math.random() * jobs.length)];
           const chosenRole = randomSM();
           const displayText = `${chosenJob}（${chosenRole}）`;
@@ -463,13 +1683,12 @@
             card.classList.remove("shuffling");
             cardMain.textContent = displayText;
             cardHint.textContent = "今天抽到的角色";
-
             resultEl.textContent = displayText;
-
+            
             const li = document.createElement("li");
             li.textContent = displayText;
             historyList.prepend(li);
-
+            
             isDrawing = false;
             drawBtn.disabled = false;
           }, 130);
@@ -479,6 +1698,1027 @@
 
     card.addEventListener("click", drawCard);
     drawBtn.addEventListener("click", drawCard);
+
+    // Story Plots System
+    // Stories array - will be loaded from Supabase
+    let stories = [];
+
+    // Supabase CRUD Functions
+    async function loadStories() {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，返回空数组');
+        return [];
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('stories')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) {
+          console.error('加载故事失败:', error);
+          // Don't show error alert, just log it
+          return [];
+        }
+        return data || [];
+      } catch (error) {
+        console.error('加载故事异常:', error);
+        return [];
+      }
+    }
+
+    async function addStory(title, preview, content) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法新增故事');
+        return null;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('stories')
+          .insert([
+            { title, preview, content }
+          ])
+          .select();
+        
+        if (error) {
+          console.error('新增故事失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('新增故事异常:', error);
+        return null;
+      }
+    }
+
+    async function updateStory(id, title, preview, content) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法更新故事');
+        return null;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('stories')
+          .update({ 
+            title, 
+            preview, 
+            content, 
+            updated_at: new Date().toISOString() 
+          })
+          .eq('id', id)
+          .select();
+        
+        if (error) {
+          console.error('更新故事失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('更新故事异常:', error);
+        return null;
+      }
+    }
+
+    async function deleteStory(id) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法删除故事');
+        return false;
+      }
+      
+      try {
+        const { error } = await supabase
+          .from('stories')
+          .delete()
+          .eq('id', id);
+        
+        if (error) {
+          console.error('删除故事失败:', error);
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.error('删除故事异常:', error);
+        return false;
+      }
+    }
+
+    function showError(message) {
+      alert('错误: ' + message);
+      // 可以替换为更美观的提示组件
+    }
+
+    // Life Planning Articles CRUD Functions
+    let articles = [];
+
+    async function loadArticles() {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，返回空数组');
+        return [];
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('life_planning_articles')
+          .select('*')
+          .order('updated_at', { ascending: false });
+        
+        if (error) {
+          console.error('加载文章失败:', error);
+          return [];
+        }
+        return data || [];
+      } catch (error) {
+        console.error('加载文章异常:', error);
+        return [];
+      }
+    }
+
+    async function addArticle(title, author, content) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法新增文章');
+        return null;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('life_planning_articles')
+          .insert([
+            { title, author, content }
+          ])
+          .select();
+        
+        if (error) {
+          console.error('新增文章失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('新增文章异常:', error);
+        return null;
+      }
+    }
+
+    async function updateArticle(id, title, author, content) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法更新文章');
+        return null;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('life_planning_articles')
+          .update({ 
+            title, 
+            author,
+            content, 
+            updated_at: new Date().toISOString() 
+          })
+          .eq('id', id)
+          .select();
+        
+        if (error) {
+          console.error('更新文章失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('更新文章异常:', error);
+        return null;
+      }
+    }
+
+    async function deleteArticle(id) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法删除文章');
+        return false;
+      }
+      
+      try {
+        const { error } = await supabase
+          .from('life_planning_articles')
+          .delete()
+          .eq('id', id);
+        
+        if (error) {
+          console.error('删除文章失败:', error);
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.error('删除文章异常:', error);
+        return false;
+      }
+    }
+
+    function formatDateTime(dateString) {
+      if (!dateString) return '未知';
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    function renderArticles() {
+      const articlesContainer = document.getElementById('articles-container');
+      if (!articlesContainer) return;
+      
+      articlesContainer.innerHTML = '';
+      
+      articles.forEach((article, index) => {
+        const articleItem = document.createElement('div');
+        articleItem.className = 'article-item';
+        
+        const updatedAt = formatDateTime(article.updated_at || article.created_at);
+        
+        articleItem.innerHTML = `
+          <div class="article-item-header">
+            <h3 class="article-item-title">${article.title || '無標題'}</h3>
+            <div class="article-item-actions">
+              <button class="article-item-btn edit-article-btn" data-index="${index}" title="編輯">✎</button>
+              <button class="article-item-btn delete-article-btn delete-btn" data-index="${index}" title="刪除">×</button>
+            </div>
+          </div>
+          <div class="article-item-meta">
+            <div class="article-item-meta-item">
+              <span class="article-item-meta-label">作者：</span>
+              <span class="article-item-meta-value">${article.author || '未知'}</span>
+            </div>
+            <div class="article-item-meta-item">
+              <span class="article-item-meta-label">最後修改：</span>
+              <span class="article-item-meta-value">${updatedAt}</span>
+            </div>
+          </div>
+          <div class="article-item-content">${article.content || ''}</div>
+        `;
+        
+        // 編輯按鈕
+        const editBtn = articleItem.querySelector('.edit-article-btn');
+        editBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openEditArticleModal(index);
+        });
+        
+        // 刪除按鈕
+        const deleteBtn = articleItem.querySelector('.delete-article-btn');
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (confirm(`確定要刪除「${article.title}」嗎？`)) {
+            deleteArticleById(article.id, index);
+          }
+        });
+        
+        articlesContainer.appendChild(articleItem);
+      });
+      
+      // 添加新增文章按鈕
+      const addBtn = document.createElement('div');
+      addBtn.className = 'add-article-btn';
+      addBtn.textContent = '新增文章';
+      addBtn.addEventListener('click', () => openEditArticleModal(-1));
+      articlesContainer.appendChild(addBtn);
+    }
+
+    async function deleteArticleById(id, index) {
+      const success = await deleteArticle(id);
+      if (success) {
+        articles.splice(index, 1);
+        renderArticles();
+      }
+    }
+
+    async function initArticles() {
+      articles = await loadArticles();
+      renderArticles();
+    }
+
+    // Article Edit Modal Functions
+    let currentArticleEditIndex = -1;
+
+    function openEditArticleModal(index) {
+      currentArticleEditIndex = index;
+      const editModal = document.getElementById('edit-article-modal');
+      const editTitle = document.getElementById('edit-article-modal-title');
+      const titleInput = document.getElementById('edit-article-title');
+      const authorInput = document.getElementById('edit-article-author');
+      const contentInput = document.getElementById('edit-article-content');
+      
+      if (index === -1) {
+        // 新增模式
+        editTitle.textContent = '新增文章';
+        titleInput.value = '';
+        authorInput.value = '';
+        contentInput.value = '';
+      } else {
+        // 編輯模式
+        editTitle.textContent = '編輯文章';
+        const article = articles[index];
+        titleInput.value = article.title || '';
+        authorInput.value = article.author || '';
+        contentInput.value = article.content || '';
+      }
+      
+      editModal.classList.add('active');
+      titleInput.focus();
+    }
+
+    function closeEditArticleModal() {
+      const editModal = document.getElementById('edit-article-modal');
+      editModal.classList.remove('active');
+      currentArticleEditIndex = -1;
+    }
+
+    async function saveArticle() {
+      const titleInput = document.getElementById('edit-article-title');
+      const authorInput = document.getElementById('edit-article-author');
+      const contentInput = document.getElementById('edit-article-content');
+      
+      const title = titleInput.value.trim();
+      const author = authorInput.value.trim();
+      const content = contentInput.value.trim();
+      
+      if (!title || !content) {
+        alert('請填寫標題和內容');
+        return;
+      }
+      
+      if (currentArticleEditIndex === -1) {
+        // 新增
+        const newArticle = await addArticle(title, author, content);
+        if (newArticle) {
+          articles.push(newArticle);
+          renderArticles();
+          closeEditArticleModal();
+        }
+      } else {
+        // 編輯
+        const article = articles[currentArticleEditIndex];
+        const updated = await updateArticle(article.id, title, author, content);
+        if (updated) {
+          articles[currentArticleEditIndex] = updated;
+          renderArticles();
+          closeEditArticleModal();
+        }
+      }
+    }
+
+    // Initial stories data (for migration - can be removed after importing to Supabase)
+    const initialStories = [
+      {
+        title: "健康教育課",
+        preview: "程老師來到學生家中進行一對一家教，但今天的課程內容並非一般學科。她將以專業冷靜的態度，教導學生關於性交與自慰的知識與實作...",
+        content: `[角色扮演遊戲]
+
+程老師:專業冷靜的家教老師
+瑄瑄:需要健康教育的學生
+
+第一章｜基礎知識教學
+
+主題：性教育的理論基礎
+
+程老師來到瑄瑄家中，拿出準備好的教材。她態度冷靜專業，如同教授任何一門學科般開始講解。
+
+她讓瑄瑄詳細了解身體構造、生理反應、敏感區域與基本的性知識。
+
+在她的筆記本上，「健康教育」四個字被劃下粗黑線。
+
+程老師以毫無情緒的口吻說明每個部位的功能、反應機制與注意事項。
+
+第二章｜自我探索實作
+
+主題：自慰技巧的實作教學
+
+程老師開始對瑄瑄進行「自我探索實作訓練」。
+
+瑄瑄必須在老師的監督下，對自己進行身體敏感區域的探索與刺激。
+
+每一段探索都有時間限制、強度限制，並強制「不得過度」。
+
+程老師在旁以專業教學的口吻記錄他的生理變化、呼吸節奏、肌肉反射、意識狀態。
+
+當瑄瑄接近臨界點時，老師會立刻喊停，讓他學習控制與延遲的技巧。
+
+這整個訓練的目的，就是讓瑄瑄對自己的身體產生清楚的認知與控制能力。
+
+久而久之，瑄瑄對自己的身體反應產生一種理性的理解。
+
+第三章｜互動式性交教學
+
+主題：他人互動模式下的實作觀察
+
+程老師允許瑄瑄使用她的身體進行實際的性交教學。
+
+她全程保持冷靜與專業距離感，像在進行教學示範，不帶任何情緒。
+
+瑄瑄的反應變得比第一階段更強烈，他逐漸理解理論與實作之間的差異。
+
+程老師一邊讓他「接近臨界」，一邊記錄其中的生理反應模式，例如：
+
+被刺激後的身體變化
+實際接觸他人後，慾望與反應的強度
+對老師本人的信任感與依賴感上升
+
+教學過程中，程老師會在瑄瑄最無法控制的瞬間停止動作，使他再次學習自我控制。
+
+第四章｜合：完整實作測驗
+
+主題：完整流程的實踐與驗收
+
+最終測驗分成兩段：
+
+完整自慰：讓瑄瑄完整進行自慰流程，展示所學技巧。
+
+完整性交：進行完整的性交過程，從開始到結束，必須全程保持理性與控制，直到完全結束教學才完成。`
+      },
+      {
+        title: "新婚夫妻",
+        preview: "程小姐與瑄瑄剛結婚，興奮地討論未來的生活規劃。他們談論國內外旅遊、理想的生活方式，過程中持續不斷地進行性接觸...",
+        content: `[角色扮演遊戲]
+
+程小姐:剛結婚的新娘
+瑄瑄:剛結婚的新郎
+
+第一章｜未來生活的規劃討論
+
+主題：興奮地討論理想生活
+
+程小姐與瑄瑄剛結婚，兩人興奮地躺在床上討論未來的生活規劃。
+
+程小姐態度興奮而充滿期待，她讓瑄瑄詳細描述他想要的生活、理想的居住環境、以及最想一起做的事情。
+
+在她的心中，「未來」兩個字充滿無限可能。
+
+她以充滿興奮的口吻詢問他的夢想、旅遊計劃、生活方式與最期待的時刻。
+
+過程中，兩人的手不斷在彼此身上游移，輕撫、擁抱、親吻，性接觸持續不斷。
+
+第二章｜國內外旅遊的夢想清單
+
+主題：規劃旅行中的持續親密
+
+程小姐開始與瑄瑄討論「國內外旅遊計劃」。
+
+瑄瑄必須在討論的同時，持續撫摸妻子的身體，探索她身體的每一個敏感區域。
+
+每一段討論都伴隨著持續的性接觸、溫柔的觸碰，並強制「不得停止」。
+
+程小姐在討論旅遊地點時，一邊感受他的觸碰、呼吸節奏、身體反應、意識狀態。
+
+當瑄瑄提到特別興奮的旅遊計劃時，妻子會更加熱情地回應，讓性接觸變得更加激烈。
+
+這整個討論的目的，就是讓兩人在規劃未來的同時，持續享受彼此的親密接觸。
+
+久而久之，兩人對未來生活的期待與當下的性愛產生一種完美的融合。
+
+第三章｜理想生活方式的深入交流
+
+主題：討論與性愛的完美結合
+
+程小姐與瑄瑄進行更深層的生活規劃討論，包括居住環境、工作安排、家庭計劃。
+
+她全程保持興奮與親密感，像在共同創造未來，充滿期待與愛意。
+
+瑄瑄的反應變得比第一階段更強烈，他逐漸理解討論未來與享受當下之間的完美平衡。
+
+程小姐一邊讓他「接近臨界」，一邊繼續討論理想生活，例如：
+
+討論居住環境時，持續撫摸與親吻
+規劃工作安排時，身體接觸不斷加深
+談論家庭計劃時，性愛交流達到高峰
+
+交流過程中，程小姐會在瑄瑄最興奮的瞬間更加熱情地配合，使討論與性愛完美結合。
+
+第四章｜合：未來與當下的完整融合
+
+主題：完整規劃與完整釋放
+
+最終討論分成兩段：
+
+完整規劃：讓瑄瑄完整討論所有未來計劃，從旅遊到生活，過程中持續不斷的性接觸。
+
+完整釋放：進行完整的性愛過程，從開始到結束，必須全程保持對未來的討論與興奮，直到完全釋放並確認彼此對未來的承諾才完成。`
+      },
+      {
+        title: "花藝研究學院",
+        preview: "程小姐與瑄瑄是花藝研究學院的學生，兩人一起研究花藝的學問、手法與各種花的知識。在研究過程中，持續不斷地進行性接觸...",
+        content: `[角色扮演遊戲]
+
+程小姐:花藝研究學院的學生
+瑄瑄:花藝研究學院的學生
+
+第一章｜花藝學問的深入研究
+
+主題：學習花藝理論中的持續親密
+
+程小姐與瑄瑄是花藝研究學院的學生，兩人一起在工作室中研究花藝的學問。
+
+程小姐態度認真而充滿熱情，她讓瑄瑄詳細描述各種花的特性、花語、生長環境、以及插花的基本理論。
+
+在她的筆記本上，「花藝研究」四個字被劃下重點標記。
+
+她以充滿求知慾的口吻詢問他對花藝的理解、各種花材的知識、插花技巧與最想學習的領域。
+
+過程中，兩人的手不斷在彼此身上游移，輕撫、擁抱、親吻，性接觸持續不斷，同時繼續討論花藝知識。
+
+第二章｜插花手法的實作練習
+
+主題：練習技巧中的身體接觸
+
+程小姐開始與瑄瑄進行「插花手法實作練習」。
+
+瑄瑄必須在練習插花的同時，持續撫摸程小姐的身體，探索她身體的每一個敏感區域。
+
+每一段練習都伴隨著持續的性接觸、溫柔的觸碰，並強制「不得停止」。
+
+程小姐在示範插花技巧時，一邊感受他的觸碰、呼吸節奏、身體反應、意識狀態。
+
+當瑄瑄掌握特別難的插花技巧時，程小姐會更加熱情地回應，讓性接觸變得更加激烈。
+
+這整個練習的目的，就是讓兩人在學習花藝技巧的同時，持續享受彼此的親密接觸。
+
+久而久之，兩人對花藝的熱愛與當下的性愛產生一種完美的融合。
+
+第三章｜各種花材知識的深入探討
+
+主題：花材研究與性愛的完美結合
+
+程小姐與瑄瑄進行更深層的花材知識探討，包括玫瑰、百合、鬱金香、向日葵等各種花的特性與應用。
+
+她全程保持專注與親密感，像在共同探索花的世界，充滿熱情與求知慾。
+
+瑄瑄的反應變得比第一階段更強烈，他逐漸理解學習花藝與享受當下之間的完美平衡。
+
+程小姐一邊讓他「接近臨界」，一邊繼續討論各種花材，例如：
+
+討論玫瑰的品種時，持續撫摸與親吻
+研究百合的插法時，身體接觸不斷加深
+探討鬱金香的特性時，性愛交流達到高峰
+
+探討過程中，程小姐會在瑄瑄最興奮的瞬間更加熱情地配合，使花藝研究與性愛完美結合。
+
+第四章｜合：花藝知識與身體的完整融合
+
+主題：完整學習與完整釋放
+
+最終研究分成兩段：
+
+完整學習：讓瑄瑄完整學習所有花藝知識，從理論到實作，過程中持續不斷的性接觸。
+
+完整釋放：進行完整的性愛過程，從開始到結束，必須全程保持對花藝的討論與學習，直到完全釋放並確認彼此對花藝的熱愛才完成。`
+      },
+      {
+        title: "特殊職缺面試",
+        preview: "程小姐來到面試現場，原本以為是一般秘書職務，然而瑄瑄翻到下一頁後，空氣變得不尋常。超出常規的職缺說明，包含特殊的情緒管理與身心調節服務...",
+        content: `[角色扮演遊戲]
+
+程小姐：冷靜理性的求職者
+瑄瑄：制度離譜的老闆
+
+第一章｜奇特的職缺說明
+
+主題：超出常規的秘書需求
+
+程小姐來到面試現場時，先看到的是一般秘書職務內容：行程管理、文件整理、客戶協調。然而瑄瑄翻到下一頁後，空氣變得不尋常。
+
+他平靜、像在念公司手冊般說明：「本職缺包含主管情緒管理、壓力緩衝與身心調節服務，是本公司的重要績效項目。」
+
+薪資制度：
+
+個人「高潮」達成一次，加薪 2000。
+
+協助主管達成「高潮」一次，加薪 1000。
+
+程小姐看著這段描述，卻沒有露出驚訝，像是早習慣這種隱晦制度的地下行業。她只是點頭，示意繼續。
+
+瑄瑄在履歷上寫下一句重點：「需具備高承受度與高開放度。」
+
+第二章｜情慾開放度測試
+
+主題：針對性開放尺度的問題
+
+Q:接受隨時被撫摸乳房嗎?
+
+Q:接受隨時被玩弄小穴嗎?
+
+Q:接受隨時帶著玩具被控制嗎?
+
+Q:自己跟主管報告時可以自己自慰並且高潮嗎?
+
+Q:能否在高壓的同時，接受身體被玩弄?
+
+Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
+
+第三章｜互動感測實作
+
+主題：身體敏感度測試還有性開放測試
+
+程小姐在接受瑄瑄對於她身體的各種玩弄表現出從容不迫的樣子
+
+第四章｜最終確認：制度是否能被承受
+
+主題：認可與宣示
+
+接下來是宣示測試，必須念出以下文字，評斷程小姐是否有熱情並且願意完全付出於工作上
+
+1.我願意隨時被玩弄，我的身體是宣宣的。
+
+2.性慾是理所當然的事情，我願意隨時隨地發生性愛。
+
+3.瑄瑄口渴時，我必須用我小穴的水來幫瑄瑄止渴。
+
+4.在辦公室被玩弄時，我仍然會保持專業形象，進行工作。
+
+最後內射做為結束。`
+      },
+      {
+        title: "性慾成癮的治療",
+        preview: "瑄瑄因為性慾過度影響生活、工作、專注力，來到程醫生診間。程醫生态度冷靜，問診如同分析機械故障。開始進行一系列自我刺激抑制訓練...",
+        content: `[角色扮演遊戲]
+
+程醫生:專業冷靜的醫生
+瑄瑄:性慾成癮的病人
+
+第一章｜過度旺盛的病人
+
+主題：慾望失控的自白
+
+瑄瑄因為性慾過度影響生活、工作、專注力，來到程醫生診間。程醫生态度冷靜，問診如同分析機械故障。她讓瑄瑄詳細描述發作頻率、慾望狀態、身體反應與最痛苦的時段。
+
+在她的筆記本上，「性慾成癮」四個字被劃下粗黑線。
+
+第二章｜自我刺激抑制訓練
+
+主題：慾望壓抑的自我控制技術
+
+程醫生開始對瑄瑄進行「自我刺激抑制訓練」。
+
+瑄瑄必須在醫生的監督下，對自己進行高度敏感區域的刺激測試。
+
+每一段刺激都有時間限制、強度限制，並強制「不得越界」。
+
+程醫生在旁以毫無情緒的口吻記錄他的生理變化、呼吸節奏、肌肉反射、意識模糊程度。
+
+當瑄瑄接近臨界點時，醫生會立刻喊停，讓他經歷最痛苦的「被卡住」狀態。
+
+這整個訓練的目的，就是讓瑄瑄的慾望高度被反覆升起→掐斷→升起→掐斷。
+
+久而久之，瑄瑄對自己的欲望產生一種扭曲的清醒。
+
+第三章｜醫生介入的高階刺激治療
+
+主題：他人刺激模式下的心理失衡觀察
+
+程醫生允許瑄瑄使用她的身體部分接觸來替代自我刺激。
+
+她全程保持冷靜與距離感，像在做醫學實驗，不帶任何情緒。
+
+瑄瑄的反應變得比第一階段更失控，他逐漸分不清刺激與壓抑之間的心理落差。
+
+程醫生一邊讓他「接近失控」，一邊記錄其中的變態衝動模式，例如：
+
+被壓抑後反而更興奮被准許接觸他人後，慾望幾乎瞬間暴衝
+
+對醫生本人的依附感上升
+
+治療過程中，程醫生會在瑄瑄最無法忍耐的瞬間抽離刺激，使他再次被迫壓抑。
+
+第四章｜合：最後一次療程
+
+主題：峰值與釋放
+
+最終療程分成兩段：
+
+最大誘發：讓瑄瑄發狂的使用自己的肉體。
+
+完整釋放：射精完成後不准停止刺激，必續持續射精到完全沒力療程才結束`
+      }
+    ];
+
+    // Load stories from Supabase on page load
+    async function initStories() {
+      try {
+        const loadedStories = await loadStories();
+        if (loadedStories.length > 0) {
+          // Database has stories, use them
+          stories = loadedStories;
+          renderStories();
+        } else {
+          // Database is empty, import initial stories
+          console.log('数据库为空，正在导入初始故事...');
+          stories = [];
+          renderStories(); // Show empty state first
+          
+          // Import all initial stories to Supabase
+          let importSuccess = true;
+          for (const story of initialStories) {
+            const newStory = await addStory(story.title, story.preview, story.content);
+            if (!newStory) {
+              importSuccess = false;
+              console.warn('导入故事失败:', story.title);
+            }
+            // Small delay to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+          
+          if (importSuccess) {
+            // Reload from database to get all stories with IDs
+            const reloadedStories = await loadStories();
+            if (reloadedStories.length > 0) {
+              stories = reloadedStories;
+            }
+            console.log('初始故事导入完成！');
+          } else {
+            // If import failed, use initial stories as fallback
+            console.warn('部分故事导入失败，使用本地数据');
+            stories = initialStories;
+          }
+          renderStories();
+        }
+      } catch (error) {
+        // If Supabase connection fails, use initial stories as fallback
+        console.error('加载故事时发生错误，使用本地数据:', error);
+        stories = initialStories;
+        renderStories();
+      }
+    }
+
+    const storyGrid = document.getElementById("story-grid");
+
+    function renderStories() {
+      storyGrid.innerHTML = "";
+      stories.forEach((story, index) => {
+        const storyCard = document.createElement("div");
+        storyCard.className = "story-card";
+        storyCard.innerHTML = `
+          <div class="story-card-actions">
+            <button class="story-card-edit-btn" data-index="${index}" title="編輯">✎</button>
+            <button class="story-card-delete-btn" data-index="${index}" title="刪除">×</button>
+          </div>
+          <div class="story-card-title">${story.title}</div>
+          <div class="story-card-preview">${story.preview}</div>
+          <div class="story-card-meta">點擊查看完整劇情 →</div>
+        `;
+        
+        // 點擊卡片查看內容
+        storyCard.addEventListener("click", (e) => {
+          if (!e.target.closest('.story-card-actions')) {
+            openStoryModal(story);
+          }
+        });
+        
+        // 編輯按鈕
+        const editBtn = storyCard.querySelector('.story-card-edit-btn');
+        editBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openEditModal(index);
+        });
+        
+        // 刪除按鈕
+        const deleteBtn = storyCard.querySelector('.story-card-delete-btn');
+        deleteBtn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          if (confirm(`確定要刪除「${story.title}」嗎？`)) {
+            const success = await deleteStory(story.id);
+            if (success) {
+              stories.splice(index, 1);
+              renderStories();
+            }
+          }
+        });
+        
+        storyGrid.appendChild(storyCard);
+      });
+    }
+
+    function parseStoryContent(content) {
+      const lines = content.split('\n');
+      let html = '';
+      let prevWasMainTitle = false;
+      
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        if (!line) {
+          html += '<br>';
+          continue;
+        }
+        
+        // 主标题 [角色扮演遊戲]
+        if (line.startsWith('[') && line.endsWith(']')) {
+          html += `<div class="article-main-title">${line}</div>`;
+          prevWasMainTitle = true;
+        }
+        // 角色设定行（紧跟在主标题后，包含冒号的短行）
+        else if (prevWasMainTitle && line.includes(':') && line.length < 30) {
+          html += `<div class="article-role">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+        // 章节标题（包含"第X章｜"或"第四章｜合："）
+        else if (/第[一二三四五六七八九十\d]+章｜/.test(line) || /第四章｜合：/.test(line)) {
+          html += `<div class="article-chapter-title">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+        // 主题行（包含"主題："）
+        else if (line.includes('主題：')) {
+          html += `<div class="article-theme">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+        // 普通正文
+        else {
+          html += `<div class="article-content">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+      }
+      
+      return html;
+    }
+
+    function openStoryModal(story) {
+      const modal = document.getElementById("story-modal");
+      const modalTitle = document.getElementById("modal-title");
+      const modalBody = document.getElementById("modal-body");
+      
+      modalTitle.textContent = story.title;
+      modalBody.innerHTML = parseStoryContent(story.content);
+      modal.classList.add("active");
+    }
+
+    function closeStoryModal() {
+      const modal = document.getElementById("story-modal");
+      modal.classList.remove("active");
+    }
+
+    // Edit Modal Functions
+    let currentEditIndex = -1;
+
+    function openEditModal(index) {
+      currentEditIndex = index;
+      const editModal = document.getElementById("edit-story-modal");
+      const editTitle = document.getElementById("edit-modal-title");
+      const titleInput = document.getElementById("edit-story-title");
+      const previewInput = document.getElementById("edit-story-preview");
+      const contentInput = document.getElementById("edit-story-content");
+      
+      if (index === -1) {
+        // 新增模式
+        editTitle.textContent = "新增故事";
+        titleInput.value = "";
+        previewInput.value = "";
+        contentInput.value = "";
+      } else {
+        // 編輯模式
+        editTitle.textContent = "編輯故事";
+        const story = stories[index];
+        titleInput.value = story.title;
+        previewInput.value = story.preview;
+        contentInput.value = story.content;
+      }
+      
+      editModal.classList.add("active");
+      titleInput.focus();
+    }
+
+    function closeEditModal() {
+      const editModal = document.getElementById("edit-story-modal");
+      editModal.classList.remove("active");
+      currentEditIndex = -1;
+    }
+
+    async function saveStory() {
+      const titleInput = document.getElementById("edit-story-title");
+      const previewInput = document.getElementById("edit-story-preview");
+      const contentInput = document.getElementById("edit-story-content");
+      
+      const title = titleInput.value.trim();
+      const preview = previewInput.value.trim();
+      const content = contentInput.value.trim();
+      
+      if (!title || !preview || !content) {
+        alert("請填寫所有欄位");
+        return;
+      }
+      
+      if (currentEditIndex === -1) {
+        // 新增
+        const newStory = await addStory(title, preview, content);
+        if (newStory) {
+          stories.push(newStory);
+          renderStories();
+          closeEditModal();
+        }
+      } else {
+        // 編輯
+        const story = stories[currentEditIndex];
+        const updated = await updateStory(story.id, title, preview, content);
+        if (updated) {
+          stories[currentEditIndex] = updated;
+          renderStories();
+          closeEditModal();
+        }
+      }
+    }
+
+    // Modal Controls
+    document.getElementById("modal-close").addEventListener("click", closeStoryModal);
+    document.getElementById("story-modal").addEventListener("click", (e) => {
+      if (e.target.id === "story-modal") {
+        closeStoryModal();
+      }
+    });
+
+    // Edit Modal Controls
+    document.getElementById("edit-modal-close").addEventListener("click", closeEditModal);
+    document.getElementById("edit-story-modal").addEventListener("click", (e) => {
+      if (e.target.id === "edit-story-modal") {
+        closeEditModal();
+      }
+    });
+    document.getElementById("btn-cancel").addEventListener("click", closeEditModal);
+    document.getElementById("btn-save").addEventListener("click", saveStory);
+
+    // Article Edit Modal Controls
+    document.getElementById("edit-article-modal-close").addEventListener("click", closeEditArticleModal);
+    document.getElementById("edit-article-modal").addEventListener("click", (e) => {
+      if (e.target.id === "edit-article-modal") {
+        closeEditArticleModal();
+      }
+    });
+    document.getElementById("btn-article-cancel").addEventListener("click", closeEditArticleModal);
+    document.getElementById("btn-article-save").addEventListener("click", saveArticle);
+
+    // Keyboard support for modals (ESC key)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        const storyModal = document.getElementById("story-modal");
+        const editModal = document.getElementById("edit-story-modal");
+        const articleModal = document.getElementById("edit-article-modal");
+        if (storyModal.classList.contains("active")) {
+          closeStoryModal();
+        } else if (editModal.classList.contains("active")) {
+          closeEditModal();
+        } else if (articleModal.classList.contains("active")) {
+          closeEditArticleModal();
+        }
+      }
+    });
+
+    // Floating Add Story Button
+    const floatingAddBtn = document.getElementById('floating-add-story-btn');
+    if (floatingAddBtn) {
+      floatingAddBtn.addEventListener('click', () => {
+        openEditModal(-1);
+      });
+      
+      // Check initial page state
+      const storyPlotsPage = document.getElementById('story-plots-page');
+      if (storyPlotsPage && storyPlotsPage.classList.contains('active')) {
+        floatingAddBtn.style.display = 'flex';
+      } else {
+        floatingAddBtn.style.display = 'none';
+      }
+    }
+
+    // Hero Start Reading Button
+    const heroStartBtn = document.getElementById('hero-start-reading-btn');
+    if (heroStartBtn) {
+      heroStartBtn.addEventListener('click', () => {
+        // Switch to story-plots page
+        const storyPlotsTab = document.querySelector('[data-page="story-plots"]');
+        if (storyPlotsTab) {
+          storyPlotsTab.click();
+        }
+      });
+    }
+
+    // Initialize - Load stories from Supabase
+    // Wait for DOM and Supabase library to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        // Wait a bit for Supabase library to load
+        setTimeout(() => {
+          if (!supabase && window.supabase) {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log('Supabase 连接成功（延迟初始化）');
+          }
+          initStories();
+        }, 100);
+      });
+    } else {
+      // DOM already loaded
+      setTimeout(() => {
+        if (!supabase && window.supabase) {
+          supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          console.log('Supabase 连接成功（延迟初始化）');
+        }
+        initStories();
+      }, 100);
+    }
   </script>
 </body>
 </html>
