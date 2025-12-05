@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>Ann & Lawrence</title>
+  <title>角色扮演抽籤卡牌｜黑金版</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Favicon - Golden Intertwined Hearts (Intimate Feel) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23facc15'/%3E%3Cstop offset='50%25' stop-color='%23f5d76e'/%3E%3Cstop offset='100%25' stop-color='%23facc15'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M35 30 C30 20 20 20 15 30 C15 40 25 50 35 70 C45 50 55 40 55 30 C50 20 40 20 35 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M65 30 C60 20 50 20 45 30 C45 40 55 50 65 70 C75 50 85 40 85 30 C80 20 70 20 65 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M50 50 C48 45 45 45 42 50 C42 55 46 60 50 65 C54 60 58 55 58 50 C55 45 52 45 50 50 Z' fill='%23facc15' opacity='0.8'/%3E%3C/svg%3E" />
@@ -182,90 +182,239 @@
     .card-wrapper {
       display: flex;
       justify-content: center;
-      margin-top: 18px;
-      margin-bottom: 8px;
+      margin-top: 24px;
+      margin-bottom: 16px;
+      padding: 0 16px;
     }
 
     .card {
       width: 100%;
-      max-width: 280px;
-      aspect-ratio: 16 / 9;
-      border-radius: 18px;
+      max-width: 320px;
+      min-height: 200px;
+      border-radius: 24px;
       background:
-        radial-gradient(circle at top left, rgba(250, 204, 21, 0.32), transparent 52%),
-        radial-gradient(circle at bottom right, rgba(148, 163, 184, 0.22), transparent 55%),
-        var(--card-black);
+        radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.15), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(148, 163, 184, 0.12), transparent 50%),
+        linear-gradient(135deg, rgba(2, 6, 23, 0.95), rgba(1, 4, 15, 0.98));
       box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.9),
-        0 0 0 1px rgba(250, 204, 21, 0.4);
+        0 20px 50px rgba(0, 0, 0, 0.95),
+        0 0 0 1px rgba(250, 204, 21, 0.25),
+        inset 0 1px 0 rgba(250, 204, 21, 0.1);
       color: var(--text-sub);
-      padding: 14px 18px;
+      padding: 28px 24px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .card::after {
+    .card::before {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: inherit;
       background: linear-gradient(
         135deg,
-        rgba(250, 204, 21, 0.3),
-        transparent 40%,
-        rgba(148, 163, 184, 0.10),
-        transparent 75%
+        rgba(250, 204, 21, 0.08) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(148, 163, 184, 0.06) 100%
       );
-      mix-blend-mode: screen;
-      opacity: 0.7;
       pointer-events: none;
+      z-index: 0;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        rgba(250, 204, 21, 0.1) 0%,
+        transparent 50%,
+        transparent 100%
+      );
+      mix-blend-mode: overlay;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-4px) scale(1.01);
       box-shadow:
-        0 22px 46px rgba(0, 0, 0, 0.98),
-        0 0 0 1px rgba(250, 204, 21, 0.65);
+        0 28px 60px rgba(0, 0, 0, 0.98),
+        0 0 0 1px rgba(250, 204, 21, 0.4),
+        inset 0 1px 0 rgba(250, 204, 21, 0.15);
+      background:
+        radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.2), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(148, 163, 184, 0.15), transparent 50%),
+        linear-gradient(135deg, rgba(2, 6, 23, 0.95), rgba(1, 4, 15, 0.98));
     }
 
     .card:active {
-      transform: translateY(1px) scale(0.99);
+      transform: translateY(-1px) scale(0.998);
       box-shadow:
-        0 12px 26px rgba(0, 0, 0, 0.9),
-        0 0 0 1px rgba(250, 204, 21, 0.65);
+        0 16px 35px rgba(0, 0, 0, 0.95),
+        0 0 0 1px rgba(250, 204, 21, 0.35),
+        inset 0 1px 0 rgba(250, 204, 21, 0.12);
     }
 
     .card-title {
-      font-size: 11px;
-      letter-spacing: 0.24em;
+      font-size: 10px;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+      color: rgba(148, 163, 184, 0.6);
+      margin-bottom: 16px;
       position: relative;
       z-index: 1;
+      font-weight: 600;
+      text-align: center;
     }
 
     .card-main {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       text-align: center;
       position: relative;
       z-index: 1;
-      color: var(--gold-soft);
+      color: rgba(250, 204, 21, 0.95);
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+      margin: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .card-role-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card-attitude {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(250, 204, 21, 0.85);
+      margin: 0;
+      padding: 8px 16px;
+      background: rgba(250, 204, 21, 0.08);
+      border-radius: 12px;
+      border: 1px solid rgba(250, 204, 21, 0.2);
+      width: fit-content;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-attitude::before {
+      content: "態度";
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: rgba(250, 204, 21, 0.5);
+      margin-right: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .card-scene {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(148, 163, 184, 0.9);
+      margin: 0;
+      padding: 8px 16px;
+      background: rgba(148, 163, 184, 0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      width: fit-content;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-scene::before {
+      content: "場景";
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: rgba(148, 163, 184, 0.5);
+      margin-right: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .result-attitude {
+      display: inline-flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(250, 204, 21, 0.85);
+      margin-top: 8px;
+      padding: 6px 12px;
+      background: rgba(250, 204, 21, 0.08);
+      border-radius: 8px;
+      border: 1px solid rgba(250, 204, 21, 0.2);
+    }
+
+    .result-attitude::before {
+      content: "態度";
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(250, 204, 21, 0.5);
+      margin-right: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .result-scene {
+      display: inline-flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(148, 163, 184, 0.9);
+      margin-top: 8px;
+      padding: 6px 12px;
+      background: rgba(148, 163, 184, 0.06);
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .result-scene::before {
+      content: "場景";
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(148, 163, 184, 0.5);
+      margin-right: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
     }
 
     .card-hint {
-      margin-top: 10px;
+      margin-top: 16px;
       font-size: 11px;
-      color: var(--text-muted);
+      color: rgba(148, 163, 184, 0.5);
       position: relative;
       z-index: 1;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.05em;
     }
 
     /* Story Plots Page - Full Width */
@@ -1098,10 +1247,69 @@
       font-size: 14px;
     }
 
-    /* Lovense Interactive Game Page */
+    /* Truth & Dare Game Page */
     #lovense-game-page .app {
       max-width: 100%;
       width: 100%;
+    }
+
+    /* Truth & Dare Card Styles */
+    .card-main .truth-dare-english,
+    .truth-dare-english {
+      font-size: 18px;
+      font-weight: 700;
+      color: rgba(250, 204, 21, 0.95);
+      margin-bottom: 16px;
+      line-height: 1.5;
+      text-align: center;
+      width: 100%;
+    }
+
+    .card-main .truth-dare-chinese,
+    .truth-dare-chinese {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(250, 204, 21, 0.85);
+      margin-bottom: 16px;
+      line-height: 1.6;
+      text-align: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+      width: 100%;
+    }
+
+    .card-main .truth-dare-korean,
+    .truth-dare-korean {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    .card-main .korean-text,
+    .korean-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(148, 163, 184, 0.9);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .card-main .korean-roman,
+    .korean-roman {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(148, 163, 184, 0.6);
+      font-style: italic;
+      line-height: 1.5;
+      text-align: center;
+      padding: 6px 12px;
+      background: rgba(148, 163, 184, 0.08);
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      width: fit-content;
     }
 
     .lovense-game-container {
@@ -1831,35 +2039,44 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 16px;
+      margin-top: 20px;
+      padding: 0 16px;
     }
 
     #draw-btn {
-      border: 1px solid rgba(250, 204, 21, 0.7);
+      border: none;
       outline: none;
-      padding: 9px 26px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #facc15, #f5d76e);
-      color: #111827;
-      font-weight: 600;
-      letter-spacing: 0.16em;
+      padding: 12px 32px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.95), rgba(250, 204, 21, 0.85));
+      color: rgba(2, 6, 23, 0.95);
+      font-weight: 700;
+      letter-spacing: 0.1em;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 13px;
       box-shadow:
-        0 10px 22px rgba(0, 0, 0, 0.95),
-        0 0 0 1px rgba(250, 204, 21, 0.3);
-      transition:
-        transform 0.08s ease-out,
-        box-shadow 0.08s ease-out,
-        filter 0.08s ease-out;
+        0 8px 24px rgba(250, 204, 21, 0.3),
+        0 0 0 1px rgba(250, 204, 21, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #draw-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 12px 32px rgba(250, 204, 21, 0.4),
+        0 0 0 1px rgba(250, 204, 21, 0.5);
+      background: linear-gradient(135deg, rgba(250, 204, 21, 1), rgba(250, 204, 21, 0.9));
     }
 
     #draw-btn:active {
-      transform: translateY(2px);
+      transform: translateY(0px);
       box-shadow:
-        0 6px 14px rgba(0, 0, 0, 0.9),
+        0 4px 16px rgba(250, 204, 21, 0.3),
         0 0 0 1px rgba(250, 204, 21, 0.4);
       filter: brightness(0.95);
     }
@@ -1874,18 +2091,51 @@
     }
 
     .result {
-      margin-top: 4px;
+      margin-top: 0;
       text-align: center;
-      font-size: 14px;
-      color: var(--text-muted);
+      font-size: 13px;
+      color: rgba(148, 163, 184, 0.6);
+      font-weight: 500;
+      letter-spacing: 0.05em;
     }
 
     .result-highlight {
-      margin-top: 4px;
-      font-size: 18px;
+      margin-top: 12px;
+      font-size: 20px;
       font-weight: 700;
-      color: var(--gold-soft);
+      color: rgba(250, 204, 21, 0.95);
       text-align: center;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Truth & Dare Result Styles */
+    #truth-dare-result .truth-dare-english {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    #truth-dare-result .truth-dare-chinese {
+      font-size: 15px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+    }
+
+    #truth-dare-result .truth-dare-korean {
+      margin-top: 8px;
+    }
+
+    #truth-dare-result .korean-text {
+      font-size: 14px;
+    }
+
+    #truth-dare-result .korean-roman {
+      font-size: 11px;
+      padding: 5px 10px;
     }
 
     .history {
@@ -1943,16 +2193,88 @@
 
       .card {
         max-width: 100%;
-        padding: 14px;
+        padding: 24px 20px;
+        border-radius: 20px;
+        min-height: 180px;
       }
 
       .card-main {
-        font-size: 18px;
+        font-size: 20px;
+      }
+
+      .card-title {
+        font-size: 9px;
+        margin-bottom: 12px;
+      }
+
+      .card-role-info {
+        gap: 8px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .card-attitude,
+      .card-scene {
+        font-size: 13px;
+        padding: 6px 12px;
+      }
+
+      .card-hint {
+        margin-top: 12px;
+        font-size: 10px;
+      }
+
+      .result-attitude,
+      .result-scene {
+        font-size: 12px;
+        padding: 5px 10px;
       }
 
       #draw-btn {
         width: 100%;
         max-width: 260px;
+      }
+
+      /* Truth & Dare Mobile Styles */
+      .truth-dare-english {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .truth-dare-chinese {
+        font-size: 14px;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+      }
+
+      .korean-text {
+        font-size: 13px;
+      }
+
+      .korean-roman {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+
+      #truth-dare-result .truth-dare-english {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      #truth-dare-result .truth-dare-chinese {
+        font-size: 13px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+      }
+
+      #truth-dare-result .korean-text {
+        font-size: 12px;
+      }
+
+      #truth-dare-result .korean-roman {
+        font-size: 9px;
+        padding: 4px 8px;
       }
 
       .nav-tabs {
@@ -2588,72 +2910,24 @@
     <div class="page" id="lovense-game-page">
       <div class="app">
         <div class="app-header">
-          <div class="app-title">互動遊戲</div>
-          <div class="app-subtitle">連接 Lovense 設備進行互動控制</div>
+          <div class="app-title">Truth & Dare</div>
+          <div class="app-subtitle">點擊卡牌或按鈕開始抽卡</div>
         </div>
-        
-        <div class="lovense-game-container">
-          <!-- Connection Status -->
-          <div class="connection-status" id="connection-status">
-            <div class="status-indicator" id="status-indicator"></div>
-            <span id="status-text">未連接</span>
+        <div class="card-wrapper">
+          <div class="card" id="truth-dare-card">
+            <div class="card-title">TAP TO DRAW</div>
+            <div class="card-main" id="truth-dare-card-main">？</div>
+            <div class="card-hint" id="truth-dare-card-hint">點擊卡牌或下方按鈕開始洗牌</div>
           </div>
-
-          <!-- Connection Settings -->
-          <div class="connection-panel">
-            <div class="form-group">
-              <label for="webhook-url">Webhook URL</label>
-              <input type="text" id="webhook-url" class="form-input" placeholder="輸入你的 Webhook 端點 URL">
-            </div>
-            <div class="form-group">
-              <label for="device-token">設備 Token (可選)</label>
-              <input type="text" id="device-token" class="form-input" placeholder="Lovense 設備 Token">
-            </div>
-            <button class="btn-connect" id="btn-connect">連接設備</button>
-          </div>
-
-          <!-- Control Panel -->
-          <div class="control-panel" id="control-panel" style="display: none;">
-            <div class="control-section">
-              <h3 class="control-title">振動控制</h3>
-              
-              <div class="control-group">
-                <label for="vibration-intensity">強度: <span id="intensity-value">50</span>%</label>
-                <input type="range" id="vibration-intensity" min="0" max="100" value="50" class="slider">
-              </div>
-
-              <div class="control-group">
-                <label for="vibration-duration">持續時間: <span id="duration-value">3</span> 秒</label>
-                <input type="range" id="vibration-duration" min="1" max="30" value="3" class="slider">
-              </div>
-
-              <div class="control-buttons">
-                <button class="btn-control" id="btn-start">開始振動</button>
-                <button class="btn-control" id="btn-stop">停止</button>
-              </div>
-            </div>
-
-            <div class="control-section">
-              <h3 class="control-title">預設模式</h3>
-              <div class="pattern-grid">
-                <button class="pattern-btn" data-pattern="gentle">輕柔</button>
-                <button class="pattern-btn" data-pattern="medium">中等</button>
-                <button class="pattern-btn" data-pattern="strong">強烈</button>
-                <button class="pattern-btn" data-pattern="wave">波浪</button>
-                <button class="pattern-btn" data-pattern="pulse">脈衝</button>
-                <button class="pattern-btn" data-pattern="random">隨機</button>
-              </div>
-            </div>
-
-            <div class="control-section">
-              <h3 class="control-title">互動遊戲</h3>
-              <div class="game-buttons">
-                <button class="game-btn" id="btn-game-1">節奏遊戲</button>
-                <button class="game-btn" id="btn-game-2">反應測試</button>
-                <button class="game-btn" id="btn-game-3">隨機刺激</button>
-              </div>
-            </div>
-          </div>
+        </div>
+        <div class="controls">
+          <button id="truth-dare-draw-btn">開始抽卡</button>
+          <div class="result">抽到的卡片：</div>
+          <div class="result-highlight" id="truth-dare-result">尚未抽籤</div>
+        </div>
+        <div class="history">
+          <div class="history-title">歷史紀錄</div>
+          <ul class="history-list" id="truth-dare-history-list"></ul>
         </div>
       </div>
     </div>
@@ -2850,22 +3124,80 @@
 
     // Role Draw System
     const jobs = [
-      "廚師", "調酒師", "咖啡師", "餐廳服務生", "外送員", "飲料店店員", "烘焙師",
-      "造型師", "美髮師", "化妝師", "美甲師", "服飾店員", "模特兒",
-      "建築師", "室內設計師", "房仲業務", "水電工", "清潔人員",
-      "計程車司機", "公車司機", "客運司機", "鐵路員工", "飛行員", "空服員", "物流／倉儲人員",
+     "餐廳服務生", "性高潮專家", "泌尿/婦產科醫生", "心理諮商師",
+      "造型師",   "服飾店員", "模特兒",
+      "SM 調教專家", "房仲業務", "情趣用品業務", "清潔人員",
+      "情趣用品店老闆", "鄰居", "秘書", "情趣用品開發專員", "空服員", "性愛按摩師",
       "小學生", "國中生", "高中生", "大學生",
-      "幼教老師", "小學老師", "國中老師", "高中老師", "大學教授", "補習班老師", "家教", "教練",
+      "幼教老師", "小學老師", "國中老師", "高中老師", "大學教授", "補習班老師", "家教", "健身教練",
       "演員", "攝影師", "導演",
-      "工程師",
-      "行銷人員", "業務", "客服", "人資", "財務／會計", "行政助理", "公關", "企劃",
-      "超商店員", "超市員工", "百貨專櫃", "書店店員", "電影院員工",
-      "飯店櫃檯", "房務員", "導遊", "領隊", "觀光接待",
+      "行銷人員", "客服", "人資", "行政助理", 
+      "超商店員", "精品專櫃店員", 
+      "飯店櫃檯", "導遊", 
       "社工",
-      "醫生", "護士", "心理諮商師"
+      "醫生", "護士", "性成癮治療師"
     ];
 
     const roles = ["S", "M"];
+    const attitudes = [
+      "冷靜理性",
+      "衝動火爆",
+      "樂觀",
+      "無所謂",
+      "煩躁",
+      "憤世紀俗",
+      "厭惡",
+      "自我中心"
+    ];
+    
+    // 職業專屬場景映射
+    const jobScenes = {
+      "導遊": ["戶外公園", "商店", "遊覽車上", "餐廳", "旅館", "觀光景點", "海邊", "山區", "博物館", "紀念品店"],
+      "心理諮商師": ["醫院診間", "醫院廁所", "諮商室", "醫院休息室"],
+      "社工": ["客廳", "書房", "臥室", "廁所", "公車", "捷運", "公園", "餐廳", "咖啡廳", "辦公室", "社區中心"],
+      "餐廳服務生": ["餐廳", "廚房", "儲藏室", "員工休息室", "餐廳廁所", "包廂"],
+      "性高潮專家": ["臥室", "客廳", "浴室", "按摩室", "私人工作室", "飯店房間"],
+      "泌尿/婦產科醫生": ["醫院診間", "檢查室", "手術室", "醫院廁所", "醫生休息室"],
+      "造型師": ["髮廊", "化妝間", "更衣室", "工作室", "攝影棚"],
+      "服飾店員": ["服飾店", "試衣間", "倉庫", "員工休息室"],
+      "模特兒": ["攝影棚", "更衣室", "化妝間", "伸展台", "外拍現場", "飯店房間"],
+      "SM 調教專家": ["私人工作室", "地下室", "專用房間", "飯店房間", "私人會所"],
+      "房仲業務": ["樣品屋", "空屋", "辦公室", "車上", "咖啡廳", "客戶家中"],
+      "情趣用品業務": ["辦公室", "展示間", "倉庫", "客戶家中", "車上"],
+      "清潔人員": ["辦公室", "廁所", "儲藏室", "飯店房間", "更衣室", "地下室"],
+      "情趣用品店老闆": ["店內", "倉庫", "辦公室", "試用間"],
+      "鄰居": ["家中客廳", "家中臥室", "家中浴室", "樓梯間", "電梯", "陽台", "頂樓"],
+      "秘書": ["辦公室", "會議室", "茶水間", "電梯", "停車場", "車上"],
+      "情趣用品開發專員": ["實驗室", "辦公室", "測試間", "會議室"],
+      "空服員": ["飛機上", "機艙", "休息室", "飯店房間", "機場貴賓室"],
+      "性愛按摩師": ["按摩室", "SPA室", "私人工作室", "飯店房間"],
+      "小學生": ["教室", "操場", "廁所", "圖書館", "音樂教室", "體育館", "保健室"],
+      "國中生": ["教室", "廁所", "圖書館", "體育館", "音樂教室", "頂樓", "樓梯間"],
+      "高中生": ["教室", "廁所", "圖書館", "體育館", "音樂教室", "頂樓", "樓梯間", "車上"],
+      "大學生": ["教室", "圖書館", "宿舍", "廁所", "實驗室", "社團辦公室", "車上", "租屋處"],
+      "幼教老師": ["教室", "遊戲室", "廁所", "辦公室", "保健室"],
+      "小學老師": ["教室", "辦公室", "圖書館", "體育館", "廁所"],
+      "國中老師": ["教室", "辦公室", "圖書館", "實驗室", "廁所"],
+      "高中老師": ["教室", "辦公室", "圖書館", "實驗室", "廁所", "車上"],
+      "大學教授": ["教室", "辦公室", "研究室", "圖書館", "實驗室", "會議室"],
+      "補習班老師": ["教室", "辦公室", "廁所", "儲藏室"],
+      "家教": ["學生家中", "書房", "臥室", "客廳", "咖啡廳"],
+      "健身教練": ["健身房", "更衣室", "淋浴間", "辦公室", "私人訓練室"],
+      "演員": ["攝影棚", "更衣室", "化妝間", "休息室", "飯店房間", "車上"],
+      "攝影師": ["攝影棚", "外拍現場", "工作室", "更衣室", "車上"],
+      "導演": ["攝影棚", "辦公室", "休息室", "飯店房間", "車上"],
+      "行銷人員": ["辦公室", "會議室", "咖啡廳", "客戶公司", "車上"],
+      "客服": ["辦公室", "客服中心", "休息室", "廁所"],
+      "人資": ["辦公室", "會議室", "面試室", "休息室"],
+      "行政助理": ["辦公室", "茶水間", "儲藏室", "會議室", "廁所"],
+      "超商店員": ["便利商店", "倉庫", "員工休息室", "廁所"],
+      "精品專櫃店員": ["專櫃", "試衣間", "倉庫", "員工休息室"],
+      "飯店櫃檯": ["櫃檯", "辦公室", "休息室", "飯店房間", "儲藏室"],
+      "醫生": ["醫院診間", "檢查室", "手術室", "醫生休息室", "醫院廁所"],
+      "護士": ["醫院診間", "護理站", "休息室", "醫院廁所", "更衣室", "值班室"],
+      "性成癮治療師": ["治療室", "諮商室", "醫院診間", "休息室"]
+    };
+    
     const card = document.getElementById("card");
     const cardMain = document.getElementById("card-main");
     const cardHint = document.getElementById("card-hint");
@@ -2873,9 +3205,19 @@
     const resultEl = document.getElementById("result");
     const historyList = document.getElementById("history-list");
     let isDrawing = false;
+    let currentJob = null;
+    let currentRole = null;
+    let currentAttitude = null;
+    let currentScene = null;
+    let hasDrawnRole = false;
+    let hasDrawnScene = false;
 
     function randomSM() {
       return roles[Math.floor(Math.random() * roles.length)];
+    }
+
+    function randomAttitude() {
+      return attitudes[Math.floor(Math.random() * attitudes.length)];
     }
 
     function drawCard() {
@@ -2883,7 +3225,7 @@
       isDrawing = true;
       drawBtn.disabled = true;
       card.classList.add("shuffling");
-      cardMain.textContent = "…";
+      cardMain.innerHTML = "…";
       cardHint.textContent = "洗牌中";
 
       const shuffleDuration = 900;
@@ -2893,34 +3235,124 @@
       const shuffleTimer = setInterval(() => {
         const randomJob = jobs[Math.floor(Math.random() * jobs.length)];
         const tempRole = randomSM();
-        cardMain.textContent = `${randomJob}（${tempRole}）`;
+        const tempAttitude = randomAttitude();
+        cardMain.innerHTML = `${randomJob}（${tempRole}）<div class="card-role-info"><span class="card-attitude">${tempAttitude}</span></div>`;
         elapsed += intervalTime;
 
         if (elapsed >= shuffleDuration) {
           clearInterval(shuffleTimer);
           const chosenJob = jobs[Math.floor(Math.random() * jobs.length)];
           const chosenRole = randomSM();
+          const chosenAttitude = randomAttitude();
+          
+          // 保存抽到的角色信息
+          currentJob = chosenJob;
+          currentRole = chosenRole;
+          currentAttitude = chosenAttitude;
+          currentScene = null;
+          hasDrawnRole = true;
+          hasDrawnScene = false;
+          
           const displayText = `${chosenJob}（${chosenRole}）`;
 
           setTimeout(() => {
             card.classList.remove("shuffling");
-            cardMain.textContent = displayText;
-            cardHint.textContent = "今天抽到的角色";
-            resultEl.textContent = displayText;
+            cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${chosenAttitude}</span></div>`;
+            cardHint.textContent = "角色已抽出，點擊抽場景";
+            resultEl.innerHTML = `${displayText}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${chosenAttitude}</span></div>`;
             
-            const li = document.createElement("li");
-            li.textContent = displayText;
-            historyList.prepend(li);
-            
-            isDrawing = false;
+            // 更新按鈕
+            drawBtn.textContent = "抽場景";
             drawBtn.disabled = false;
+            isDrawing = false;
           }, 130);
         }
       }, intervalTime);
     }
+    
+    function drawScene() {
+      if (isDrawing || !hasDrawnRole || !currentJob) return;
+      
+      // 檢查該職業是否有專屬場景，如果沒有則使用通用場景
+      const availableScenes = jobScenes[currentJob] || ["辦公室", "家中", "戶外", "車上", "公共場所"];
+      
+      isDrawing = true;
+      drawBtn.disabled = true;
+      card.classList.add("shuffling");
+      cardHint.textContent = "抽場景中";
 
-    card.addEventListener("click", drawCard);
-    drawBtn.addEventListener("click", drawCard);
+      const shuffleDuration = 600;
+      const intervalTime = 80;
+      let elapsed = 0;
+
+      const shuffleTimer = setInterval(() => {
+        const randomScene = availableScenes[Math.floor(Math.random() * availableScenes.length)];
+        const displayText = `${currentJob}（${currentRole}）`;
+        cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene">${randomScene}</span></div>`;
+        elapsed += intervalTime;
+
+        if (elapsed >= shuffleDuration) {
+          clearInterval(shuffleTimer);
+          const chosenScene = availableScenes[Math.floor(Math.random() * availableScenes.length)];
+          currentScene = chosenScene;
+          hasDrawnScene = true;
+          
+          const displayText = `${currentJob}（${currentRole}）`;
+          const finalDisplayText = `${currentJob}（${currentRole}）｜態度：${currentAttitude}｜場景：${chosenScene}`;
+
+          setTimeout(() => {
+            card.classList.remove("shuffling");
+            cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene">${chosenScene}</span></div>`;
+            cardHint.textContent = "完整角色已抽出";
+            resultEl.innerHTML = `${displayText}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${currentAttitude}</span><span class="result-scene">${chosenScene}</span></div>`;
+            
+            // 記錄到歷史
+            const li = document.createElement("li");
+            li.innerHTML = finalDisplayText;
+            historyList.prepend(li);
+            
+            // 重置按鈕
+            drawBtn.textContent = "開始抽卡";
+            drawBtn.disabled = false;
+            isDrawing = false;
+            
+            // 重置狀態（可選：如果需要重新開始）
+            // hasDrawnRole = false;
+            // hasDrawnScene = false;
+          }, 130);
+        }
+      }, intervalTime);
+    }
+    
+    function handleDrawClick() {
+      if (!hasDrawnRole) {
+        drawCard();
+      } else if (hasDrawnRole && !hasDrawnScene) {
+        drawScene();
+      } else {
+        // 重新開始
+        currentJob = null;
+        currentRole = null;
+        currentAttitude = null;
+        currentScene = null;
+        hasDrawnRole = false;
+        hasDrawnScene = false;
+        cardMain.innerHTML = "？";
+        cardHint.textContent = "點擊卡牌或下方按鈕開始洗牌";
+        resultEl.textContent = "尚未抽籤";
+        drawBtn.textContent = "開始抽卡";
+        drawCard();
+      }
+    }
+
+    card.addEventListener("click", () => {
+      if (!hasDrawnRole) {
+        drawCard();
+      } else if (hasDrawnRole && !hasDrawnScene) {
+        drawScene();
+      }
+    });
+    drawBtn.addEventListener("click", handleDrawClick);
 
     // Story Plots System
     // Stories array - will be loaded from Supabase
@@ -4526,70 +4958,208 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     }
 
     // Initialize Lovense controls
+    // Truth & Dare Card Game
+    const truthDareCards = [
+      // Quick Picks
+      { en: "What's your biggest fear?", zh: "你最大的恐懼是什麼？", ko: "당신의 가장 큰 두려움은 무엇인가요?", koRoman: "Dangsin-ui gajang keun duryeoum-eun mueos-ingayo?" },
+      { en: "What was your very first impression of me?", zh: "你對我的第一印象是什麼？", ko: "나에 대한 당신의 첫인상은 무엇이었나요?", koRoman: "Na-e daehan dangsin-ui cheosin-sang-eun mueos-ieossnayo?" },
+      { en: "What's your ultimate relationship dealbreaker?", zh: "你認為關係中最大的禁忌是什麼？", ko: "관계에서 가장 큰 결별 사유는 무엇인가요?", koRoman: "Gwangye-eseo gajang keun gyeolbyeol sayu-neun mueos-ingayo?" },
+      { en: "Who was the last person you searched on Instagram?", zh: "你在Instagram上最後搜尋的人是誰？", ko: "인스타그램에서 마지막으로 검색한 사람은 누구인가요?", koRoman: "Inseutageuram-eseo majimag-euro geomsaekhan saram-eun nugu-ingayo?" },
+      { en: "Name something you do only when you're alone?", zh: "說出一件你只在獨處時才會做的事？", ko: "혼자 있을 때만 하는 일을 말해보세요?", koRoman: "Honja iss-eul ttae-man haneun il-eul malhaeboseyo?" },
+      { en: "Let me update your social media status pretending to be you", zh: "讓我假裝是你來更新你的社群媒體狀態", ko: "당신인 척 당신의 소셜 미디어 상태를 업데이트하게 해주세요", koRoman: "Dangsin-in cheog dangsin-ui sosyeol midieo sangtae-reul eobdeiteuhage haejuseyo" },
+      { en: "Spell out your name with your tongue somewhere on my body", zh: "用你的舌頭在我身體的某個地方拼寫出你的名字", ko: "당신의 혀로 내 몸 어딘가에 당신의 이름을 철자로 써보세요", koRoman: "Dangsin-ui hyeollo nae mom eodinga-e dangsin-ui ileum-eul cheoljalo sseoboseyo" },
+      { en: "Allow yourself to be blindfolded and fed something of my choosing", zh: "讓自己被蒙住眼睛，然後讓我餵你吃我選擇的東西", ko: "눈가리개를 하고 제가 선택한 것을 먹게 해주세요", koRoman: "Nungaligae-reul hago jega seontaekhan geos-eul meokge haejuseyo" },
+      { en: "Do your best impression of me", zh: "盡你所能模仿我", ko: "나를 최대한 흉내내보세요", koRoman: "Nareul choedaehan hyungnaenaeboseyo" },
+      { en: "Kiss me passionately for five minutes", zh: "熱情地親吻我五分鐘", ko: "5분 동안 열정적으로 저를 키스해주세요", koRoman: "5bun dong-an yeoljeongjeog-euro jeoreul kiseuhaejuseyo" },
+      
+      // Best Truth Questions
+      { en: "What's your love language?", zh: "你的愛語是什麼？", ko: "당신의 사랑의 언어는 무엇인가요?", koRoman: "Dangsin-ui salang-ui eoneo-neun mueos-ingayo?" },
+      { en: "Who's your celebrity crush?", zh: "你的明星偶像是誰？", ko: "당신의 연예인 짝사랑은 누구인가요?", koRoman: "Dangsin-ui yeon-yein jjagsalang-eun nugu-ingayo?" },
+      { en: "What secretly gives you the ick?", zh: "什麼會讓你偷偷感到厭惡？", ko: "무엇이 당신을 몰래 역겨워하게 하나요?", koRoman: "Mueos-i dangsin-eul mollae yeoggyeowohage hanayo?" },
+      { en: "What song do you currently have on repeat?", zh: "你最近一直重複聽的歌是什麼？", ko: "요즘 반복해서 듣는 노래는 무엇인가요?", koRoman: "Yojeum banboghaeseo deudneun nolae-neun mueos-ingayo?" },
+      { en: "Reveal something that you've never told anyone else", zh: "說出一件你從未告訴過任何人的事", ko: "다른 사람에게 한 번도 말하지 않은 것을 공개하세요", koRoman: "Daleun saram-ege han beon-do malhaji anh-eun geos-eul gonggaehasayo" },
+      { en: "Have you ever told a lie to make yourself look better?", zh: "你是否曾經為了讓自己看起來更好而說謊？", ko: "자신을 더 좋아 보이게 하기 위해 거짓말을 한 적이 있나요?", koRoman: "Jasin-eul deo joh-a boige hagi wihae geojismal-eul han jeog-i issnayo?" },
+      { en: "What crime would you commit if you knew you wouldn't get caught?", zh: "如果你知道自己不會被抓，你會犯什麼罪？", ko: "잡히지 않는다는 것을 안다면 어떤 범죄를 저지를까요?", koRoman: "Jabhiji anhneundaneun geos-eul andamyeon eotteon beomjoe-reul jeojilkka-yo?" },
+      { en: "What has been the best day of your life so far?", zh: "到目前為止，你人生中最美好的一天是什麼？", ko: "지금까지 인생에서 가장 좋았던 날은 언제였나요?", koRoman: "Jigeumkkaji insaeng-eseo gajang joh-assdeon nal-eun eonjeyeossnayo?" },
+      { en: "What's your favourite compliment to receive?", zh: "你最喜歡收到什麼樣的讚美？", ko: "받고 싶은 칭찬은 무엇인가요?", koRoman: "Badgo sip-eun chingchan-eun mueos-ingayo?" },
+      { en: "What's your biggest fear about our relationship?", zh: "你對我們關係最大的擔憂是什麼？", ko: "우리 관계에 대한 가장 큰 두려움은 무엇인가요?", koRoman: "Uri gwangye-e daehan gajang keun duryeoum-eun mueos-ingayo?" },
+      { en: "Have you ever knowingly done anything illegal?", zh: "你是否曾經明知故犯地做過任何違法的事？", ko: "고의로 불법적인 일을 한 적이 있나요?", koRoman: "Go-uiro bulbeobjeog-in il-eul han jeog-i issnayo?" },
+      { en: "Name something you think could improve our relationship", zh: "說出一件你認為可以改善我們關係的事", ko: "우리 관계를 개선할 수 있다고 생각하는 것을 말해보세요", koRoman: "Uri gwangye-reul gaeseonhal su issdago saeng-gaghaneun geos-eul malhaeboseyo" },
+      { en: "What do you believe is the biggest misconception about you?", zh: "你認為別人對你最大的誤解是什麼？", ko: "당신에 대한 가장 큰 오해는 무엇이라고 생각하나요?", koRoman: "Dangsin-e daehan gajang keun ohae-neun mueos-ilago saeng-gaghanayo?" },
+      { en: "What's the strangest thing you've ever eaten?", zh: "你吃過最奇怪的東西是什麼？", ko: "가장 이상한 음식을 먹은 적이 있나요?", koRoman: "Gajang isanghan eumsig-eul meog-eun jeog-i issnayo?" },
+      { en: "Where do you think you'll be in 10 years' time?", zh: "你認為十年後你會在哪裡？", ko: "10년 후에 어디에 있을 것 같나요?", koRoman: "10nyeon hue eodie iss-eul geos gatnayo?" },
+      { en: "What's your ultimate unpopular opinion?", zh: "你最不受歡迎的觀點是什麼？", ko: "가장 인기 없는 의견은 무엇인가요?", koRoman: "Gajang ingi eobsneun uigyeon-eun mueos-ingayo?" },
+      { en: "What was our best date?", zh: "我們最好的約會是什麼？", ko: "우리의 가장 좋았던 데이트는 무엇이었나요?", koRoman: "Uri-ui gajang joh-assdeon deiteu-neun mueos-ieossnayo?" },
+      { en: "When was the last time you lied?", zh: "你最後一次說謊是什麼時候？", ko: "마지막으로 거짓말을 한 때는 언제였나요?", koRoman: "Majimag-euro geojismal-eul han ttae-neun eonjeyeossnayo?" },
+      
+      // Spicy Truth Questions
+      { en: "When did you know that you were attracted to me?", zh: "你什麼時候知道自己被我吸引了？", ko: "언제 저에게 끌렸다는 것을 알았나요?", koRoman: "Eonje jeoege kkeullyeossdaneun geos-eul al-assnayo?" },
+      { en: "Where's the weirdest/most adventurous place you've had sex?", zh: "你在最奇怪/最冒險的地方做愛是在哪裡？", ko: "가장 이상하거나 모험적인 곳에서 섹스를 한 곳은 어디인가요?", koRoman: "Gajang isanghageona moheomjeog-in gos-eseo segseu-reul han gos-eun eodi-ingayo?" },
+      { en: "Do you have any secret fantasies?", zh: "你有什麼秘密幻想嗎？", ko: "비밀스러운 환상이 있나요?", koRoman: "Bimilsuleoun hwansang-i issnayo?" },
+      { en: "What's your favourite sex position?", zh: "你最喜歡的性愛姿勢是什麼？", ko: "가장 좋아하는 성적 자세는 무엇인가요?", koRoman: "Gajang joh-ahaneun seongjeog jase-neun mueos-ingayo?" },
+      { en: "When was the last time you masturbated?", zh: "你最後一次自慰是什麼時候？", ko: "마지막으로 자위한 때는 언제였나요?", koRoman: "Majimag-euro jawihan ttae-neun eonjeyeossnayo?" },
+      { en: "Name something typically non-sexual that turns you on?", zh: "說出一件通常非性但會讓你興奮的事？", ko: "일반적으로 비성적인데 당신을 흥분시키는 것을 말해보세요?", koRoman: "Ilbanjeog-euro biseongjeog-inde dangsin-eul heungbunsikineun geos-eul malhaeboseyo?" },
+      { en: "What was your funniest sexual mishap?", zh: "你最搞笑的性愛意外是什麼？", ko: "가장 재미있는 성적 실수는 무엇이었나요?", koRoman: "Gajang jaemiissneun seongjeog silsu-neun mueos-ieossnayo?" },
+      { en: "Have you ever had a sexy dream about me?", zh: "你曾經做過關於我的性愛夢嗎？", ko: "저에 대한 섹시한 꿈을 꾼 적이 있나요?", koRoman: "Jeoe daehan segsihan kkum-eul kkun jeog-i issnayo?" },
+      { en: "When do you feel your most sensual?", zh: "你什麼時候感覺最性感？", ko: "언제 가장 관능적으로 느껴지나요?", koRoman: "Eonje gajang gwannungjeog-euro neukkyeojinayo?" },
+      { en: "How would you describe the way I taste?", zh: "你會如何描述我的味道？", ko: "제 맛을 어떻게 표현하시겠어요?", koRoman: "Je mas-eul eotteohge pyohyeonhasigess-eoyo?" },
+      { en: "What's your secret bedroom talent?", zh: "你的秘密臥室才華是什麼？", ko: "당신의 비밀 침실 재능은 무엇인가요?", koRoman: "Dangsin-ui bimil chimsil jaeneung-eun mueos-ingayo?" },
+      { en: "What are your top three places to be touched?", zh: "你最喜歡被觸摸的三個地方是哪裡？", ko: "가장 좋아하는 세 곳의 만져지는 곳은 어디인가요?", koRoman: "Gajang joh-ahaneun se gog-ui manjyeojineun gos-eun eodi-ingayo?" },
+      { en: "Do you prefer to be dominant or submissive?", zh: "你更喜歡主導還是順從？", ko: "지배적이거나 복종적인 것을 선호하시나요?", koRoman: "Jibaejeog-igeona bogjongjeog-in geos-eul seonhohasinayo?" },
+      { en: "What sexual act(s) are you not into?", zh: "你不喜歡的性行為是什麼？", ko: "좋아하지 않는 성적 행위는 무엇인가요?", koRoman: "Joh-ahaji anhneun seongjeog haeng-wi-neun mueos-ingayo?" },
+      { en: "Have you ever had a one-night stand?", zh: "你曾經有過一夜情嗎？", ko: "원나잇 스탠드를 한 적이 있나요?", koRoman: "Won-nais seutaendeu-reul han jeog-i issnayo?" },
+      { en: "Have you ever fantasised about a partner other than me?", zh: "你曾經幻想過我以外的伴侶嗎？", ko: "저 외의 파트너에 대해 환상한 적이 있나요?", koRoman: "Jeo oe-ui pateuneo-e daehae hwansanghan jeog-i issnayo?" },
+      { en: "What's the naughtiest thing you've ever done in public?", zh: "你在公共場所做過最調皮的事是什麼？", ko: "공공장소에서 한 가장 장난스러운 일은 무엇인가요?", koRoman: "Gong-gong jangso-eseo han gajang jangnanseuleoun il-eun mueos-ingayo?" },
+      { en: "Describe your perfect date night that ends in the bedroom.", zh: "描述你完美的約會之夜，以臥室結束。", ko: "침실에서 끝나는 완벽한 데이트 밤을 설명해보세요", koRoman: "Chimsil-eseo kkeutnaneun wanbyeoghan deiteu bam-eul seolmyeonghaeboseyo" },
+      { en: "Which outfit of mine do you find most irresistible?", zh: "你覺得我最無法抗拒的服裝是哪一套？", ko: "제 옷 중 가장 저항할 수 없는 것은 무엇인가요?", koRoman: "Je ot jung gajang jeohanghal su eobsneun geos-eun mueos-ingayo?" },
+      { en: "Have you ever had a dream about someone else while in a relationship?", zh: "在戀愛關係中，你是否曾經夢到過其他人？", ko: "관계 중에 다른 사람에 대한 꿈을 꾼 적이 있나요?", koRoman: "Gwangye jung-e daleun saram-e daehan kkum-eul kkun jeog-i issnayo?" },
+      
+      // Funny Truth Questions
+      { en: "Name a weird food combination that you love", zh: "說出一個你喜歡的奇怪食物組合", ko: "좋아하는 이상한 음식 조합을 말해보세요", koRoman: "Joh-ahaneun isanghan eumsig johab-eul malhaeboseyo" },
+      { en: "What's your guilty pleasure?", zh: "你的罪惡快感是什麼？", ko: "죄책감을 느끼는 즐거움은 무엇인가요?", koRoman: "Joechaeg-gam-eul neukkineun jeulgeoum-eun mueos-ingayo?" },
+      { en: "What was the last thing you Googled?", zh: "你最後一次Google搜尋的是什麼？", ko: "마지막으로 구글 검색한 것은 무엇인가요?", koRoman: "Majimag-euro gugeul geomsaekhan geos-eun mueos-ingayo?" },
+      { en: "Reveal something about yourself you'd never want your family to know", zh: "說出一件你永遠不想讓家人知道的事", ko: "가족이 절대 알고 싶지 않은 자신에 대한 것을 공개하세요", koRoman: "Gajog-i jeoldae algo sipji anh-eun jasin-e daehan geos-eul gonggaehasayo" },
+      { en: "If you could pick a theme song for every time you entered a room, what would it be?", zh: "如果你每次進房間都能選擇一首主題曲，會是什麼？", ko: "방에 들어갈 때마다 테마송을 선택할 수 있다면 무엇일까요?", koRoman: "Bang-e deul-eogal ttaemada temasong-eul seontaekhal su issdamyeon mueos-ilkka-yo?" },
+      { en: "Who is someone you pretend to like but actually can't stand?", zh: "你假裝喜歡但實際上無法忍受的人是誰？", ko: "좋아하는 척하지만 실제로는 참을 수 없는 사람은 누구인가요?", koRoman: "Joh-ahaneun cheoghajiman siljelo-neun cham-eul su eobsneun saram-eun nugu-ingayo?" },
+      { en: "What's the worst gift you've ever received?", zh: "你收到過最糟糕的禮物是什麼？", ko: "받은 가장 나쁜 선물은 무엇인가요?", koRoman: "Bad-eun gajang nappeun seonmul-eun mueos-ingayo?" },
+      { en: "What's the weirdest thing you've ever done in front of a mirror?", zh: "你在鏡子前做過最奇怪的事是什麼？", ko: "거울 앞에서 한 가장 이상한 일은 무엇인가요?", koRoman: "Geoul ap-eseo han gajang isanghan il-eun mueos-ingayo?" },
+      { en: "Who do you think is the most attractive out of the two of us?", zh: "你認為我們兩個中誰最有吸引力？", ko: "우리 둘 중 누가 가장 매력적이라고 생각하나요?", koRoman: "Uri dul jung nuga gajang maelyeogjeog-ilago saeng-gaghanayo?" },
+      { en: "Have you ever farted and blamed someone else?", zh: "你曾經放屁然後怪罪別人嗎？", ko: "방귀를 뀌고 다른 사람을 탓한 적이 있나요?", koRoman: "Banggwi-reul kkwigo daleun saram-eul tas-han jeog-i issnayo?" },
+      { en: "If you had to go on a reality TV show, which one would it be and why?", zh: "如果你必須參加一個真人秀節目，會是哪一個？為什麼？", ko: "리얼리티 TV 쇼에 나가야 한다면 어떤 것이고 왜일까요?", koRoman: "Rieolliti TV syoe nagaya handamyeon eotteon geos-igo wae-ilkka-yo?" },
+      { en: "What's the longest you've gone without washing your bed sheets?", zh: "你最長多久沒洗床單？", ko: "침대 시트를 안 씻은 가장 긴 기간은 얼마나 되나요?", koRoman: "Chimdae siteu-reul an ssiss-eun gajang gin gigan-eun eolmana doenayo?" },
+      { en: "What's the worst thing you've ever done at work?", zh: "你在工作中做過最糟糕的事是什麼？", ko: "직장에서 한 가장 나쁜 일은 무엇인가요?", koRoman: "Jigjang-eseo han gajang nappeun il-eun mueos-ingayo?" },
+      { en: "How many selfies do you take a day?", zh: "你一天拍多少張自拍？", ko: "하루에 셀카를 몇 장 찍나요?", koRoman: "Halu-e selka-reul myeot jang jjignayo?" },
+      { en: "What's one question you don't want me to ask you?", zh: "你不想讓我問你的一個問題是什麼？", ko: "제가 물어보지 않았으면 하는 질문은 무엇인가요?", koRoman: "Jega mul-eoboji anh-ass-eumyeon haneun jilmun-eun mueos-ingayo?" },
+      { en: "If you could swap lives with me for a day, what would you do first?", zh: "如果你能和我交換生活一天，你會先做什麼？", ko: "하루 동안 저와 인생을 바꿀 수 있다면 먼저 무엇을 하시겠어요?", koRoman: "Halu dong-an jeowa insaeng-eul bakkul su issdamyeon meonjeo mueos-eul hasigess-eoyo?" },
+      { en: "What's the silliest lie you've ever told me?", zh: "你對我說過最愚蠢的謊言是什麼？", ko: "제게 한 가장 어리석은 거짓말은 무엇인가요?", koRoman: "Jege han gajang eoliseog-eun geojismal-eun mueos-ingayo?" },
+      { en: "Make the weirdest face you can and hold it for 10 seconds.", zh: "做出你能做的最奇怪的表情，並保持10秒", ko: "할 수 있는 가장 이상한 표정을 짓고 10초 동안 유지하세요", koRoman: "Hal su issneun gajang isanghan pyojeong-eul jisgo 10cho dong-an yujihaseyo" },
+      { en: "Imitate your partner's laugh perfectly.", zh: "完美地模仿你伴侶的笑聲", ko: "파트너의 웃음소리를 완벽하게 흉내내보세요", koRoman: "Pateuneo-ui us-eumsoli-reul wanbyeoghage hyungnaenaeboseyo" },
+      { en: "What's the most ridiculous thing you've ever Googled at 3am?", zh: "你在凌晨3點Google過最荒謬的事是什麼？", ko: "새벽 3시에 구글 검색한 가장 터무니없는 것은 무엇인가요?", koRoman: "Saebyeog 3si-e gugeul geomsaekhan gajang teomunieobsneun geos-eun mueos-ingayo?" },
+      
+      // Best Dares
+      { en: "Go live on one of your social media accounts and declare your love for me", zh: "在你的其中一個社群媒體帳號上直播並向我表白", ko: "소셜 미디어 계정 중 하나에서 라이브로 나가서 저에 대한 사랑을 선언하세요", koRoman: "Sosyeol midieo gyejeung jung hana-eseo laibeu-ro nagaseo jeoe daehan salang-eul seon-eonhaseyo" },
+      { en: "Close your eyes, pick a random contact in your Whatsapp and leave them a dirty voice note", zh: "閉上眼睛，在你的WhatsApp中隨機選擇一個聯絡人，給他們留下一條色情語音訊息", ko: "눈을 감고 왓츠앱에서 무작위로 연락처를 선택해 더러운 음성 메시지를 남기세요", koRoman: "Nun-eul gamgo wascheu-aeb-eseo mujag-wilo yeollagcheo-reul seontaekhae deoleoun eumseong mesiji-reul namgiseyo" },
+      { en: "Recall the day/night we met, from your perspective", zh: "從你的角度回憶我們相遇的那一天/夜晚", ko: "당신의 관점에서 우리가 만난 날/밤을 회상해보세요", koRoman: "Dangsin-ui gwanjeom-eseo uri-ga mannan nal/bam-eul hoesanghaeboseyo" },
+      { en: "Draw or paint a picture using only your feet", zh: "只用你的腳畫或畫一幅畫", ko: "발만 사용해서 그림을 그리거나 칠해보세요", koRoman: "Balman sayonghaeseo geulim-eul geuligeona chilhaeboseyo" },
+      { en: "Post the oldest selfie that's on your phone on Instagram Stories", zh: "把你手機上最舊的自拍發到Instagram限時動態", ko: "휴대폰에 있는 가장 오래된 셀카를 인스타그램 스토리에 올리세요", koRoman: "Hyudaepon-e issneun gajang olaedoen selka-reul inseutageuram seutoli-e olliseyo" },
+      { en: "Let me shave a part of your body", zh: "讓我剃掉你身體的某個部位", ko: "제가 당신 몸의 일부를 면도하게 해주세요", koRoman: "Jega dangsin mom-ui ilbu-reul myeondohage haejuseyo" },
+      { en: "Write a love poem for me in five minutes or less", zh: "在五分鐘或更短的時間內為我寫一首情詩", ko: "5분 이내로 저를 위한 사랑 시를 써보세요", koRoman: "5bun inaero jeoreul wihan salang si-reul sseoboseyo" },
+      { en: "Grab something from the kitchen and attempt to eat it in the flirtiest/sexiest way possible", zh: "從廚房拿點東西，用最調情/最性感的方式試著吃它", ko: "부엌에서 무언가를 가져와 가장 유혹적이거나 섹시한 방식으로 먹어보세요", koRoman: "Bueog-eseo mueong-a-reul gajyeowa gajang yuhogjeog-igeona segsihan bangsig-eulo meog-eoboseyo" },
+      { en: "See how many ice cubes you can fit into your mouth and let them melt", zh: "看看你能在嘴裡放多少冰塊，然後讓它們融化", ko: "입에 얼마나 많은 얼음 조각을 넣을 수 있는지 보고 녹여보세요", koRoman: "Ib-e eolmana manh-eun eoleum jogag-eul neoh-eul su issneunji bogo nog-yeoboseyo" },
+      { en: "Deliver your best five-minute stand up", zh: "表演你最好的五分鐘脫口秀", ko: "최고의 5분 스탠드업 코미디를 해보세요", koRoman: "Choegoui 5bun seutaendeu-eob komidi-reul haeboseyo" },
+      { en: "Let me do your makeup while blindfolded", zh: "讓我蒙住眼睛為你化妝", ko: "눈가리개를 한 채로 제가 당신의 메이크업을 해드리겠습니다", koRoman: "Nungaligae-reul han chaero jega dangsin-ui meikeu-eob-eul haedeuligessseubnida" },
+      { en: "Swap outfits with me", zh: "和我交換服裝", ko: "저와 옷을 바꿔입어보세요", koRoman: "Jeowa os-eul bakkweoib-eoboseyo" },
+      { en: "Say yes to everything for the next hour", zh: "在接下來的一個小時內對所有事情說「是」", ko: "다음 한 시간 동안 모든 것에 예라고 말하세요", koRoman: "Da-eum han sigan dong-an modeun geos-e ye-lago malhaseyo" },
+      { en: "Read out the last five things on your Google search history", zh: "大聲讀出你Google搜尋歷史中的最後五項", ko: "구글 검색 기록의 마지막 5가지를 소리내어 읽어보세요", koRoman: "Gugeul geomsaek girog-ui majimag 5gaji-reul solinae-eo ilg-eoboseyo" },
+      { en: "Let me draw somewhere on your body in permanent marker", zh: "讓我在你身體的某個地方用永久性記號筆畫畫", ko: "제가 당신 몸 어딘가에 영구 마커로 그림을 그려보겠습니다", koRoman: "Jega dangsin mom eodinga-e yeong-gu makeo-ro geulim-eul geulyeobogessseubnida" },
+      { en: "Call someone of my choosing and sing happy birthday to them", zh: "打電話給我選擇的人，為他們唱生日快樂歌", ko: "제가 선택한 사람에게 전화를 걸어 생일 축하 노래를 불러주세요", koRoman: "Jega seontaekhan saram-ege jeonhwa-reul geol-eo saeng-il chugha nolae-reul bulleojuseyo" },
+      { en: "Have a shower with your clothes on", zh: "穿著衣服洗澡", ko: "옷을 입은 채로 샤워하세요", koRoman: "Os-eul ib-eun chaero syawohaseyo" },
+      { en: "Scroll through your Instagram followers until I say stop – then like all of their photos", zh: "滾動瀏覽你的Instagram追蹤者，直到我說停——然後點讚他們所有的照片", ko: "제가 멈추라고 할 때까지 인스타그램 팔로워를 스크롤한 다음 그들의 모든 사진에 좋아요를 누르세요", koRoman: "Jega meomchulago hal ttaekkaji inseutageuram pallowo-reul seukeulolhan da-eum geudeul-ui modeun sajin-e joh-ayo-reul nuleuseyo" },
+      { en: "Send me a flirty message using only emojis", zh: "只用表情符號給我發一條調情訊息", ko: "이모지만 사용해서 저에게 유혹적인 메시지를 보내세요", koRoman: "Imojiman sayonghaeseo jeoege yuhogjeog-in mesiji-reul bonaeseyo" },
+      { en: "Send the weirdest GIF you can find to the 15th person in your contact list", zh: "把你找到的最奇怪的GIF發送給你聯絡人列表中的第15個人", ko: "찾을 수 있는 가장 이상한 GIF를 연락처 목록의 15번째 사람에게 보내세요", koRoman: "Chaj-eul su issneun gajang isanghan GIF-reul yeollagcheo moglog-ui 15beonjjae saram-ege bonaeseyo" },
+      
+      // Sexy Dares
+      { en: "Remove three items of clothing", zh: "脫掉三件衣服", ko: "옷 세 벌을 벗으세요", koRoman: "Ot se bel-eul beos-euseyo" },
+      { en: "Kiss your favourite part of my body", zh: "親吻我身體你最喜歡的部位", ko: "제 몸에서 당신이 가장 좋아하는 부분에 키스하세요", koRoman: "Je mom-eseo dangsin-i gajang joh-ahaneun bubun-e kiseuhaseyo" },
+      { en: "Do a seductive dance", zh: "跳一段誘人的舞蹈", ko: "유혹적인 춤을 춰보세요", koRoman: "Yuhogjeog-in chum-eul chwoboseyo" },
+      { en: "Let me draw you naked", zh: "讓我畫你的裸體", ko: "제가 당신을 나체로 그려보겠습니다", koRoman: "Jega dangsin-eul nache-lo geulyeobogessseubnida" },
+      { en: "Lick something off my finger", zh: "舔掉我手指上的東西", ko: "제 손가락에서 무언가를 핥아보세요", koRoman: "Je songalag-eseo mueong-a-reul halh-aboseyo" },
+      { en: "Take off an item of my clothing without using your hands", zh: "不用手脫掉我的一件衣服", ko: "손을 사용하지 않고 제 옷 한 벌을 벗기세요", koRoman: "Son-eul sayonghaji anhgo je ot han bel-eul beosgiseyo" },
+      { en: "Name three songs you'd add to a sex playlist", zh: "說出三首你會加入性愛播放清單的歌", ko: "섹스 플레이리스트에 추가할 세 곡의 노래를 말해보세요", koRoman: "Segseu peulleiliseuteu-e chugahal se gog-ui nolae-reul malhaeboseyo" },
+      { en: "Drop an ice cube in your underwear", zh: "在你的內衣裡放一個冰塊", ko: "속옷 안에 얼음 조각을 넣어보세요", koRoman: "Sog-os an-e eoleum jogag-eul neoh-eoboseyo" },
+      { en: "Go to another room, take a sexy photo and send it to me", zh: "去另一個房間，拍一張性感照片並發給我", ko: "다른 방으로 가서 섹시한 사진을 찍어 저에게 보내세요", koRoman: "Daleun bang-eulo gaseo segsihan sajin-eul jjig-eo jeoege bonaeseyo" },
+      { en: "Give me a five-minute foot massage", zh: "給我五分鐘的腳底按摩", ko: "5분 동안 발 마사지를 해주세요", koRoman: "5bun dong-an bal masaji-reul haejuseyo" },
+      { en: "Let me give you a light spanking", zh: "讓我輕輕打你屁股", ko: "제가 가볍게 엉덩이를 때려보겠습니다", koRoman: "Jega gabyeobge eongdeong-i-reul ttaelyeobogessseubnida" },
+      { en: "Go without underwear on our next date night", zh: "在我們下一次約會之夜不穿內衣", ko: "다음 데이트 밤에 속옷을 입지 마세요", koRoman: "Da-eum deiteu bam-e sog-os-eul ibji maseyo" },
+      { en: "Read an erotic passage out loud", zh: "大聲朗讀一段色情段落", ko: "에로틱한 구절을 소리내어 읽어보세요", koRoman: "Elotig-han gujeol-eul solinae-eo ilg-eoboseyo" },
+      { en: "Re-enact our first kiss", zh: "重現我們的初吻", ko: "우리의 첫 키스를 재현해보세요", koRoman: "Uri-ui cheos kiseu-reul jaehyeonhaeboseyo" },
+      { en: "Challenge me to a pillow fight", zh: "向我發起枕頭大戰", ko: "저에게 베개 싸움을 도전하세요", koRoman: "Jeoege begae ssaum-eul dojeonhaseyo" },
+      { en: "Hide a chocolate in your clothes and let me find it", zh: "在你的衣服裡藏一塊巧克力，讓我找到它", ko: "옷 안에 초콜릿을 숨기고 제가 찾게 해주세요", koRoman: "Ot an-e chokollis-eul sumgigo jega chatge haejuseyo" },
+      { en: "(If there's a pool or hot tub) go skinny-dipping", zh: "（如果有游泳池或熱水浴缸）去裸泳", ko: "(수영장이나 온수 욕조가 있다면) 나체로 수영하세요", koRoman: "(Suyeongjang-ina onsu yogjoga issdamyeon) nache-lo suyeonghaseyo" },
+      { en: "Let me order something sexy from your Amazon account (max £20)", zh: "讓我從你的Amazon帳號訂購一些性感的東西（最高£20）", ko: "제가 당신의 아마존 계정에서 섹시한 것을 주문하게 해주세요 (최대 £20)", koRoman: "Jega dangsin-ui amajon gyejeung-eseo segsihan geos-eul jumunhage haejuseyo (choedae £20)" },
+      { en: "Turn off the lights and try to arouse me using only noises", zh: "關掉燈，只用聲音試著讓我興奮", ko: "불을 끄고 소리만 사용해서 저를 흥분시켜보세요", koRoman: "Bul-eul kkeugo soliman sayonghaeseo jeoreul heungbunsikyeoboseyo" },
+      { en: "Play the rest of the game naked", zh: "裸體玩剩下的遊戲", ko: "나체로 나머지 게임을 하세요", koRoman: "Nache-lo nameoji geim-eul haseyo" },
+      { en: "Whisper something naughty in my ear for one minute.", zh: "在我耳邊低語一分鐘的色情話", ko: "1분 동안 제 귀에 더러운 말을 속삭여보세요", koRoman: "1bun dong-an je gwie deoleoun mal-eul sogsag-yeoboseyo" },
+      { en: "Give me a sensual back massage for five minutes.", zh: "給我五分鐘的感性背部按摩", ko: "5분 동안 관능적인 등 마사지를 해주세요", koRoman: "5bun dong-an gwannungjeog-in deung masaji-reul haejuseyo" },
+      { en: "Draw a heart on my body with your lips.", zh: "用你的嘴唇在我身體上畫一顆心", ko: "입술로 제 몸에 하트를 그려보세요", koRoman: "Ibsul-lo je mom-e hateu-reul geulyeoboseyo" },
+      { en: "Trace my body with your fingers while I'm blindfolded.", zh: "在我被蒙住眼睛時，用你的手指描繪我的身體", ko: "제가 눈가리개를 한 동안 손가락으로 제 몸을 따라가보세요", koRoman: "Jega nungaligae-reul han dong-an songalag-eulo je mom-eul ttalagaboseyo" },
+      { en: "Kiss me in a way that makes me laugh and melt at the same time.", zh: "用一種讓我同時大笑和融化的方式親吻我", ko: "저를 동시에 웃게 하고 녹게 만드는 방식으로 키스하세요", koRoman: "Jeoreul dongsi-e utge hago nogge mandeuneun bangsig-eulo kiseuhaseyo" }
+    ];
+
     function initLovenseGame() {
-      // Connection button
-      const btnConnect = document.getElementById('btn-connect');
-      if (btnConnect) {
-        btnConnect.addEventListener('click', connectLovense);
-      }
+      // Truth & Dare Card Game
+      const truthDareCard = document.getElementById('truth-dare-card');
+      const truthDareCardMain = document.getElementById('truth-dare-card-main');
+      const truthDareCardHint = document.getElementById('truth-dare-card-hint');
+      const truthDareDrawBtn = document.getElementById('truth-dare-draw-btn');
+      const truthDareResult = document.getElementById('truth-dare-result');
+      const truthDareHistoryList = document.getElementById('truth-dare-history-list');
+      let isDrawingTruthDare = false;
 
-      // Control buttons
-      const btnStart = document.getElementById('btn-start');
-      const btnStop = document.getElementById('btn-stop');
-      
-      if (btnStart) {
-        btnStart.addEventListener('click', startVibration);
-      }
-      
-      if (btnStop) {
-        btnStop.addEventListener('click', stopVibration);
-      }
+      function drawTruthDareCard() {
+        if (isDrawingTruthDare) return;
+        isDrawingTruthDare = true;
+        truthDareDrawBtn.disabled = true;
+        truthDareCard.classList.add('shuffling');
+        truthDareCardMain.innerHTML = '…';
+        truthDareCardHint.textContent = '洗牌中';
 
-      // Sliders
-      const intensitySlider = document.getElementById('vibration-intensity');
-      const durationSlider = document.getElementById('vibration-duration');
-      const intensityValue = document.getElementById('intensity-value');
-      const durationValue = document.getElementById('duration-value');
+        const shuffleDuration = 900;
+        const intervalTime = 90;
+        let elapsed = 0;
 
-      if (intensitySlider && intensityValue) {
-        intensitySlider.addEventListener('input', (e) => {
-          intensityValue.textContent = e.target.value;
-        });
-      }
+        const shuffleTimer = setInterval(() => {
+          const randomCard = truthDareCards[Math.floor(Math.random() * truthDareCards.length)];
+          truthDareCardMain.innerHTML = `
+            <div class="truth-dare-english">${randomCard.en}</div>
+            <div class="truth-dare-chinese">${randomCard.zh}</div>
+            <div class="truth-dare-korean">
+              <span class="korean-text">${randomCard.ko}</span>
+              <span class="korean-roman">${randomCard.koRoman}</span>
+            </div>
+          `;
+          elapsed += intervalTime;
 
-      if (durationSlider && durationValue) {
-        durationSlider.addEventListener('input', (e) => {
-          durationValue.textContent = e.target.value;
-        });
-      }
+          if (elapsed >= shuffleDuration) {
+            clearInterval(shuffleTimer);
+            const chosenCard = truthDareCards[Math.floor(Math.random() * truthDareCards.length)];
 
-      // Pattern buttons
-      const patternButtons = document.querySelectorAll('.pattern-btn');
-      patternButtons.forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          patternButtons.forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-          
-          const pattern = e.target.getAttribute('data-pattern');
-          if (pattern && patterns[pattern]) {
-            await sendVibrationCommand(patterns[pattern]);
+            setTimeout(() => {
+              truthDareCard.classList.remove('shuffling');
+              truthDareCardMain.innerHTML = `
+                <div class="truth-dare-english">${chosenCard.en}</div>
+                <div class="truth-dare-chinese">${chosenCard.zh}</div>
+                <div class="truth-dare-korean">
+                  <span class="korean-text">${chosenCard.ko}</span>
+                  <span class="korean-roman">${chosenCard.koRoman}</span>
+                </div>
+              `;
+              truthDareCardHint.textContent = '今天抽到的卡片';
+              truthDareResult.innerHTML = `
+                <div class="truth-dare-english">${chosenCard.en}</div>
+                <div class="truth-dare-chinese">${chosenCard.zh}</div>
+                <div class="truth-dare-korean">
+                  <span class="korean-text">${chosenCard.ko}</span>
+                  <span class="korean-roman">${chosenCard.koRoman}</span>
+                </div>
+              `;
+
+              const li = document.createElement('li');
+              li.innerHTML = `${chosenCard.en} | ${chosenCard.zh}`;
+              truthDareHistoryList.prepend(li);
+
+              isDrawingTruthDare = false;
+              truthDareDrawBtn.disabled = false;
+            }, 130);
           }
-        });
-      });
-
-      // Game buttons
-      const btnGame1 = document.getElementById('btn-game-1');
-      const btnGame2 = document.getElementById('btn-game-2');
-      const btnGame3 = document.getElementById('btn-game-3');
-
-      if (btnGame1) {
-        btnGame1.addEventListener('click', startRhythmGame);
+        }, intervalTime);
       }
-      if (btnGame2) {
-        btnGame2.addEventListener('click', startReactionTest);
+
+      if (truthDareCard) {
+        truthDareCard.addEventListener('click', drawTruthDareCard);
       }
-      if (btnGame3) {
-        btnGame3.addEventListener('click', startRandomStimulation);
+      if (truthDareDrawBtn) {
+        truthDareDrawBtn.addEventListener('click', drawTruthDareCard);
       }
     }
 
