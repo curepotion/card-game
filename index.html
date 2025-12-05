@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>角色扮演抽籤卡牌｜黑金版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Noto Sans TC", system-ui, sans-serif;
+    }
+
+    :root {
+      --bg-black: #020617;
+      --card-black: #020617;
+      --panel-black: #050816;
+      --border-gold: #facc15;
+      --gold: #facc15;
+      --gold-soft: #f5d76e;
+      --text-main: #facc15;
+      --text-sub: #e5e7eb;
+      --text-muted: #9ca3af;
+      --gray-border: #4b5563;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top, rgba(250, 204, 21, 0.12), transparent 55%),
+        radial-gradient(circle at bottom, rgba(148, 163, 184, 0.18), transparent 60%),
+        var(--bg-black);
+      color: var(--text-main);
+    }
+
+    .app {
+      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
+      border-radius: 20px;
+      box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(148, 163, 184, 0.3);
+      padding: 22px 20px 26px;
+      max-width: 420px;
+      width: 100%;
+      color: var(--text-main);
+    }
+
+    .app-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .app-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .app-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .card-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 280px;
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at top left, rgba(250, 204, 21, 0.32), transparent 52%),
+        radial-gradient(circle at bottom right, rgba(148, 163, 184, 0.22), transparent 55%),
+        var(--card-black);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(250, 204, 21, 0.4);
+      color: var(--text-sub);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(250, 204, 21, 0.3),
+        transparent 40%,
+        rgba(148, 163, 184, 0.10),
+        transparent 75%
+      );
+      mix-blend-mode: screen;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 22px 46px rgba(0, 0, 0, 0.98),
+        0 0 0 1px rgba(250, 204, 21, 0.65);
+    }
+
+    .card:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow:
+        0 12px 26px rgba(0, 0, 0, 0.9),
+        0 0 0 1pxrgba(250, 204, 21, 0.65);
+    }
+
+    .card-title {
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-main {
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      color: var(--gold-soft);
+    }
+
+    .card-hint {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 洗牌動畫 */
+    @keyframes shuffle {
+      0%   { transform: translateX(0) rotate(0deg); }
+      25%  { transform: translateX(-6px) rotate(-2deg); }
+      50%  { transform: translateX(6px) rotate(2deg); }
+      75%  { transform: translateX(-3px) rotate(-1deg); }
+      100% { transform: translateX(0) rotate(0deg); }
+    }
+
+    .card.shuffling {
+      animation: shuffle 0.26s ease-in-out infinite;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    #draw-btn {
+      border: 1px solid rgba(250, 204, 21, 0.7);
+      outline: none;
+      padding: 9px 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #facc15, #f5d76e);
+      color: #111827;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+      font-size: 12px;
+      box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.95),
+        0 0 0 1px rgba(250, 204, 21, 0.3);
+      transition:
+        transform 0.08s ease-out,
+        box-shadow 0.08s ease-out,
+        filter 0.08s ease-out;
+      text-transform: uppercase;
+    }
+
+    #draw-btn:active {
+      transform: translateY(2px);
+      box-shadow:
+        0 6px 14px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(250, 204, 21, 0.4);
+      filter: brightness(0.95);
+    }
+
+    #draw-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(148, 163, 184, 0.6);
+      background: linear-gradient(135deg, #facc15, #e5e7eb);
+    }
+
+    .result {
+      margin-top: 4px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .result-highlight {
+      margin-top: 4px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold-soft);
+      text-align: center;
+    }
+
+    .history {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .history-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .history-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 140px;
+      overflow-y: auto;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .history-list li {
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(55, 65, 81, 0.7);
+    }
+
+    .history-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* 手機友善調整 */
+    @media (max-width: 480px) {
+      body {
+        align-items: stretch;
+      }
+
+      .app {
+        margin: 16px;
+        border-radius: 18px;
+        padding: 18px 16px 22px;
+      }
+
+      .app-title {
+        font-size: 20px;
+        letter-spacing: 0.14em;
+      }
+
+      .card {
+        max-width: 100%;
+        padding: 14px 14px;
+      }
+
+      .card-main {
+        font-size: 18px;
+      }
+
+      #draw-btn {
+        width: 100%;
+        max-width: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="app-header">
+      <div class="app-title">ROLE DRAW</div>
+      <div class="app-subtitle">抽出今天要扮演的身分與傾向，其餘自己設計劇本</div>
+    </div>
+
+    <div class="card-wrapper">
+      <div class="card" id="card">
+        <div class="card-title">TAP TO DRAW</div>
+        <div class="card-main" id="card-main">
+          ？
+        </div>
+        <div class="card-hint" id="card-hint">
+          點擊卡牌或下方按鈕開始洗牌
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="draw-btn">開始抽卡</button>
+      <div class="result">抽到的角色：</div>
+      <div class="result-highlight" id="result">尚未抽籤</div>
+    </div>
+
+    <div class="history">
+      <div class="history-title">歷史紀錄</div>
+      <ul class="history-list" id="history-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    // 抽籤職業清單
+    const jobs = [
+      // 食（餐飲）
+      "廚師",
+      "調酒師",
+      "咖啡師",
+      "餐廳服務生",
+      "外送員",
+      "飲料店店員",
+      "烘焙師",
+
+      // 衣（美業）
+      "造型師",
+      "美髮師",
+      "化妝師",
+      "美甲師",
+      "服飾店員",
+      "模特兒",
+
+      // 住（建築 / 房產 / 維修）
+      "建築師",
+      "室內設計師",
+      "房仲業務",
+      "水電工",
+      "清潔人員",
+
+      // 行（交通 / 運輸）
+      "計程車司機",
+      "公車司機",
+      "客運司機",
+      "鐵路員工",
+      "飛行員",
+      "空服員",
+      "物流／倉儲人員",
+
+      // 育：學生
+      "小學生",
+      "國中生",
+      "高中生",
+      "大學生",
+
+      // 育：教職
+      "幼教老師",
+      "小學老師",
+      "國中老師",
+      "高中老師",
+      "大學教授",
+      "補習班老師",
+      "家教",
+      "教練",
+
+      // 樂
+      "演員",
+      "攝影師",
+      "導演",
+
+      // 資訊科技
+      "工程師",
+
+      // 商業 / 行銷 / 服務
+      "行銷人員",
+      "業務",
+      "客服",
+      "人資",
+      "財務／會計",
+      "行政助理",
+      "公關",
+      "企劃",
+      "超商店員",
+      "超市員工",
+      "百貨專櫃",
+      "書店店員",
+      "電影院員工",
+      "飯店櫃檯",
+      "房務員",
+      "導遊",
+      "領隊",
+      "觀光接待",
+
+      // 公共服務
+      "社工",
+
+      // 專業職業
+      "醫生",
+      "護士",
+      "心理諮商師"
+    ];
+
+    // S / M 傾向
+    const roles = ["S", "M"];
+
+    const card = document.getElementById("card");
+    const cardMain = document.getElementById("card-main");
+    const cardHint = document.getElementById("card-hint");
+    const drawBtn = document.getElementById("draw-btn");
+    const resultEl = document.getElementById("result");
+    const historyList = document.getElementById("history-list");
+
+    let isDrawing = false;
+
+    function randomSM() {
+      return roles[Math.floor(Math.random() * roles.length)];
+    }
+
+    function drawCard() {
+      if (isDrawing) return;
+
+      isDrawing = true;
+      drawBtn.disabled = true;
+
+      card.classList.add("shuffling");
+      cardMain.textContent = "…";
+      cardHint.textContent = "洗牌中";
+
+      const shuffleDuration = 900; // 總洗牌時間 ms
+      const intervalTime = 90;
+      let elapsed = 0;
+
+      const shuffleTimer = setInterval(() => {
+        const randomJob = jobs[Math.floor(Math.random() * jobs.length)];
+        const tempRole = randomSM();
+        cardMain.textContent = `${randomJob}（${tempRole}）`;
+        elapsed += intervalTime;
+
+        if (elapsed >= shuffleDuration) {
+          clearInterval(shuffleTimer);
+
+          const chosenJob = jobs[Math.floor(Math.random() * jobs.length)];
+          const chosenRole = randomSM();
+          const displayText = `${chosenJob}（${chosenRole}）`;
+
+          setTimeout(() => {
+            card.classList.remove("shuffling");
+            cardMain.textContent = displayText;
+            cardHint.textContent = "今天抽到的角色";
+
+            resultEl.textContent = displayText;
+
+            const li = document.createElement("li");
+            li.textContent = displayText;
+            historyList.prepend(li);
+
+            isDrawing = false;
+            drawBtn.disabled = false;
+          }, 130);
+        }
+      }, intervalTime);
+    }
+
+    card.addEventListener("click", drawCard);
+    drawBtn.addEventListener("click", drawCard);
+  </script>
+</body>
+</html>
