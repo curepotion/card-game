@@ -12,28 +12,31 @@
     * {
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Noto Sans TC", system-ui, sans-serif;
+        "Noto Serif SC", "Noto Serif TC", "Source Han Serif SC", "Source Han Serif TC", serif, system-ui, sans-serif;
     }
 
     :root {
-      --bg-black: #020617;
-      --card-black: #020617;
-      --panel-black: #050816;
-      --border-gold: #facc15;
-      --gold: #facc15;
-      --gold-soft: #f5d76e;
-      --text-main: #facc15;
-      --text-sub: #e5e7eb;
-      --text-muted: #9ca3af;
-      --gray-border: #4b5563;
+      --bg-black: #1C1C1C;
+      --card-black: #252525;
+      --panel-black: #2F2F2F;
+      --border-gold: #c59e6b;
+      --gold: #c59e6b;
+      --gold-bright: #D4AF37;
+      --gold-soft: #d4ac6e;
+      --gold-bronze: #A08334;
+      --gold-dark: #8b6a46;
+      --text-main: #c59e6b;
+      --text-sub: #CCCCCC;
+      --text-muted: #888888;
+      --gray-border: #444444;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at top, rgba(250, 204, 21, 0.12), transparent 55%),
-        radial-gradient(circle at bottom, rgba(148, 163, 184, 0.18), transparent 60%),
+        radial-gradient(circle at top, rgba(197, 158, 107, 0.15), transparent 55%),
+        radial-gradient(circle at bottom, rgba(139, 106, 70, 0.12), transparent 60%),
         var(--bg-black);
       color: var(--text-main);
       padding: 0;
@@ -45,9 +48,9 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(2, 6, 23, 0.95);
+      background: rgba(28, 28, 28, 0.95);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(250, 204, 21, 0.3);
+      border-bottom: 1px solid rgba(197, 158, 107, 0.3);
       padding: 12px 16px;
     }
 
@@ -63,7 +66,7 @@
       flex: 1;
       padding: 10px 16px;
       background: transparent;
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 8px;
       color: var(--text-muted);
       font-size: 14px;
@@ -75,15 +78,15 @@
     }
 
     .nav-tab:hover {
-      border-color: rgba(250, 204, 21, 0.5);
+      border-color: rgba(197, 158, 107, 0.5);
       color: var(--text-sub);
     }
 
     .nav-tab.active {
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(250, 204, 21, 0.1));
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.25), rgba(197, 158, 107, 0.15));
       border-color: var(--gold);
       color: var(--gold);
-      box-shadow: 0 0 12px rgba(250, 204, 21, 0.3);
+      box-shadow: 0 0 12px rgba(197, 158, 107, 0.4);
     }
 
     /* Page Container */
@@ -136,6 +139,52 @@
       justify-content: center;
     }
 
+    /* Games Page with Tabs */
+    #games-page.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .game-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 0 40px;
+      justify-content: center;
+    }
+
+    .game-tab {
+      padding: 10px 24px;
+      background: rgba(68, 68, 68, 0.3);
+      border: 1px solid rgba(68, 68, 68, 0.4);
+      border-radius: 12px;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .game-tab:hover {
+      background: rgba(68, 68, 68, 0.4);
+      border-color: rgba(197, 158, 107, 0.4);
+    }
+
+    .game-tab.active {
+      background: rgba(197, 158, 107, 0.2);
+      border-color: rgba(197, 158, 107, 0.6);
+      color: var(--text-main);
+    }
+
+    .game-content {
+      display: none;
+    }
+
+    .game-content.active {
+      display: block;
+    }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -149,11 +198,11 @@
 
     /* App Card Style */
     .app {
-      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
+      background: radial-gradient(circle at top left, #2F2F2F, #252525 55%, #1C1C1C);
       border-radius: 20px;
       box-shadow:
         0 20px 55px rgba(0, 0, 0, 0.85),
-        0 0 0 1px rgba(148, 163, 184, 0.3);
+        0 0 0 1px rgba(197, 158, 107, 0.3);
       padding: 22px 20px 26px;
       width: 100%;
       color: var(--text-main);
@@ -182,9 +231,10 @@
     .card-wrapper {
       display: flex;
       justify-content: center;
+      align-items: center;
       margin-top: 24px;
       margin-bottom: 16px;
-      padding: 0 16px;
+      padding: 20px 40px;
     }
 
     .card {
@@ -193,13 +243,13 @@
       min-height: 200px;
       border-radius: 24px;
       background:
-        radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.15), transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(148, 163, 184, 0.12), transparent 50%),
-        linear-gradient(135deg, rgba(2, 6, 23, 0.95), rgba(1, 4, 15, 0.98));
+        radial-gradient(circle at 20% 30%, rgba(197, 158, 107, 0.18), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 106, 70, 0.15), transparent 50%),
+        linear-gradient(135deg, rgba(37, 37, 37, 0.95), rgba(28, 28, 28, 0.98));
       box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.95),
-        0 0 0 1px rgba(250, 204, 21, 0.25),
-        inset 0 1px 0 rgba(250, 204, 21, 0.1);
+        0 0 0 1px rgba(197, 158, 107, 0.3),
+        inset 0 1px 0 rgba(197, 158, 107, 0.15);
       color: var(--text-sub);
       padding: 28px 24px;
       display: flex;
@@ -219,10 +269,10 @@
       border-radius: inherit;
       background: linear-gradient(
         135deg,
-        rgba(250, 204, 21, 0.08) 0%,
+        rgba(197, 158, 107, 0.1) 0%,
         transparent 30%,
         transparent 70%,
-        rgba(148, 163, 184, 0.06) 100%
+        rgba(139, 106, 70, 0.08) 100%
       );
       pointer-events: none;
       z-index: 0;
@@ -235,7 +285,7 @@
       border-radius: inherit;
       background: linear-gradient(
         180deg,
-        rgba(250, 204, 21, 0.1) 0%,
+        rgba(197, 158, 107, 0.12) 0%,
         transparent 50%,
         transparent 100%
       );
@@ -249,27 +299,27 @@
       transform: translateY(-4px) scale(1.01);
       box-shadow:
         0 28px 60px rgba(0, 0, 0, 0.98),
-        0 0 0 1px rgba(250, 204, 21, 0.4),
-        inset 0 1px 0 rgba(250, 204, 21, 0.15);
+        0 0 0 1px rgba(197, 158, 107, 0.45),
+        inset 0 1px 0 rgba(197, 158, 107, 0.2);
       background:
-        radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.2), transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(148, 163, 184, 0.15), transparent 50%),
-        linear-gradient(135deg, rgba(2, 6, 23, 0.95), rgba(1, 4, 15, 0.98));
+        radial-gradient(circle at 20% 30%, rgba(197, 158, 107, 0.25), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 106, 70, 0.2), transparent 50%),
+        linear-gradient(135deg, rgba(37, 37, 37, 0.95), rgba(28, 28, 28, 0.98));
     }
 
     .card:active {
       transform: translateY(-1px) scale(0.998);
       box-shadow:
         0 16px 35px rgba(0, 0, 0, 0.95),
-        0 0 0 1px rgba(250, 204, 21, 0.35),
-        inset 0 1px 0 rgba(250, 204, 21, 0.12);
+        0 0 0 1px rgba(197, 158, 107, 0.4),
+        inset 0 1px 0 rgba(197, 158, 107, 0.18);
     }
 
     .card-title {
       font-size: 10px;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: rgba(148, 163, 184, 0.6);
+      color: rgba(136, 136, 136, 0.7);
       margin-bottom: 16px;
       position: relative;
       z-index: 1;
@@ -283,7 +333,7 @@
       text-align: center;
       position: relative;
       z-index: 1;
-      color: rgba(250, 204, 21, 0.95);
+      color: rgba(197, 158, 107, 0.95);
       line-height: 1.5;
       letter-spacing: 0.02em;
       margin: 0;
@@ -312,22 +362,22 @@
       justify-content: center;
       font-size: 14px;
       font-weight: 500;
-      color: rgba(250, 204, 21, 0.85);
+      color: rgba(197, 158, 107, 0.9);
       margin: 0;
       padding: 8px 16px;
-      background: rgba(250, 204, 21, 0.08);
+      background: rgba(197, 158, 107, 0.12);
       border-radius: 12px;
-      border: 1px solid rgba(250, 204, 21, 0.2);
+      border: 1px solid rgba(197, 158, 107, 0.25);
       width: fit-content;
       position: relative;
       z-index: 1;
     }
 
     .card-attitude::before {
-      content: "態度";
+      content: "中文";
       font-size: 10px;
       letter-spacing: 0.1em;
-      color: rgba(250, 204, 21, 0.5);
+      color: rgba(197, 158, 107, 0.6);
       margin-right: 8px;
       font-weight: 600;
       text-transform: uppercase;
@@ -335,29 +385,53 @@
 
     .card-scene {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       font-weight: 500;
-      color: rgba(148, 163, 184, 0.9);
+      color: rgba(204, 204, 204, 0.9);
       margin: 0;
       padding: 8px 16px;
-      background: rgba(148, 163, 184, 0.06);
+      background: rgba(68, 68, 68, 0.3);
       border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      border: 1px solid rgba(68, 68, 68, 0.4);
       width: fit-content;
       position: relative;
       z-index: 1;
+      gap: 4px;
     }
 
     .card-scene::before {
-      content: "場景";
+      content: "韓文";
       font-size: 10px;
       letter-spacing: 0.1em;
-      color: rgba(148, 163, 184, 0.5);
-      margin-right: 8px;
+      color: rgba(136, 136, 136, 0.6);
+      margin-bottom: 4px;
       font-weight: 600;
       text-transform: uppercase;
+    }
+
+    .card-scene .korean-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(204, 204, 204, 0.9);
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .card-scene .korean-roman {
+      font-size: 10px;
+      font-weight: 400;
+      color: rgba(136, 136, 136, 0.7);
+      font-style: italic;
+      margin-top: 4px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      width: auto;
+      line-height: 1.3;
+      text-align: center;
     }
 
     .result-attitude {
@@ -365,19 +439,19 @@
       align-items: center;
       font-size: 13px;
       font-weight: 500;
-      color: rgba(250, 204, 21, 0.85);
+      color: rgba(197, 158, 107, 0.9);
       margin-top: 8px;
       padding: 6px 12px;
-      background: rgba(250, 204, 21, 0.08);
+      background: rgba(197, 158, 107, 0.12);
       border-radius: 8px;
-      border: 1px solid rgba(250, 204, 21, 0.2);
+      border: 1px solid rgba(197, 158, 107, 0.25);
     }
 
     .result-attitude::before {
-      content: "態度";
+      content: "中文";
       font-size: 9px;
       letter-spacing: 0.1em;
-      color: rgba(250, 204, 21, 0.5);
+      color: rgba(197, 158, 107, 0.6);
       margin-right: 6px;
       font-weight: 600;
       text-transform: uppercase;
@@ -385,31 +459,55 @@
 
     .result-scene {
       display: inline-flex;
+      flex-direction: column;
       align-items: center;
       font-size: 13px;
       font-weight: 500;
-      color: rgba(148, 163, 184, 0.9);
+      color: rgba(204, 204, 204, 0.9);
       margin-top: 8px;
       padding: 6px 12px;
-      background: rgba(148, 163, 184, 0.06);
+      background: rgba(68, 68, 68, 0.3);
       border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      border: 1px solid rgba(68, 68, 68, 0.4);
+      gap: 3px;
     }
 
     .result-scene::before {
-      content: "場景";
+      content: "韓文";
       font-size: 9px;
       letter-spacing: 0.1em;
-      color: rgba(148, 163, 184, 0.5);
-      margin-right: 6px;
+      color: rgba(136, 136, 136, 0.6);
+      margin-bottom: 3px;
       font-weight: 600;
       text-transform: uppercase;
+    }
+
+    .result-scene .korean-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(204, 204, 204, 0.9);
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .result-scene .korean-roman {
+      font-size: 9px;
+      font-weight: 400;
+      color: rgba(136, 136, 136, 0.7);
+      font-style: italic;
+      margin-top: 3px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      width: auto;
+      line-height: 1.3;
+      text-align: center;
     }
 
     .card-hint {
       margin-top: 16px;
       font-size: 11px;
-      color: rgba(148, 163, 184, 0.5);
+      color: rgba(136, 136, 136, 0.6);
       position: relative;
       z-index: 1;
       text-align: center;
@@ -421,6 +519,11 @@
     #story-plots-page .app {
       max-width: 100%;
       width: 100%;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      padding: 0;
     }
 
     /* Story Cards Grid */
@@ -434,9 +537,9 @@
 
     .story-card {
       background:
-        radial-gradient(circle at top left, rgba(250, 204, 21, 0.2), transparent 50%),
+        radial-gradient(circle at top left, rgba(197, 158, 107, 0.25), transparent 50%),
         var(--card-black);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 16px;
       padding: 20px;
       cursor: pointer;
@@ -452,7 +555,7 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, var(--gold), transparent);
+      background: linear-gradient(90deg, rgba(197, 158, 107, 0.8), transparent);
       opacity: 0;
       transition: opacity 0.2s ease;
     }
@@ -510,14 +613,14 @@
       justify-content: space-between;
       padding: 20px 0;
       margin-top: 20px;
-      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+      border-bottom: 1px solid rgba(197, 158, 107, 0.25);
     }
 
     .calendar-nav-btn {
       width: 40px;
       height: 40px;
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(197, 158, 107, 0.15);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 8px;
       color: var(--gold);
       font-size: 24px;
@@ -530,7 +633,7 @@
     }
 
     .calendar-nav-btn:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: scale(1.1);
     }
@@ -544,8 +647,8 @@
     }
 
     .date-selector-btn {
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(197, 158, 107, 0.15);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 8px;
       padding: 8px 16px;
       color: var(--gold);
@@ -557,7 +660,7 @@
     }
 
     .date-selector-btn:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: translateY(-2px);
     }
@@ -598,8 +701,8 @@
 
     .calendar-day {
       aspect-ratio: 1;
-      background: rgba(2, 6, 23, 0.4);
-      border: 1px solid rgba(250, 204, 21, 0.2);
+      background: rgba(37, 37, 37, 0.5);
+      border: 1px solid rgba(197, 158, 107, 0.25);
       border-radius: 8px;
       display: flex;
       flex-direction: column;
@@ -623,25 +726,25 @@
     }
 
     .calendar-day:hover {
-      background: rgba(250, 204, 21, 0.1);
+      background: rgba(197, 158, 107, 0.15);
       border-color: var(--gold);
       transform: translateY(-2px);
     }
 
     .calendar-day.other-month {
       opacity: 0.3;
-      background: rgba(2, 6, 23, 0.2);
+      background: rgba(37, 37, 37, 0.3);
     }
 
     .calendar-day.today {
       border-color: var(--gold);
-      background: rgba(250, 204, 21, 0.15);
-      box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.3);
+      background: rgba(197, 158, 107, 0.2);
+      box-shadow: 0 0 0 2px rgba(197, 158, 107, 0.4);
     }
 
     .calendar-day.has-articles {
       border-color: var(--gold);
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
     }
 
     .calendar-day-number {
@@ -659,7 +762,7 @@
     .calendar-day-articles-count {
       font-size: 10px;
       color: var(--gold);
-      background: rgba(250, 204, 21, 0.3);
+      background: rgba(197, 158, 107, 0.35);
       border-radius: 10px;
       padding: 2px 6px;
       margin-top: 4px;
@@ -688,8 +791,8 @@
     }
 
     .year-month-modal-content {
-      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
-      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: radial-gradient(circle at top left, #2F2F2F, #252525 55%, #1C1C1C);
+      border: 1px solid rgba(197, 158, 107, 0.45);
       border-radius: 20px;
       padding: 24px;
       max-width: 400px;
@@ -704,7 +807,7 @@
       top: 16px;
       right: 16px;
       background: transparent;
-      border: 1px solid rgba(250, 204, 21, 0.4);
+      border: 1px solid rgba(197, 158, 107, 0.45);
       color: var(--gold);
       width: 32px;
       height: 32px;
@@ -718,7 +821,7 @@
     }
 
     .year-month-modal-close:hover {
-      background: rgba(250, 204, 21, 0.1);
+      background: rgba(197, 158, 107, 0.15);
       border-color: var(--gold);
     }
 
@@ -740,8 +843,8 @@
 
     .year-month-item {
       padding: 12px;
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(197, 158, 107, 0.15);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 8px;
       color: var(--text-sub);
       font-size: 14px;
@@ -752,14 +855,14 @@
     }
 
     .year-month-item:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       color: var(--gold);
       transform: translateY(-2px);
     }
 
     .year-month-item.selected {
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.3), rgba(250, 204, 21, 0.2));
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.35), rgba(197, 158, 107, 0.25));
       border-color: var(--gold);
       color: var(--gold);
       font-weight: 600;
@@ -785,8 +888,8 @@
     .date-articles-container .date-articles-inner {
       max-width: 1200px;
       margin: 0 auto;
-      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: radial-gradient(circle at top left, #2F2F2F, #252525 55%, #1C1C1C);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 12px;
       padding: 24px;
       margin-top: 40px;
@@ -799,7 +902,7 @@
       align-items: center;
       margin-bottom: 24px;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+      border-bottom: 1px solid rgba(197, 158, 107, 0.25);
     }
 
     .selected-date-title {
@@ -813,7 +916,7 @@
       width: 32px;
       height: 32px;
       background: transparent;
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 50%;
       color: var(--gold);
       font-size: 20px;
@@ -825,7 +928,7 @@
     }
 
     .btn-close-articles:hover {
-      background: rgba(250, 204, 21, 0.1);
+      background: rgba(197, 158, 107, 0.15);
       border-color: var(--gold);
     }
 
@@ -839,7 +942,7 @@
     .schedule-section {
       margin-bottom: 24px;
       padding-bottom: 24px;
-      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+      border-bottom: 1px solid rgba(197, 158, 107, 0.25);
     }
 
     .schedule-header {
@@ -857,8 +960,8 @@
     }
 
     .btn-add-schedule {
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(197, 158, 107, 0.15);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 8px;
       color: var(--gold);
       padding: 8px 16px;
@@ -869,7 +972,7 @@
     }
 
     .btn-add-schedule:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: translateY(-2px);
     }
@@ -881,8 +984,8 @@
     }
 
     .schedule-item {
-      background: rgba(2, 6, 23, 0.6);
-      border: 1px solid rgba(250, 204, 21, 0.2);
+      background: rgba(37, 37, 37, 0.7);
+      border: 1px solid rgba(197, 158, 107, 0.25);
       border-radius: 8px;
       padding: 16px;
       display: flex;
@@ -893,8 +996,8 @@
     }
 
     .schedule-item:hover {
-      border-color: rgba(250, 204, 21, 0.4);
-      background: rgba(2, 6, 23, 0.8);
+      border-color: rgba(197, 158, 107, 0.45);
+      background: rgba(37, 37, 37, 0.85);
     }
 
     .schedule-item-content {
@@ -934,7 +1037,7 @@
       width: 32px;
       height: 32px;
       background: transparent;
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 6px;
       color: var(--gold);
       font-size: 14px;
@@ -946,7 +1049,7 @@
     }
 
     .schedule-item-btn:hover {
-      background: rgba(250, 204, 21, 0.1);
+      background: rgba(197, 158, 107, 0.15);
       border-color: var(--gold);
     }
 
@@ -998,8 +1101,8 @@
     }
 
     .schedule-modal-content {
-      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
-      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: radial-gradient(circle at top left, #2F2F2F, #252525 55%, #1C1C1C);
+      border: 1px solid rgba(197, 158, 107, 0.45);
       border-radius: 20px;
       padding: 24px;
       max-width: 500px;
@@ -1014,7 +1117,7 @@
       top: 16px;
       right: 16px;
       background: transparent;
-      border: 1px solid rgba(250, 204, 21, 0.4);
+      border: 1px solid rgba(197, 158, 107, 0.45);
       color: var(--gold);
       width: 32px;
       height: 32px;
@@ -1028,7 +1131,7 @@
     }
 
     .schedule-modal-close:hover {
-      background: rgba(250, 204, 21, 0.1);
+      background: rgba(197, 158, 107, 0.15);
       border-color: var(--gold);
     }
 
@@ -1055,8 +1158,8 @@
     .schedule-form-input {
       width: 100%;
       padding: 12px 14px;
-      background: rgba(2, 6, 23, 0.6);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(37, 37, 37, 0.7);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 8px;
       color: var(--text-sub);
       font-size: 14px;
@@ -1067,7 +1170,7 @@
     .schedule-form-input:focus {
       outline: none;
       border-color: var(--gold);
-      background: rgba(2, 6, 23, 0.8);
+      background: rgba(37, 37, 37, 0.85);
     }
 
     .schedule-form-actions {
@@ -1089,24 +1192,24 @@
 
     .schedule-btn-cancel {
       background: transparent;
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       color: var(--text-sub);
     }
 
     .schedule-btn-cancel:hover {
-      background: rgba(250, 204, 21, 0.1);
+      background: rgba(197, 158, 107, 0.15);
       border-color: var(--gold);
       color: var(--gold);
     }
 
     .schedule-btn-save {
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.3), rgba(250, 204, 21, 0.2));
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.35), rgba(197, 158, 107, 0.25));
       border: 1px solid var(--gold);
       color: var(--gold);
     }
 
     .schedule-btn-save:hover {
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.4), rgba(250, 204, 21, 0.3));
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.45), rgba(197, 158, 107, 0.35));
       transform: translateY(-2px);
     }
 
@@ -1141,9 +1244,9 @@
       right: 0;
       bottom: 0;
       background:
-        radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.15), transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(250, 204, 21, 0.12), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.08), transparent 60%),
+        radial-gradient(circle at 20% 30%, rgba(197, 158, 107, 0.18), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 106, 70, 0.15), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(160, 131, 52, 0.1), transparent 60%),
         var(--bg-black);
       z-index: 0;
     }
@@ -1196,20 +1299,20 @@
       padding: 16px 40px;
       font-size: 16px;
       font-weight: 600;
-      background: linear-gradient(135deg, #facc15, #f5d76e);
-      color: #111827;
-      border: 2px solid rgba(250, 204, 21, 0.5);
+      background: linear-gradient(135deg, #c59e6b, #d4ac6e);
+      color: #1C1C1C;
+      border: 2px solid rgba(197, 158, 107, 0.6);
       border-radius: 999px;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(197, 158, 107, 0.4);
       letter-spacing: 0.05em;
     }
 
     .hero-cta-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(250, 204, 21, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.5);
-      background: linear-gradient(135deg, #f5d76e, #facc15);
+      box-shadow: 0 12px 32px rgba(197, 158, 107, 0.5), 0 0 0 1px rgba(197, 158, 107, 0.6);
+      background: linear-gradient(135deg, #d4ac6e, #c59e6b);
     }
 
     .hero-cta-primary:active {
@@ -1237,9 +1340,9 @@
       max-width: 600px;
       height: 300px;
       /* Placeholder for cover illustration */
-      background: radial-gradient(circle at center, rgba(250, 204, 21, 0.1), transparent 70%);
+      background: radial-gradient(circle at center, rgba(197, 158, 107, 0.15), transparent 70%);
       border-radius: 16px;
-      border: 1px dashed rgba(250, 204, 21, 0.3);
+      border: 1px dashed rgba(197, 158, 107, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1253,64 +1356,7 @@
       width: 100%;
     }
 
-    /* Truth & Dare Card Styles */
-    .card-main .truth-dare-english,
-    .truth-dare-english {
-      font-size: 18px;
-      font-weight: 700;
-      color: rgba(250, 204, 21, 0.95);
-      margin-bottom: 16px;
-      line-height: 1.5;
-      text-align: center;
-      width: 100%;
-    }
-
-    .card-main .truth-dare-chinese,
-    .truth-dare-chinese {
-      font-size: 16px;
-      font-weight: 500;
-      color: rgba(250, 204, 21, 0.85);
-      margin-bottom: 16px;
-      line-height: 1.6;
-      text-align: center;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
-      width: 100%;
-    }
-
-    .card-main .truth-dare-korean,
-    .truth-dare-korean {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      margin-top: 12px;
-      width: 100%;
-    }
-
-    .card-main .korean-text,
-    .korean-text {
-      font-size: 15px;
-      font-weight: 500;
-      color: rgba(148, 163, 184, 0.9);
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    .card-main .korean-roman,
-    .korean-roman {
-      font-size: 12px;
-      font-weight: 400;
-      color: rgba(148, 163, 184, 0.6);
-      font-style: italic;
-      line-height: 1.5;
-      text-align: center;
-      padding: 6px 12px;
-      background: rgba(148, 163, 184, 0.08);
-      border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.15);
-      width: fit-content;
-    }
+    /* Truth & Dare Game Page - Uses same card styles as role draw */
 
     .lovense-game-container {
       margin-top: 24px;
@@ -1326,8 +1372,8 @@
       align-items: center;
       gap: 12px;
       padding: 16px;
-      background: rgba(2, 6, 23, 0.6);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(37, 37, 37, 0.7);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 12px;
       margin-bottom: 24px;
     }
@@ -1363,8 +1409,8 @@
 
     /* Connection Panel */
     .connection-panel {
-      background: rgba(2, 6, 23, 0.4);
-      border: 1px solid rgba(250, 204, 21, 0.2);
+      background: rgba(37, 37, 37, 0.5);
+      border: 1px solid rgba(197, 158, 107, 0.25);
       border-radius: 12px;
       padding: 24px;
       margin-bottom: 24px;
@@ -1373,9 +1419,9 @@
     .btn-connect {
       width: 100%;
       padding: 12px 24px;
-      background: linear-gradient(135deg, #facc15, #f5d76e);
+      background: linear-gradient(135deg, #c59e6b, #d4ac6e);
       color: #111827;
-      border: 1px solid rgba(250, 204, 21, 0.5);
+      border: 1px solid rgba(197, 158, 107, 0.6);
       border-radius: 8px;
       font-size: 15px;
       font-weight: 600;
@@ -1386,7 +1432,7 @@
 
     .btn-connect:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+      box-shadow: 0 4px 12px rgba(197, 158, 107, 0.4);
     }
 
     .btn-connect:disabled {
@@ -1403,8 +1449,8 @@
     }
 
     .control-section {
-      background: rgba(2, 6, 23, 0.4);
-      border: 1px solid rgba(250, 204, 21, 0.2);
+      background: rgba(37, 37, 37, 0.5);
+      border: 1px solid rgba(197, 158, 107, 0.25);
       border-radius: 12px;
       padding: 24px;
     }
@@ -1432,7 +1478,7 @@
       width: 100%;
       height: 6px;
       border-radius: 3px;
-      background: rgba(148, 163, 184, 0.2);
+      background: rgba(68, 68, 68, 0.4);
       outline: none;
       -webkit-appearance: none;
       appearance: none;
@@ -1446,13 +1492,13 @@
       border-radius: 50%;
       background: var(--gold);
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+      box-shadow: 0 2px 8px rgba(197, 158, 107, 0.5);
       transition: all 0.2s ease;
     }
 
     .slider::-webkit-slider-thumb:hover {
       transform: scale(1.2);
-      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.6);
+      box-shadow: 0 4px 12px rgba(197, 158, 107, 0.7);
     }
 
     .slider::-moz-range-thumb {
@@ -1462,7 +1508,7 @@
       background: var(--gold);
       cursor: pointer;
       border: none;
-      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+      box-shadow: 0 2px 8px rgba(197, 158, 107, 0.5);
     }
 
     .control-buttons {
@@ -1474,8 +1520,8 @@
     .btn-control {
       flex: 1;
       padding: 12px 24px;
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: rgba(197, 158, 107, 0.15);
+      border: 1px solid rgba(197, 158, 107, 0.45);
       border-radius: 8px;
       color: var(--gold);
       font-size: 14px;
@@ -1485,7 +1531,7 @@
     }
 
     .btn-control:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: translateY(-2px);
     }
@@ -1495,7 +1541,7 @@
     }
 
     .btn-control.active {
-      background: linear-gradient(135deg, #facc15, #f5d76e);
+      background: linear-gradient(135deg, #c59e6b, #d4ac6e);
       color: #111827;
       border-color: var(--gold);
     }
@@ -1509,8 +1555,8 @@
 
     .pattern-btn {
       padding: 12px 16px;
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(197, 158, 107, 0.15);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 8px;
       color: var(--text-sub);
       font-size: 14px;
@@ -1520,14 +1566,14 @@
     }
 
     .pattern-btn:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       color: var(--gold);
       transform: translateY(-2px);
     }
 
     .pattern-btn.active {
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.3), rgba(250, 204, 21, 0.2));
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.35), rgba(197, 158, 107, 0.25));
       border-color: var(--gold);
       color: var(--gold);
     }
@@ -1541,8 +1587,8 @@
 
     .game-btn {
       padding: 14px 24px;
-      background: rgba(250, 204, 21, 0.1);
-      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: rgba(197, 158, 107, 0.15);
+      border: 1px solid rgba(197, 158, 107, 0.45);
       border-radius: 8px;
       color: var(--gold);
       font-size: 15px;
@@ -1553,10 +1599,10 @@
     }
 
     .game-btn:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.2);
+      box-shadow: 0 4px 12px rgba(197, 158, 107, 0.3);
     }
 
     .articles-container {
@@ -1565,9 +1611,9 @@
     }
 
     .article-item {
-      background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.15), transparent 50%),
+      background: radial-gradient(circle at top left, rgba(197, 158, 107, 0.18), transparent 50%),
         var(--card-black);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 16px;
@@ -1609,8 +1655,8 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 1px solid rgba(250, 204, 21, 0.4);
-      background: rgba(2, 6, 23, 0.8);
+      border: 1px solid rgba(197, 158, 107, 0.45);
+      background: rgba(37, 37, 37, 0.85);
       color: var(--gold);
       cursor: pointer;
       display: flex;
@@ -1622,7 +1668,7 @@
     }
 
     .article-item-btn:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: scale(1.1);
     }
@@ -1670,8 +1716,8 @@
     }
 
     .add-article-btn {
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(250, 204, 21, 0.1));
-      border: 2px dashed rgba(250, 204, 21, 0.5);
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.25), rgba(197, 158, 107, 0.15));
+      border: 2px dashed rgba(197, 158, 107, 0.6);
       border-radius: 12px;
       padding: 24px;
       text-align: center;
@@ -1685,7 +1731,7 @@
 
     .add-article-btn:hover {
       border-color: var(--gold);
-      background: rgba(250, 204, 21, 0.15);
+      background: rgba(197, 158, 107, 0.2);
       transform: translateY(-2px);
     }
 
@@ -1711,8 +1757,8 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 1px solid rgba(250, 204, 21, 0.4);
-      background: rgba(2, 6, 23, 0.8);
+      border: 1px solid rgba(197, 158, 107, 0.45);
+      background: rgba(37, 37, 37, 0.85);
       color: var(--gold);
       cursor: pointer;
       display: flex;
@@ -1724,7 +1770,7 @@
     }
 
     .story-card-edit-btn:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: scale(1.1);
     }
@@ -1744,8 +1790,8 @@
       width: 64px;
       height: 64px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #facc15, #f5d76e);
-      border: 2px solid rgba(250, 204, 21, 0.5);
+      background: linear-gradient(135deg, #c59e6b, #d4ac6e);
+      border: 2px solid rgba(197, 158, 107, 0.6);
       color: #111827;
       font-size: 36px;
       font-weight: 300;
@@ -1753,7 +1799,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(197, 158, 107, 0.4);
       transition: all 0.3s ease;
       z-index: 999;
       line-height: 1;
@@ -1761,8 +1807,8 @@
 
     .add-story-btn:hover {
       transform: scale(1.1) translateY(-2px);
-      box-shadow: 0 12px 32px rgba(250, 204, 21, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.5);
-      background: linear-gradient(135deg, #f5d76e, #facc15);
+      box-shadow: 0 12px 32px rgba(197, 158, 107, 0.5), 0 0 0 1px rgba(197, 158, 107, 0.6);
+      background: linear-gradient(135deg, #d4ac6e, #c59e6b);
     }
 
     .add-story-btn:active {
@@ -1795,8 +1841,8 @@
     .form-textarea {
       width: 100%;
       padding: 14px 16px;
-      background: rgba(2, 6, 23, 0.7);
-      border: 1px solid rgba(250, 204, 21, 0.3);
+      background: rgba(37, 37, 37, 0.75);
+      border: 1px solid rgba(197, 158, 107, 0.3);
       border-radius: 10px;
       color: var(--text-sub);
       font-size: 16px;
@@ -1816,8 +1862,8 @@
     .form-textarea:focus {
       outline: none;
       border-color: var(--gold);
-      background: rgba(2, 6, 23, 0.85);
-      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
+      background: rgba(37, 37, 37, 0.9);
+      box-shadow: 0 0 0 3px rgba(197, 158, 107, 0.15);
     }
 
     .form-input {
@@ -1851,7 +1897,7 @@
 
     .btn-cancel {
       background: transparent;
-      border-color: rgba(148, 163, 184, 0.4);
+      border-color: rgba(68, 68, 68, 0.5);
       color: var(--text-muted);
     }
 
@@ -1861,14 +1907,14 @@
     }
 
     .btn-save {
-      background: linear-gradient(135deg, #facc15, #f5d76e);
-      border-color: rgba(250, 204, 21, 0.7);
+      background: linear-gradient(135deg, #c59e6b, #d4ac6e);
+      border-color: rgba(197, 158, 107, 0.75);
       color: #111827;
     }
 
     .btn-save:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+      box-shadow: 0 4px 12px rgba(197, 158, 107, 0.4);
     }
 
     /* Modal for Story Details */
@@ -1892,7 +1938,7 @@
     }
 
     .modal-content {
-      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
+      background: radial-gradient(circle at top left, #2F2F2F, #252525 55%, #1C1C1C);
       border: none;
       border-radius: 0;
       padding: 0;
@@ -1907,8 +1953,8 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      background: rgba(2, 6, 23, 0.9);
-      border: 1px solid rgba(250, 204, 21, 0.5);
+      background: rgba(37, 37, 37, 0.95);
+      border: 1px solid rgba(197, 158, 107, 0.6);
       color: var(--gold);
       width: 44px;
       height: 44px;
@@ -1924,7 +1970,7 @@
     }
 
     .modal-close:hover {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
       transform: scale(1.1);
     }
@@ -1936,8 +1982,8 @@
       margin: 0;
       padding: 80px 20px 30px;
       text-align: center;
-      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
-      background: rgba(250, 204, 21, 0.05);
+      border-bottom: 1px solid rgba(197, 158, 107, 0.25);
+      background: rgba(197, 158, 107, 0.08);
     }
 
     .modal-body {
@@ -1954,7 +2000,7 @@
 
     /* 文章内容样式 - 大标题 */
     .modal-body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Noto Sans TC", system-ui, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Noto Serif SC", "Noto Serif TC", "Source Han Serif SC", "Source Han Serif TC", serif, system-ui, sans-serif;
     }
 
     /* 使用CSS来样式化文本内容 */
@@ -1970,7 +2016,7 @@
       color: var(--gold);
       margin: 32px 0 20px;
       padding-bottom: 16px;
-      border-bottom: 2px solid rgba(250, 204, 21, 0.3);
+      border-bottom: 2px solid rgba(197, 158, 107, 0.4);
       letter-spacing: 0.05em;
       text-align: center;
     }
@@ -1985,8 +2031,8 @@
       color: var(--gold-soft);
       margin: 32px 0 16px;
       padding: 12px 0 12px 12px;
-      border-left: 4px solid rgba(250, 204, 21, 0.6);
-      background: rgba(250, 204, 21, 0.05);
+      border-left: 4px solid rgba(197, 158, 107, 0.7);
+      background: rgba(197, 158, 107, 0.08);
       letter-spacing: 0.03em;
     }
 
@@ -1996,9 +2042,9 @@
       color: var(--text-muted);
       margin: 20px 0 16px;
       padding: 8px 0 8px 16px;
-      border-left: 2px solid rgba(250, 204, 21, 0.3);
+      border-left: 2px solid rgba(197, 158, 107, 0.4);
       font-style: italic;
-      background: rgba(148, 163, 184, 0.05);
+      background: rgba(68, 68, 68, 0.2);
     }
 
     .article-content {
@@ -2016,7 +2062,7 @@
       color: var(--gold-soft);
       margin: 24px 0 12px;
       padding: 8px 12px;
-      background: rgba(250, 204, 21, 0.08);
+      background: rgba(197, 158, 107, 0.12);
       border-radius: 6px;
       display: inline-block;
     }
@@ -2041,7 +2087,7 @@
       align-items: center;
       gap: 16px;
       margin-top: 20px;
-      padding: 0 16px;
+      padding: 0 40px;
     }
 
     #draw-btn {
@@ -2049,15 +2095,15 @@
       outline: none;
       padding: 12px 32px;
       border-radius: 12px;
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.95), rgba(250, 204, 21, 0.85));
-      color: rgba(2, 6, 23, 0.95);
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.95), rgba(197, 158, 107, 0.85));
+      color: rgba(28, 28, 28, 0.95);
       font-weight: 700;
       letter-spacing: 0.1em;
       cursor: pointer;
       font-size: 13px;
       box-shadow:
-        0 8px 24px rgba(250, 204, 21, 0.3),
-        0 0 0 1px rgba(250, 204, 21, 0.4),
+        0 8px 24px rgba(197, 158, 107, 0.4),
+        0 0 0 1px rgba(197, 158, 107, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
@@ -2068,16 +2114,16 @@
     #draw-btn:hover {
       transform: translateY(-2px);
       box-shadow:
-        0 12px 32px rgba(250, 204, 21, 0.4),
-        0 0 0 1px rgba(250, 204, 21, 0.5);
-      background: linear-gradient(135deg, rgba(250, 204, 21, 1), rgba(250, 204, 21, 0.9));
+        0 12px 32px rgba(197, 158, 107, 0.5),
+        0 0 0 1px rgba(197, 158, 107, 0.6);
+      background: linear-gradient(135deg, rgba(197, 158, 107, 1), rgba(197, 158, 107, 0.9));
     }
 
     #draw-btn:active {
       transform: translateY(0px);
       box-shadow:
-        0 4px 16px rgba(250, 204, 21, 0.3),
-        0 0 0 1px rgba(250, 204, 21, 0.4);
+        0 4px 16px rgba(197, 158, 107, 0.4),
+        0 0 0 1px rgba(197, 158, 107, 0.5);
       filter: brightness(0.95);
     }
 
@@ -2086,15 +2132,15 @@
       cursor: default;
       box-shadow:
         0 4px 10px rgba(0, 0, 0, 0.85),
-        0 0 0 1px rgba(148, 163, 184, 0.6);
-      background: linear-gradient(135deg, #facc15, #e5e7eb);
+        0 0 0 1px rgba(68, 68, 68, 0.7);
+      background: linear-gradient(135deg, #c59e6b, #CCCCCC);
     }
 
     .result {
       margin-top: 0;
       text-align: center;
       font-size: 13px;
-      color: rgba(148, 163, 184, 0.6);
+      color: rgba(136, 136, 136, 0.7);
       font-weight: 500;
       letter-spacing: 0.05em;
     }
@@ -2103,7 +2149,7 @@
       margin-top: 12px;
       font-size: 20px;
       font-weight: 700;
-      color: rgba(250, 204, 21, 0.95);
+      color: rgba(197, 158, 107, 0.95);
       text-align: center;
       line-height: 1.6;
       letter-spacing: 0.02em;
@@ -2113,35 +2159,12 @@
       gap: 8px;
     }
 
-    /* Truth & Dare Result Styles */
-    #truth-dare-result .truth-dare-english {
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
-
-    #truth-dare-result .truth-dare-chinese {
-      font-size: 15px;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-    }
-
-    #truth-dare-result .truth-dare-korean {
-      margin-top: 8px;
-    }
-
-    #truth-dare-result .korean-text {
-      font-size: 14px;
-    }
-
-    #truth-dare-result .korean-roman {
-      font-size: 11px;
-      padding: 5px 10px;
-    }
+    /* Truth & Dare Result Styles - Uses same styles as role draw */
 
     .history {
       margin-top: 18px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 12px 40px 0;
+      border-top: 1px solid rgba(68, 68, 68, 0.5);
     }
 
     .history-title {
@@ -2191,8 +2214,15 @@
         letter-spacing: 0.14em;
       }
 
+      .card-wrapper {
+        padding: 0;
+        margin-top: 20px;
+        margin-bottom: 12px;
+      }
+
       .card {
         max-width: 100%;
+        width: 100%;
         padding: 24px 20px;
         border-radius: 20px;
         min-height: 180px;
@@ -2231,50 +2261,29 @@
         padding: 5px 10px;
       }
 
+      .controls {
+        padding: 0;
+      }
+
       #draw-btn {
         width: 100%;
         max-width: 260px;
       }
 
-      /* Truth & Dare Mobile Styles */
-      .truth-dare-english {
-        font-size: 16px;
-        margin-bottom: 12px;
+      /* Truth & Dare Mobile Styles - Uses same styles as role draw */
+      .history {
+        padding: 12px 0 0;
       }
 
-      .truth-dare-chinese {
-        font-size: 14px;
-        margin-bottom: 12px;
-        padding-bottom: 12px;
+      .game-tabs {
+        padding: 0;
+        gap: 8px;
+        margin-bottom: 20px;
       }
 
-      .korean-text {
+      .game-tab {
+        padding: 8px 16px;
         font-size: 13px;
-      }
-
-      .korean-roman {
-        font-size: 10px;
-        padding: 4px 8px;
-      }
-
-      #truth-dare-result .truth-dare-english {
-        font-size: 14px;
-        margin-bottom: 10px;
-      }
-
-      #truth-dare-result .truth-dare-chinese {
-        font-size: 13px;
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-      }
-
-      #truth-dare-result .korean-text {
-        font-size: 12px;
-      }
-
-      #truth-dare-result .korean-roman {
-        font-size: 9px;
-        padding: 4px 8px;
       }
 
       .nav-tabs {
@@ -2365,7 +2374,7 @@
         bottom: 20px;
         right: 20px;
         font-size: 32px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(250, 204, 21, 0.3);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(197, 158, 107, 0.4);
       }
 
       .add-story-btn:hover {
@@ -2737,13 +2746,201 @@
 
     .history-list::-webkit-scrollbar-thumb,
     .modal-content::-webkit-scrollbar-thumb {
-      background: rgba(250, 204, 21, 0.4);
+      background: rgba(197, 158, 107, 0.5);
       border-radius: 3px;
     }
 
     .history-list::-webkit-scrollbar-thumb:hover,
     .modal-content::-webkit-scrollbar-thumb:hover {
-      background: rgba(250, 204, 21, 0.6);
+      background: rgba(197, 158, 107, 0.7);
+    }
+
+    /* Life Goals Page Styles */
+    #life-goals-page .app {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    #life-goals-page.active {
+      display: block;
+    }
+
+    /* Person Tabs */
+    .person-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 0 40px;
+      justify-content: center;
+    }
+
+    .person-tab {
+      padding: 10px 24px;
+      background: rgba(68, 68, 68, 0.3);
+      border: 1px solid rgba(68, 68, 68, 0.4);
+      border-radius: 12px;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .person-tab:hover {
+      background: rgba(68, 68, 68, 0.4);
+      border-color: rgba(197, 158, 107, 0.4);
+    }
+
+    .person-tab.active {
+      background: rgba(197, 158, 107, 0.2);
+      border-color: rgba(197, 158, 107, 0.6);
+      color: var(--text-main);
+    }
+
+    .person-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .person-content.active {
+      display: block;
+    }
+
+    /* Goals Section */
+    .goals-section {
+      margin-bottom: 32px;
+    }
+
+    .goals-section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(197, 158, 107, 0.3);
+    }
+
+    /* Goals List */
+    .goals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .goal-item {
+      background: rgba(68, 68, 68, 0.2);
+      border: 1px solid rgba(197, 158, 107, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .goal-item:hover {
+      border-color: rgba(197, 158, 107, 0.4);
+      background: rgba(68, 68, 68, 0.3);
+    }
+
+    .goal-text {
+      font-size: 15px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* Monthly Goals Container */
+    .monthly-goals-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .monthly-goals-item {
+      background: rgba(68, 68, 68, 0.2);
+      border: 1px solid rgba(197, 158, 107, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .monthly-goals-item:hover {
+      border-color: rgba(197, 158, 107, 0.4);
+      background: rgba(68, 68, 68, 0.3);
+    }
+
+    .month-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .month-goals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .month-goals-list .goal-item {
+      padding: 12px;
+      margin: 0;
+    }
+
+    /* Daily Records */
+    .daily-records {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .daily-record-item {
+      background: rgba(68, 68, 68, 0.2);
+      border: 1px solid rgba(197, 158, 107, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .daily-record-item:hover {
+      border-color: rgba(197, 158, 107, 0.4);
+      background: rgba(68, 68, 68, 0.3);
+    }
+
+    .record-date {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .record-content {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    /* Responsive Styles for Life Goals Page */
+    @media (max-width: 768px) {
+      .person-tabs {
+        padding: 0;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .person-tab {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+
+      .goals-section-title {
+        font-size: 18px;
+      }
+
+      .goal-item,
+      .monthly-goals-item,
+      .daily-record-item {
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -2751,38 +2948,71 @@
   <!-- Navigation Tabs -->
   <div class="nav-container">
     <div class="nav-tabs">
-      <button class="nav-tab active" data-page="role-draw">角色抽籤</button>
+      <button class="nav-tab active" data-page="games">遊戲</button>
       <button class="nav-tab" data-page="story-plots">故事劇情</button>
-      <button class="nav-tab" data-page="life-planning">人生未來規劃</button>
-      <button class="nav-tab" data-page="hero-story">關於</button>
-      <button class="nav-tab" data-page="lovense-game">互動遊戲</button>
+      <button class="nav-tab" data-page="life-planning">行程安排</button>
+      <button class="nav-tab" data-page="hero-story">夢想清單</button>
+      <button class="nav-tab" data-page="life-goals">人生目標</button>
     </div>
   </div>
 
   <!-- Page Container -->
   <div class="page-container">
-    <!-- Role Draw Page -->
-    <div class="page active" id="role-draw-page">
+    <!-- Games Page (Role Draw + Truth & Dare) -->
+    <div class="page active" id="games-page">
       <div class="app">
-        <div class="app-header">
-          <div class="app-title">角色抽籤</div>
-          <div class="app-subtitle">抽出今天要扮演的身分與傾向，其餘自己設計劇本</div>
+        <!-- Game Tabs -->
+        <div class="game-tabs">
+          <button class="game-tab active" data-game="role-play">角色扮演遊戲</button>
+          <button class="game-tab" data-game="truth-dare">真心話大冒險</button>
         </div>
-        <div class="card-wrapper">
-          <div class="card" id="card">
-            <div class="card-title">TAP TO DRAW</div>
-            <div class="card-main" id="card-main">？</div>
-            <div class="card-hint" id="card-hint">點擊卡牌或下方按鈕開始洗牌</div>
+
+        <!-- Role Play Game Content -->
+        <div class="game-content active" id="role-play-content">
+          <div class="app-header">
+            <div class="app-title">角色抽籤</div>
+            <div class="app-subtitle">抽出今天要扮演的身分與傾向，其餘自己設計劇本</div>
+          </div>
+          <div class="card-wrapper">
+            <div class="card" id="card">
+              <div class="card-title">TAP TO DRAW</div>
+              <div class="card-main" id="card-main">？</div>
+              <div class="card-hint" id="card-hint">點擊卡牌或下方按鈕開始洗牌</div>
+            </div>
+          </div>
+          <div class="controls">
+            <button id="draw-btn">開始抽卡</button>
+            <div class="result">抽到的角色：</div>
+            <div class="result-highlight" id="result">尚未抽籤</div>
+          </div>
+          <div class="history">
+            <div class="history-title">歷史紀錄</div>
+            <ul class="history-list" id="history-list"></ul>
           </div>
         </div>
-        <div class="controls">
-          <button id="draw-btn">開始抽卡</button>
-          <div class="result">抽到的角色：</div>
-          <div class="result-highlight" id="result">尚未抽籤</div>
-        </div>
-        <div class="history">
-          <div class="history-title">歷史紀錄</div>
-          <ul class="history-list" id="history-list"></ul>
+
+        <!-- Truth & Dare Game Content -->
+        <div class="game-content" id="truth-dare-content">
+          <div class="app-header">
+            <div class="app-title">真心話大冒險</div>
+            <div class="app-subtitle">點擊卡牌或按鈕開始抽卡</div>
+          </div>
+          <div class="card-wrapper">
+            <div class="card" id="truth-dare-card">
+              <div class="card-title">TAP TO DRAW</div>
+              <div class="card-main" id="truth-dare-card-main">？</div>
+              <div class="card-hint" id="truth-dare-card-hint">點擊卡牌或下方按鈕開始洗牌</div>
+            </div>
+          </div>
+          <div class="controls">
+            <button id="truth-dare-draw-btn">開始抽卡</button>
+            <div class="result">抽到的卡片：</div>
+            <div class="result-highlight" id="truth-dare-result">尚未抽籤</div>
+          </div>
+          <div class="history">
+            <div class="history-title">歷史紀錄</div>
+            <ul class="history-list" id="truth-dare-history-list"></ul>
+          </div>
         </div>
       </div>
     </div>
@@ -2804,7 +3034,7 @@
     <div class="page" id="life-planning-page">
       <div class="app">
         <div class="app-header">
-          <div class="app-title">人生未來規劃</div>
+          <div class="app-title">行程安排</div>
           <div class="app-subtitle">點擊日期新增或查看文章</div>
         </div>
         
@@ -2873,64 +3103,195 @@
       </div>
     </div>
 
-    <!-- Hero Story Page -->
+    <!-- Hero Story Page (Dream List) -->
     <div class="page" id="hero-story-page">
-      <section class="hero-section">
-        <!-- Background visuals placeholder - apply dynamic, cinematic gradient background with energetic flowing particles, soft motion trails, subtle depth, futuristic but warm atmosphere, symbolizing renewal and intertwined life paths -->
-        <div class="hero-background"></div>
-        
-        <div class="hero-content">
-          <header class="hero-header">
-            <h1 class="hero-title">Ann & Lawrence</h1>
-            <p class="hero-subtitle">
-              這是 Ann & Lawrence 的人生規劃書。<br>
-              在各自經歷六年的曲折感情歷練後，<br>
-              Ann & Lawrence 終於重新邂逅，<br>
-              在這裡重新出發，展開新的愛情與人生。
-            </p>
-          </header>
-          
-          <div class="hero-actions">
-            <button class="hero-cta-primary" id="hero-start-reading-btn">開始閱讀</button>
-          </div>
-          
-          <footer class="hero-footer">
-            <p class="hero-description">一段重新開始的愛情故事，記錄著兩人的成長與未來規劃</p>
-          </footer>
-          
-          <!-- Optional: Cover illustration placeholder -->
-          <div class="hero-illustration">
-            <!-- Placeholder for cover illustration -->
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- Lovense Interactive Game Page -->
-    <div class="page" id="lovense-game-page">
       <div class="app">
         <div class="app-header">
-          <div class="app-title">Truth & Dare</div>
-          <div class="app-subtitle">點擊卡牌或按鈕開始抽卡</div>
+          <div class="app-title">夢想清單</div>
+          <div class="app-subtitle">點擊卡片查看完整內容</div>
         </div>
-        <div class="card-wrapper">
-          <div class="card" id="truth-dare-card">
-            <div class="card-title">TAP TO DRAW</div>
-            <div class="card-main" id="truth-dare-card-main">？</div>
-            <div class="card-hint" id="truth-dare-card-hint">點擊卡牌或下方按鈕開始洗牌</div>
-          </div>
-        </div>
-        <div class="controls">
-          <button id="truth-dare-draw-btn">開始抽卡</button>
-          <div class="result">抽到的卡片：</div>
-          <div class="result-highlight" id="truth-dare-result">尚未抽籤</div>
-        </div>
-        <div class="history">
-          <div class="history-title">歷史紀錄</div>
-          <ul class="history-list" id="truth-dare-history-list"></ul>
+        <div class="story-grid" id="dream-grid">
+          <!-- Dream cards will be generated here -->
         </div>
       </div>
     </div>
+
+    <!-- Life Goals Page (人生目標) -->
+    <div class="page" id="life-goals-page">
+      <div class="app">
+        <div class="app-header">
+          <div class="app-title">人生目標</div>
+          <div class="app-subtitle">記錄與追蹤個人目標達成情況</div>
+        </div>
+        
+        <!-- Person Tabs -->
+        <div class="person-tabs">
+          <button class="person-tab active" data-person="husband">老公</button>
+          <button class="person-tab" data-person="wife">老婆</button>
+        </div>
+
+        <!-- Husband Content -->
+        <div class="person-content active" id="husband-content">
+          <!-- Yearly Goals -->
+          <div class="goals-section">
+            <h3 class="goals-section-title">今年目標</h3>
+            <div class="goals-list" id="husband-yearly-goals">
+              <div class="goal-item">
+                <div class="goal-text">完成工作專案並獲得升遷機會</div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-text">每週至少運動三次，維持健康體態</div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-text">學習新技能，提升專業能力</div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-text">儲蓄目標：存下50萬元</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Monthly Goals -->
+          <div class="goals-section">
+            <h3 class="goals-section-title">每月目標</h3>
+            <div class="monthly-goals-container" id="husband-monthly-goals">
+              <div class="monthly-goals-item">
+                <div class="month-label">一月</div>
+                <div class="month-goals-list">
+                  <div class="goal-item">完成工作報告</div>
+                  <div class="goal-item">開始健身計劃</div>
+                  <div class="goal-item">閱讀兩本書</div>
+                </div>
+              </div>
+              <div class="monthly-goals-item">
+                <div class="month-label">二月</div>
+                <div class="month-goals-list">
+                  <div class="goal-item">持續運動習慣</div>
+                  <div class="goal-item">完成專案第一階段</div>
+                  <div class="goal-item">學習新程式語言基礎</div>
+                </div>
+              </div>
+              <div class="monthly-goals-item">
+                <div class="month-label">三月</div>
+                <div class="month-goals-list">
+                  <div class="goal-item">參加專業培訓課程</div>
+                  <div class="goal-item">開始投資理財規劃</div>
+                  <div class="goal-item">完成專案第二階段</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Records -->
+          <div class="goals-section">
+            <h3 class="goals-section-title">每日記錄</h3>
+            <div class="daily-records" id="husband-daily-records">
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月15日</div>
+                <div class="record-content">今天完成了工作報告的第一部分，雖然遇到一些困難，但最終還是順利解決了。晚上去健身房運動了45分鐘，感覺身體狀態不錯。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月14日</div>
+                <div class="record-content">閱讀了《深度工作》的前兩章，學到了很多關於專注力的技巧。工作上和同事討論了專案進度，制定了接下來一週的計劃。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月13日</div>
+                <div class="record-content">今天開始了新的健身計劃，做了力量訓練和跑步。雖然有點累，但很有成就感。晚上開始學習新的程式語言，進度不錯。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月12日</div>
+                <div class="record-content">完成了專案的第一階段測試，結果比預期好。中午和同事一起去健身房，互相督促的感覺很好。晚上繼續學習，感覺每天都在進步。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月11日</div>
+                <div class="record-content">今天花了整個上午在圖書館看書，讀完了《原子習慣》。下午整理了工作資料，規劃了接下來一個月的目標。運動方面，今天做了瑜伽放鬆。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wife Content -->
+        <div class="person-content" id="wife-content">
+          <!-- Yearly Goals -->
+          <div class="goals-section">
+            <h3 class="goals-section-title">今年目標</h3>
+            <div class="goals-list" id="wife-yearly-goals">
+              <div class="goal-item">
+                <div class="goal-text">提升工作效率，達到更好的工作生活平衡</div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-text">培養新的興趣愛好，豐富生活</div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-text">改善睡眠品質，建立規律作息</div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-text">學習理財知識，管理個人財務</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Monthly Goals -->
+          <div class="goals-section">
+            <h3 class="goals-section-title">每月目標</h3>
+            <div class="monthly-goals-container" id="wife-monthly-goals">
+              <div class="monthly-goals-item">
+                <div class="month-label">一月</div>
+                <div class="month-goals-list">
+                  <div class="goal-item">建立規律作息時間表</div>
+                  <div class="goal-item">開始學習新的興趣技能</div>
+                  <div class="goal-item">完成工作專案規劃</div>
+                </div>
+              </div>
+              <div class="monthly-goals-item">
+                <div class="month-label">二月</div>
+                <div class="month-goals-list">
+                  <div class="goal-item">持續培養興趣愛好</div>
+                  <div class="goal-item">改善飲食習慣</div>
+                  <div class="goal-item">開始學習理財知識</div>
+                </div>
+              </div>
+              <div class="monthly-goals-item">
+                <div class="month-label">三月</div>
+                <div class="month-goals-list">
+                  <div class="goal-item">參加興趣相關的社群活動</div>
+                  <div class="goal-item">建立理財預算計劃</div>
+                  <div class="goal-item">優化工作流程</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Records -->
+          <div class="goals-section">
+            <h3 class="goals-section-title">每日記錄</h3>
+            <div class="daily-records" id="wife-daily-records">
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月15日</div>
+                <div class="record-content">今天開始學習水彩畫，雖然第一次嘗試，但感覺很有趣。工作上完成了一個重要的報告，得到了主管的肯定。晚上早早就休息了，睡眠品質有改善。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月14日</div>
+                <div class="record-content">今天開始建立新的作息時間表，早上7點起床，晚上11點睡覺。中午學習了理財基礎知識，了解了投資的基本概念。下午完成了工作任務，效率不錯。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月13日</div>
+                <div class="record-content">今天去參加了一個興趣社團的活動，認識了新朋友，很開心。工作上優化了工作流程，節省了不少時間。晚上做了瑜伽，身心都很放鬆。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月12日</div>
+                <div class="record-content">今天開始學習新的興趣技能，選擇了攝影作為開始。看了很多教學影片，感覺很有收穫。工作上也完成了一些任務，整體來說是充實的一天。</div>
+              </div>
+              <div class="daily-record-item">
+                <div class="record-date">2024年1月11日</div>
+                <div class="record-content">今天開始改善飲食習慣，準備了營養均衡的餐點。學習了理財知識，制定了初步的預算計劃。工作上也很順利，完成了所有任務。感覺生活更有規律了。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Story Detail Modal -->
@@ -2970,6 +3331,41 @@
 
   <!-- Floating Action Button for Add Story -->
   <button class="add-story-btn" id="floating-add-story-btn" title="新增故事">+</button>
+
+  <!-- Dream Detail Modal -->
+  <div class="modal" id="dream-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="dream-modal-close">&times;</button>
+      <div class="modal-title" id="dream-modal-title"></div>
+      <div class="modal-body" id="dream-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Edit/Add Dream Modal -->
+  <div class="modal" id="edit-dream-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="edit-dream-modal-close">&times;</button>
+      <div class="modal-title" id="edit-dream-modal-title">新增夢想</div>
+      <div class="edit-form">
+        <div class="form-group">
+          <label for="edit-dream-title">標題</label>
+          <input type="text" id="edit-dream-title" class="form-input" placeholder="輸入夢想標題">
+        </div>
+        <div class="form-group">
+          <label for="edit-dream-preview">預覽文字</label>
+          <textarea id="edit-dream-preview" class="form-textarea" rows="2" placeholder="輸入預覽文字（會顯示在卡片上）"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit-dream-content">完整內容</label>
+          <textarea id="edit-dream-content" class="form-textarea" rows="15" placeholder="輸入完整夢想內容"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-cancel" id="btn-dream-cancel">取消</button>
+          <button class="btn-save" id="btn-dream-save">儲存</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Edit/Add Article Modal -->
   <div class="modal" id="edit-article-modal">
@@ -3069,19 +3465,20 @@
         pages.forEach(p => p.classList.remove('active'));
         document.getElementById(`${targetPage}-page`).classList.add('active');
         
-        // Update page container for story-plots, life-planning, hero-story, and lovense-game pages (full width)
-        if (targetPage === 'story-plots' || targetPage === 'life-planning' || targetPage === 'hero-story' || targetPage === 'lovense-game') {
+        // Update page container for story-plots, life-planning, hero-story, life-goals pages (full width)
+        if (targetPage === 'story-plots' || targetPage === 'life-planning' || targetPage === 'hero-story' || targetPage === 'life-goals') {
           pageContainer.classList.add('story-plots-active');
         } else {
           pageContainer.classList.remove('story-plots-active');
         }
         
-        // Special handling for hero-story page (no padding)
-        if (targetPage === 'hero-story') {
-          pageContainer.classList.add('hero-story-active');
-        } else {
-          pageContainer.classList.remove('hero-story-active');
+        // Games page should be centered (like role-draw was)
+        if (targetPage === 'games') {
+          pageContainer.classList.remove('story-plots-active');
         }
+        
+        // Remove special padding handling for hero-story page (now uses same layout as story-plots)
+        pageContainer.classList.remove('hero-story-active');
         
         // Initialize articles when switching to life-planning page
         if (targetPage === 'life-planning') {
@@ -3105,19 +3502,83 @@
           }, 100);
         }
         
-        // Initialize Lovense game when switching to lovense-game page
-        if (targetPage === 'lovense-game') {
-          initLovenseGame();
+        // Initialize games when switching to games page
+        if (targetPage === 'games') {
+          // Initialize Truth & Dare game
+          setTimeout(() => {
+            initTruthDareGame();
+          }, 100);
         }
         
         // Show/hide floating add story button
         const floatingBtn = document.getElementById('floating-add-story-btn');
         if (floatingBtn) {
-          if (targetPage === 'story-plots') {
+          if (targetPage === 'story-plots' || targetPage === 'hero-story') {
             floatingBtn.style.display = 'flex';
+            // Update button title based on page
+            if (targetPage === 'hero-story') {
+              floatingBtn.title = '新增夢想';
+            } else {
+              floatingBtn.title = '新增故事';
+            }
           } else {
             floatingBtn.style.display = 'none';
           }
+        }
+        
+        // Initialize dreams when switching to hero-story page
+        if (targetPage === 'hero-story') {
+          setTimeout(async () => {
+            await initDreams();
+          }, 100);
+        }
+      });
+    });
+
+    // Game Tab Switching
+    document.querySelectorAll('.game-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const gameType = tab.getAttribute('data-game');
+        
+        // Update tab active state
+        document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Update content visibility
+        document.querySelectorAll('.game-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        if (gameType === 'role-play') {
+          document.getElementById('role-play-content').classList.add('active');
+        } else if (gameType === 'truth-dare') {
+          document.getElementById('truth-dare-content').classList.add('active');
+          // Initialize Truth & Dare game when switching to it
+          setTimeout(() => {
+            initTruthDareGame();
+          }, 100);
+        }
+      });
+    });
+
+    // Person Tab Switching (for Life Goals Page)
+    document.querySelectorAll('.person-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const personType = tab.getAttribute('data-person');
+        
+        // Update tab active state
+        document.querySelectorAll('.person-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Update content visibility
+        document.querySelectorAll('.person-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        if (personType === 'husband') {
+          document.getElementById('husband-content').classList.add('active');
+        } else if (personType === 'wife') {
+          document.getElementById('wife-content').classList.add('active');
         }
       });
     });
@@ -3197,6 +3658,120 @@
       "護士": ["醫院診間", "護理站", "休息室", "醫院廁所", "更衣室", "值班室"],
       "性成癮治療師": ["治療室", "諮商室", "醫院診間", "休息室"]
     };
+
+    // 場景中文到韓文翻譯映射
+    const sceneTranslations = {
+      "戶外公園": { ko: "야외공원", koRoman: "yaoe gongwon" },
+      "商店": { ko: "상점", koRoman: "sangjeom" },
+      "遊覽車上": { ko: "관광버스", koRoman: "gwangwang beoseu" },
+      "餐廳": { ko: "식당", koRoman: "sikdang" },
+      "旅館": { ko: "여관", koRoman: "yeogwan" },
+      "觀光景點": { ko: "관광지", koRoman: "gwangwangji" },
+      "海邊": { ko: "해변", koRoman: "haebyeon" },
+      "山區": { ko: "산지", koRoman: "sanji" },
+      "博物館": { ko: "박물관", koRoman: "bangmulgwan" },
+      "紀念品店": { ko: "기념품점", koRoman: "ginyeom pumjeom" },
+      "醫院診間": { ko: "병원진찰실", koRoman: "byeongwon jinchalsil" },
+      "醫院廁所": { ko: "병원화장실", koRoman: "byeongwon hwajangsil" },
+      "諮商室": { ko: "상담실", koRoman: "sangdamsil" },
+      "醫院休息室": { ko: "병원휴게실", koRoman: "byeongwon hyugesil" },
+      "客廳": { ko: "거실", koRoman: "geosil" },
+      "書房": { ko: "서재", koRoman: "seojae" },
+      "臥室": { ko: "침실", koRoman: "chimsil" },
+      "廁所": { ko: "화장실", koRoman: "hwajangsil" },
+      "公車": { ko: "버스", koRoman: "beoseu" },
+      "捷運": { ko: "지하철", koRoman: "jihacheol" },
+      "公園": { ko: "공원", koRoman: "gongwon" },
+      "咖啡廳": { ko: "카페", koRoman: "kape" },
+      "辦公室": { ko: "사무실", koRoman: "samusil" },
+      "社區中心": { ko: "커뮤니티센터", koRoman: "keomyuniti senteo" },
+      "廚房": { ko: "부엌", koRoman: "bueok" },
+      "儲藏室": { ko: "창고", koRoman: "changgo" },
+      "員工休息室": { ko: "직원휴게실", koRoman: "jigwon hyugesil" },
+      "餐廳廁所": { ko: "식당화장실", koRoman: "sikdang hwajangsil" },
+      "包廂": { ko: "개인실", koRoman: "gaeinsil" },
+      "浴室": { ko: "욕실", koRoman: "yoksil" },
+      "按摩室": { ko: "마사지실", koRoman: "masajisil" },
+      "私人工作室": { ko: "사무실", koRoman: "sagongjangsil" },
+      "飯店房間": { ko: "호텔방", koRoman: "hotel bang" },
+      "檢查室": { ko: "검사실", koRoman: "geomsasil" },
+      "手術室": { ko: "수술실", koRoman: "susulsil" },
+      "醫生休息室": { ko: "의사휴게실", koRoman: "uisa hyugesil" },
+      "髮廊": { ko: "미용실", koRoman: "miyongsil" },
+      "化妝間": { ko: "화장실", koRoman: "hwajangsil" },
+      "更衣室": { ko: "탈의실", koRoman: "taruisil" },
+      "工作室": { ko: "작업실", koRoman: "jageopsil" },
+      "攝影棚": { ko: "촬영장", koRoman: "chwaryeongjang" },
+      "服飾店": { ko: "의류점", koRoman: "uiryujeom" },
+      "試衣間": { ko: "탈의실", koRoman: "taruisil" },
+      "倉庫": { ko: "창고", koRoman: "changgo" },
+      "伸展台": { ko: "런웨이", koRoman: "reon wei" },
+      "外拍現場": { ko: "야외촬영장", koRoman: "yaoe chwaryeongjang" },
+      "地下室": { ko: "지하실", koRoman: "jihasil" },
+      "專用房間": { ko: "전용방", koRoman: "jeonyong bang" },
+      "私人會所": { ko: "프라이빗클럽", koRoman: "peuraibit keulleop" },
+      "樣品屋": { ko: "모델하우스", koRoman: "model hauseu" },
+      "空屋": { ko: "빈집", koRoman: "binjip" },
+      "車上": { ko: "차안", koRoman: "chaan" },
+      "客戶家中": { ko: "고객집", koRoman: "gogaek jip" },
+      "展示間": { ko: "전시실", koRoman: "jeonsisil" },
+      "店內": { ko: "매장", koRoman: "maejang" },
+      "試用間": { ko: "체험실", koRoman: "cheheomsil" },
+      "家中客廳": { ko: "집거실", koRoman: "jip geosil" },
+      "家中臥室": { ko: "집침실", koRoman: "jip chimsil" },
+      "家中浴室": { ko: "집욕실", koRoman: "jip yoksil" },
+      "樓梯間": { ko: "계단실", koRoman: "gyedansil" },
+      "電梯": { ko: "엘리베이터", koRoman: "ellibeiteo" },
+      "陽台": { ko: "발코니", koRoman: "balkoni" },
+      "頂樓": { ko: "옥상", koRoman: "oksang" },
+      "會議室": { ko: "회의실", koRoman: "hoeuuisil" },
+      "茶水間": { ko: "다방", koRoman: "dabang" },
+      "停車場": { ko: "주차장", koRoman: "juchajang" },
+      "實驗室": { ko: "실험실", koRoman: "silheomsil" },
+      "測試間": { ko: "테스트룸", koRoman: "teseuteu rum" },
+      "飛機上": { ko: "비행기안", koRoman: "bihaenggi an" },
+      "機艙": { ko: "기내", koRoman: "ginae" },
+      "休息室": { ko: "휴게실", koRoman: "hyugesil" },
+      "機場貴賓室": { ko: "공항라운지", koRoman: "gonghang raunji" },
+      "SPA室": { ko: "스파실", koRoman: "seupa sil" },
+      "教室": { ko: "교실", koRoman: "gyosil" },
+      "操場": { ko: "운동장", koRoman: "undongjang" },
+      "圖書館": { ko: "도서관", koRoman: "doseogwan" },
+      "音樂教室": { ko: "음악실", koRoman: "eumaksil" },
+      "體育館": { ko: "체육관", koRoman: "cheyukgwan" },
+      "保健室": { ko: "보건실", koRoman: "bogeonsil" },
+      "宿舍": { ko: "기숙사", koRoman: "gisuksa" },
+      "社團辦公室": { ko: "동아리방", koRoman: "dongari bang" },
+      "租屋處": { ko: "하숙집", koRoman: "hasuk jip" },
+      "遊戲室": { ko: "놀이방", koRoman: "nori bang" },
+      "研究室": { ko: "연구실", koRoman: "yeongusil" },
+      "學生家中": { ko: "학생집", koRoman: "haksaeng jip" },
+      "健身房": { ko: "헬스장", koRoman: "helseu jang" },
+      "淋浴間": { ko: "샤워실", koRoman: "syawo sil" },
+      "私人訓練室": { ko: "개인트레이닝실", koRoman: "gaein teureining sil" },
+      "客戶公司": { ko: "고객사", koRoman: "gogaek sa" },
+      "客服中心": { ko: "고객센터", koRoman: "gogaek senteo" },
+      "面試室": { ko: "면접실", koRoman: "myeonjeopsil" },
+      "便利商店": { ko: "편의점", koRoman: "pyeonuijeom" },
+      "專櫃": { ko: "매장", koRoman: "maejang" },
+      "櫃檯": { ko: "카운터", koRoman: "kaunteo" },
+      "護理站": { ko: "간호실", koRoman: "ganho sil" },
+      "值班室": { ko: "당직실", koRoman: "dangjiksil" },
+      "治療室": { ko: "치료실", koRoman: "chiryosil" },
+      "家中": { ko: "집", koRoman: "jip" },
+      "戶外": { ko: "야외", koRoman: "yaoe" },
+      "公共場所": { ko: "공공장소", koRoman: "gonggong jangso" }
+    };
+    
+    // 獲取場景的韓文翻譯
+    function getSceneKorean(scene) {
+      const translation = sceneTranslations[scene];
+      if (translation) {
+        return translation;
+      }
+      // 如果沒有找到翻譯，返回默認值
+      return { ko: scene, koRoman: "" };
+    }
     
     const card = document.getElementById("card");
     const cardMain = document.getElementById("card-main");
@@ -3287,13 +3862,15 @@
 
       const shuffleTimer = setInterval(() => {
         const randomScene = availableScenes[Math.floor(Math.random() * availableScenes.length)];
+        const sceneKo = getSceneKorean(randomScene);
         const displayText = `${currentJob}（${currentRole}）`;
-        cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene">${randomScene}</span></div>`;
+        cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene"><span class="korean-text">${sceneKo.ko}</span><span class="korean-roman">${sceneKo.koRoman}</span></span></div>`;
         elapsed += intervalTime;
 
         if (elapsed >= shuffleDuration) {
           clearInterval(shuffleTimer);
           const chosenScene = availableScenes[Math.floor(Math.random() * availableScenes.length)];
+          const sceneKo = getSceneKorean(chosenScene);
           currentScene = chosenScene;
           hasDrawnScene = true;
           
@@ -3302,9 +3879,9 @@
 
           setTimeout(() => {
             card.classList.remove("shuffling");
-            cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene">${chosenScene}</span></div>`;
+            cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene"><span class="korean-text">${sceneKo.ko}</span><span class="korean-roman">${sceneKo.koRoman}</span></span></div>`;
             cardHint.textContent = "完整角色已抽出";
-            resultEl.innerHTML = `${displayText}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${currentAttitude}</span><span class="result-scene">${chosenScene}</span></div>`;
+            resultEl.innerHTML = `${displayText}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${currentAttitude}</span><span class="result-scene"><span class="korean-text">${sceneKo.ko}</span><span class="korean-roman">${sceneKo.koRoman}</span></span></div>`;
             
             // 記錄到歷史
             const li = document.createElement("li");
@@ -5086,7 +5663,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       { en: "Kiss me in a way that makes me laugh and melt at the same time.", zh: "用一種讓我同時大笑和融化的方式親吻我", ko: "저를 동시에 웃게 하고 녹게 만드는 방식으로 키스하세요", koRoman: "Jeoreul dongsi-e utge hago nogge mandeuneun bangsig-eulo kiseuhaseyo" }
     ];
 
-    function initLovenseGame() {
+    function initTruthDareGame() {
       // Truth & Dare Card Game
       const truthDareCard = document.getElementById('truth-dare-card');
       const truthDareCardMain = document.getElementById('truth-dare-card-main');
@@ -5110,14 +5687,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
 
         const shuffleTimer = setInterval(() => {
           const randomCard = truthDareCards[Math.floor(Math.random() * truthDareCards.length)];
-          truthDareCardMain.innerHTML = `
-            <div class="truth-dare-english">${randomCard.en}</div>
-            <div class="truth-dare-chinese">${randomCard.zh}</div>
-            <div class="truth-dare-korean">
-              <span class="korean-text">${randomCard.ko}</span>
-              <span class="korean-roman">${randomCard.koRoman}</span>
-            </div>
-          `;
+          truthDareCardMain.innerHTML = `${randomCard.en}<div class="card-role-info"><span class="card-attitude">${randomCard.zh}</span><span class="card-scene"><span class="korean-text">${randomCard.ko}</span><span class="korean-roman">${randomCard.koRoman}</span></span></div>`;
           elapsed += intervalTime;
 
           if (elapsed >= shuffleDuration) {
@@ -5126,23 +5696,9 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
 
             setTimeout(() => {
               truthDareCard.classList.remove('shuffling');
-              truthDareCardMain.innerHTML = `
-                <div class="truth-dare-english">${chosenCard.en}</div>
-                <div class="truth-dare-chinese">${chosenCard.zh}</div>
-                <div class="truth-dare-korean">
-                  <span class="korean-text">${chosenCard.ko}</span>
-                  <span class="korean-roman">${chosenCard.koRoman}</span>
-                </div>
-              `;
+              truthDareCardMain.innerHTML = `${chosenCard.en}<div class="card-role-info"><span class="card-attitude">${chosenCard.zh}</span><span class="card-scene"><span class="korean-text">${chosenCard.ko}</span><span class="korean-roman">${chosenCard.koRoman}</span></span></div>`;
               truthDareCardHint.textContent = '今天抽到的卡片';
-              truthDareResult.innerHTML = `
-                <div class="truth-dare-english">${chosenCard.en}</div>
-                <div class="truth-dare-chinese">${chosenCard.zh}</div>
-                <div class="truth-dare-korean">
-                  <span class="korean-text">${chosenCard.ko}</span>
-                  <span class="korean-roman">${chosenCard.koRoman}</span>
-                </div>
-              `;
+              truthDareResult.innerHTML = `${chosenCard.en}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${chosenCard.zh}</span><span class="result-scene"><span class="korean-text">${chosenCard.ko}</span><span class="korean-roman">${chosenCard.koRoman}</span></span></div>`;
 
               const li = document.createElement('li');
               li.innerHTML = `${chosenCard.en} | ${chosenCard.zh}`;
@@ -5405,6 +5961,335 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     document.getElementById("btn-cancel").addEventListener("click", closeEditModal);
     document.getElementById("btn-save").addEventListener("click", saveStory);
 
+    // Dream List System (same structure as Story Plots)
+    let dreams = [];
+
+    // Supabase CRUD Functions for Dreams
+    async function loadDreams() {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，返回空数组');
+        return [];
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('dreams')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) {
+          console.error('加载梦想失败:', error);
+          return [];
+        }
+        return data || [];
+      } catch (error) {
+        console.error('加载梦想异常:', error);
+        return [];
+      }
+    }
+
+    async function addDream(title, preview, content) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法新增梦想');
+        return null;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('dreams')
+          .insert([
+            { title, preview, content }
+          ])
+          .select();
+        
+        if (error) {
+          console.error('新增梦想失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('新增梦想异常:', error);
+        return null;
+      }
+    }
+
+    async function updateDream(id, title, preview, content) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法更新梦想');
+        return null;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('dreams')
+          .update({ 
+            title, 
+            preview, 
+            content, 
+            updated_at: new Date().toISOString() 
+          })
+          .eq('id', id)
+          .select();
+        
+        if (error) {
+          console.error('更新梦想失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('更新梦想异常:', error);
+        return null;
+      }
+    }
+
+    async function deleteDream(id) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法删除梦想');
+        return false;
+      }
+      
+      try {
+        const { error } = await supabase
+          .from('dreams')
+          .delete()
+          .eq('id', id);
+        
+        if (error) {
+          console.error('删除梦想失败:', error);
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.error('删除梦想异常:', error);
+        return false;
+      }
+    }
+
+    const dreamGrid = document.getElementById("dream-grid");
+
+    function renderDreams() {
+      if (!dreamGrid) return;
+      dreamGrid.innerHTML = "";
+      dreams.forEach((dream, index) => {
+        const dreamCard = document.createElement("div");
+        dreamCard.className = "story-card";
+        dreamCard.innerHTML = `
+          <div class="story-card-actions">
+            <button class="story-card-edit-btn" data-index="${index}" title="編輯">✎</button>
+            <button class="story-card-delete-btn" data-index="${index}" title="刪除">×</button>
+          </div>
+          <div class="story-card-title">${dream.title}</div>
+          <div class="story-card-preview">${dream.preview}</div>
+          <div class="story-card-meta">點擊查看完整內容 →</div>
+        `;
+        
+        // 點擊卡片查看內容
+        dreamCard.addEventListener("click", (e) => {
+          if (!e.target.closest('.story-card-actions')) {
+            openDreamModal(dream);
+          }
+        });
+        
+        // 編輯按鈕
+        const editBtn = dreamCard.querySelector('.story-card-edit-btn');
+        editBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openEditDreamModal(index);
+        });
+        
+        // 刪除按鈕
+        const deleteBtn = dreamCard.querySelector('.story-card-delete-btn');
+        deleteBtn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          if (confirm(`確定要刪除「${dream.title}」嗎？`)) {
+            const success = await deleteDream(dream.id);
+            if (success) {
+              dreams.splice(index, 1);
+              renderDreams();
+            }
+          }
+        });
+        
+        dreamGrid.appendChild(dreamCard);
+      });
+    }
+
+    function parseDreamContent(content) {
+      const lines = content.split('\n');
+      let html = '';
+      let prevWasMainTitle = false;
+      
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        if (!line) {
+          html += '<br>';
+          continue;
+        }
+        
+        // 主标题 [角色扮演遊戲]
+        if (line.startsWith('[') && line.endsWith(']')) {
+          html += `<div class="article-main-title">${line}</div>`;
+          prevWasMainTitle = true;
+        }
+        // 角色设定行（紧跟在主标题后，包含冒号的短行）
+        else if (prevWasMainTitle && line.includes(':') && line.length < 30) {
+          html += `<div class="article-role">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+        // 章节标题（包含"第X章｜"或"第四章｜合："）
+        else if (/第[一二三四五六七八九十\d]+章｜/.test(line) || /第四章｜合：/.test(line)) {
+          html += `<div class="article-chapter-title">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+        // 主题行（包含"主題："）
+        else if (line.includes('主題：')) {
+          html += `<div class="article-theme">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+        // 普通正文
+        else {
+          html += `<div class="article-content">${line}</div>`;
+          prevWasMainTitle = false;
+        }
+      }
+      
+      return html;
+    }
+
+    function openDreamModal(dream) {
+      const modal = document.getElementById("dream-modal");
+      const modalTitle = document.getElementById("dream-modal-title");
+      const modalBody = document.getElementById("dream-modal-body");
+      
+      modalTitle.textContent = dream.title;
+      modalBody.innerHTML = parseDreamContent(dream.content);
+      modal.classList.add("active");
+    }
+
+    function closeDreamModal() {
+      const modal = document.getElementById("dream-modal");
+      modal.classList.remove("active");
+    }
+
+    // Edit Dream Modal Functions
+    let currentEditDreamIndex = -1;
+
+    function openEditDreamModal(index) {
+      currentEditDreamIndex = index;
+      const editModal = document.getElementById("edit-dream-modal");
+      const editTitle = document.getElementById("edit-dream-modal-title");
+      const titleInput = document.getElementById("edit-dream-title");
+      const previewInput = document.getElementById("edit-dream-preview");
+      const contentInput = document.getElementById("edit-dream-content");
+      
+      if (index === -1) {
+        // 新增模式
+        editTitle.textContent = "新增夢想";
+        titleInput.value = "";
+        previewInput.value = "";
+        contentInput.value = "";
+      } else {
+        // 編輯模式
+        editTitle.textContent = "編輯夢想";
+        const dream = dreams[index];
+        titleInput.value = dream.title;
+        previewInput.value = dream.preview;
+        contentInput.value = dream.content;
+      }
+      
+      editModal.classList.add("active");
+      titleInput.focus();
+    }
+
+    function closeEditDreamModal() {
+      const editModal = document.getElementById("edit-dream-modal");
+      editModal.classList.remove("active");
+      currentEditDreamIndex = -1;
+    }
+
+    async function saveDream() {
+      const titleInput = document.getElementById("edit-dream-title");
+      const previewInput = document.getElementById("edit-dream-preview");
+      const contentInput = document.getElementById("edit-dream-content");
+      
+      const title = titleInput.value.trim();
+      const preview = previewInput.value.trim();
+      const content = contentInput.value.trim();
+      
+      if (!title || !preview || !content) {
+        alert("請填寫所有欄位");
+        return;
+      }
+      
+      if (currentEditDreamIndex === -1) {
+        // 新增
+        const newDream = await addDream(title, preview, content);
+        if (newDream) {
+          dreams.push(newDream);
+          renderDreams();
+          closeEditDreamModal();
+        }
+      } else {
+        // 編輯
+        const dream = dreams[currentEditDreamIndex];
+        const updated = await updateDream(dream.id, title, preview, content);
+        if (updated) {
+          dreams[currentEditDreamIndex] = updated;
+          renderDreams();
+          closeEditDreamModal();
+        }
+      }
+    }
+
+    async function initDreams() {
+      try {
+        const loadedDreams = await loadDreams();
+        dreams = loadedDreams;
+        renderDreams();
+      } catch (error) {
+        console.error('加载梦想时发生错误:', error);
+        dreams = [];
+        renderDreams();
+      }
+    }
+
+    // Dream Modal Controls
+    const dreamModalClose = document.getElementById("dream-modal-close");
+    if (dreamModalClose) {
+      dreamModalClose.addEventListener("click", closeDreamModal);
+    }
+    const dreamModal = document.getElementById("dream-modal");
+    if (dreamModal) {
+      dreamModal.addEventListener("click", (e) => {
+        if (e.target.id === "dream-modal") {
+          closeDreamModal();
+        }
+      });
+    }
+
+    // Edit Dream Modal Controls
+    const editDreamModalClose = document.getElementById("edit-dream-modal-close");
+    if (editDreamModalClose) {
+      editDreamModalClose.addEventListener("click", closeEditDreamModal);
+    }
+    const editDreamModal = document.getElementById("edit-dream-modal");
+    if (editDreamModal) {
+      editDreamModal.addEventListener("click", (e) => {
+        if (e.target.id === "edit-dream-modal") {
+          closeEditDreamModal();
+        }
+      });
+    }
+    const btnDreamCancel = document.getElementById("btn-dream-cancel");
+    if (btnDreamCancel) {
+      btnDreamCancel.addEventListener("click", closeEditDreamModal);
+    }
+    const btnDreamSave = document.getElementById("btn-dream-save");
+    if (btnDreamSave) {
+      btnDreamSave.addEventListener("click", saveDream);
+    }
+
     // Article Edit Modal Controls
     document.getElementById("edit-article-modal-close").addEventListener("click", closeEditArticleModal);
     document.getElementById("edit-article-modal").addEventListener("click", (e) => {
@@ -5515,6 +6400,8 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       if (e.key === "Escape") {
         const storyModal = document.getElementById("story-modal");
         const editModal = document.getElementById("edit-story-modal");
+        const dreamModal = document.getElementById("dream-modal");
+        const editDreamModal = document.getElementById("edit-dream-modal");
         const articleModal = document.getElementById("edit-article-modal");
         const yearMonthModal = document.getElementById("year-month-modal");
         const scheduleModal = document.getElementById("schedule-modal");
@@ -5524,6 +6411,10 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
           closeStoryModal();
         } else if (editModal && editModal.classList.contains("active")) {
           closeEditModal();
+        } else if (dreamModal && dreamModal.classList.contains("active")) {
+          closeDreamModal();
+        } else if (editDreamModal && editDreamModal.classList.contains("active")) {
+          closeEditDreamModal();
         } else if (articleModal && articleModal.classList.contains("active")) {
           closeEditArticleModal();
         } else if (yearMonthModal && yearMonthModal.classList.contains("active")) {
@@ -5537,33 +6428,34 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       }
     });
 
-    // Floating Add Story Button
+    // Floating Add Story/Dream Button
     const floatingAddBtn = document.getElementById('floating-add-story-btn');
     if (floatingAddBtn) {
       floatingAddBtn.addEventListener('click', () => {
-        openEditModal(-1);
+        const storyPlotsPage = document.getElementById('story-plots-page');
+        const heroStoryPage = document.getElementById('hero-story-page');
+        
+        if (storyPlotsPage && storyPlotsPage.classList.contains('active')) {
+          openEditModal(-1);
+        } else if (heroStoryPage && heroStoryPage.classList.contains('active')) {
+          openEditDreamModal(-1);
+        }
       });
       
       // Check initial page state
       const storyPlotsPage = document.getElementById('story-plots-page');
-      if (storyPlotsPage && storyPlotsPage.classList.contains('active')) {
+      const heroStoryPage = document.getElementById('hero-story-page');
+      if ((storyPlotsPage && storyPlotsPage.classList.contains('active')) || 
+          (heroStoryPage && heroStoryPage.classList.contains('active'))) {
         floatingAddBtn.style.display = 'flex';
+        if (heroStoryPage && heroStoryPage.classList.contains('active')) {
+          floatingAddBtn.title = '新增夢想';
+        }
       } else {
         floatingAddBtn.style.display = 'none';
       }
     }
 
-    // Hero Start Reading Button
-    const heroStartBtn = document.getElementById('hero-start-reading-btn');
-    if (heroStartBtn) {
-      heroStartBtn.addEventListener('click', () => {
-        // Switch to story-plots page
-        const storyPlotsTab = document.querySelector('[data-page="story-plots"]');
-        if (storyPlotsTab) {
-          storyPlotsTab.click();
-        }
-      });
-    }
 
     // Initialize - Load stories from Supabase
     // Wait for DOM and Supabase library to be ready
@@ -5576,7 +6468,9 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
             console.log('Supabase 连接成功（延迟初始化）');
           }
           initStories();
+          initDreams();
           initArticles();
+          initTruthDareGame();
         }, 100);
       });
     } else {
@@ -5587,7 +6481,9 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
           console.log('Supabase 连接成功（延迟初始化）');
         }
         initStories();
+        initDreams();
         initArticles();
+        initTruthDareGame();
       }, 100);
     }
   </script>
