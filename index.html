@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>角色扮演抽籤卡牌｜黑金版</title>
+  <title>Ann & Lawrence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Favicon - Golden Intertwined Hearts (Intimate Feel) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23facc15'/%3E%3Cstop offset='50%25' stop-color='%23f5d76e'/%3E%3Cstop offset='100%25' stop-color='%23facc15'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M35 30 C30 20 20 20 15 30 C15 40 25 50 35 70 C45 50 55 40 55 30 C50 20 40 20 35 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M65 30 C60 20 50 20 45 30 C45 40 55 50 65 70 C75 50 85 40 85 30 C80 20 70 20 65 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M50 50 C48 45 45 45 42 50 C42 55 46 60 50 65 C54 60 58 55 58 50 C55 45 52 45 50 50 Z' fill='%23facc15' opacity='0.8'/%3E%3C/svg%3E" />
@@ -354,6 +354,613 @@
       width: 100%;
     }
 
+    /* Calendar Styles */
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      margin-top: 20px;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+    }
+
+    .calendar-nav-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 8px;
+      color: var(--gold);
+      font-size: 24px;
+      font-weight: 300;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .calendar-nav-btn:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+
+    .calendar-date-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .date-selector-btn {
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: var(--gold);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 60px;
+    }
+
+    .date-selector-btn:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .date-separator {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    .calendar-container {
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .weekday {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 8px 0;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      background: rgba(2, 6, 23, 0.4);
+      border: 1px solid rgba(250, 204, 21, 0.2);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 8px 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      min-height: 60px;
+      z-index: 1;
+      pointer-events: auto !important;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+    
+    .calendar-day * {
+      pointer-events: none;
+    }
+
+    .calendar-day:hover {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .calendar-day.other-month {
+      opacity: 0.3;
+      background: rgba(2, 6, 23, 0.2);
+    }
+
+    .calendar-day.today {
+      border-color: var(--gold);
+      background: rgba(250, 204, 21, 0.15);
+      box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.3);
+    }
+
+    .calendar-day.has-articles {
+      border-color: var(--gold);
+      background: rgba(250, 204, 21, 0.2);
+    }
+
+    .calendar-day-number {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+
+    .calendar-day.today .calendar-day-number {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .calendar-day-articles-count {
+      font-size: 10px;
+      color: var(--gold);
+      background: rgba(250, 204, 21, 0.3);
+      border-radius: 10px;
+      padding: 2px 6px;
+      margin-top: 4px;
+    }
+
+    /* Year/Month Selector Modal */
+    .year-month-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .year-month-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .year-month-modal-content {
+      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 400px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .year-month-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      color: var(--gold);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .year-month-modal-close:hover {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: var(--gold);
+    }
+
+    .year-month-modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .year-month-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .year-month-item {
+      padding: 12px;
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 8px;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .year-month-item:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .year-month-item.selected {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.3), rgba(250, 204, 21, 0.2));
+      border-color: var(--gold);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Date Articles Container */
+    .date-articles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .date-articles-container .date-articles-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .date-articles-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+    }
+
+    .selected-date-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0;
+    }
+
+    .btn-close-articles {
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 50%;
+      color: var(--gold);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-articles:hover {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: var(--gold);
+    }
+
+    .date-articles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Schedule Section Styles */
+    .schedule-section {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+    }
+
+    .schedule-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .schedule-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0;
+    }
+
+    .btn-add-schedule {
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 8px;
+      color: var(--gold);
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-add-schedule:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .schedule-item {
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(250, 204, 21, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .schedule-item:hover {
+      border-color: rgba(250, 204, 21, 0.4);
+      background: rgba(2, 6, 23, 0.8);
+    }
+
+    .schedule-item-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .schedule-item-time {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .schedule-item-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin: 0;
+    }
+
+    .schedule-item-description {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .schedule-item-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .schedule-item-btn {
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 6px;
+      color: var(--gold);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .schedule-item-btn:hover {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: var(--gold);
+    }
+
+    .schedule-item-btn.delete-btn {
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .schedule-item-btn.delete-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
+    }
+
+    .articles-section {
+      margin-top: 24px;
+    }
+
+    .articles-section-header {
+      margin-bottom: 16px;
+    }
+
+    .articles-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0;
+    }
+
+    /* Schedule Edit Modal */
+    .schedule-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .schedule-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .schedule-modal-content {
+      background: radial-gradient(circle at top left, #030712, #020617 55%, #000000);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .schedule-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      color: var(--gold);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .schedule-modal-close:hover {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: var(--gold);
+    }
+
+    .schedule-modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 20px;
+      padding-right: 40px;
+    }
+
+    .schedule-form-group {
+      margin-bottom: 16px;
+    }
+
+    .schedule-form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    .schedule-form-input {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 8px;
+      color: var(--text-sub);
+      font-size: 14px;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .schedule-form-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(2, 6, 23, 0.8);
+    }
+
+    .schedule-form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .schedule-btn-cancel,
+    .schedule-btn-save {
+      flex: 1;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .schedule-btn-cancel {
+      background: transparent;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      color: var(--text-sub);
+    }
+
+    .schedule-btn-cancel:hover {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .schedule-btn-save {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.3), rgba(250, 204, 21, 0.2));
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
+
+    .schedule-btn-save:hover {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.4), rgba(250, 204, 21, 0.3));
+      transform: translateY(-2px);
+    }
+
     /* Hero Story Page - Full Width */
     #hero-story-page {
       width: 100%;
@@ -489,6 +1096,259 @@
       justify-content: center;
       color: var(--text-muted);
       font-size: 14px;
+    }
+
+    /* Lovense Interactive Game Page */
+    #lovense-game-page .app {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .lovense-game-container {
+      margin-top: 24px;
+      width: 100%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Connection Status */
+    .connection-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .status-indicator.connected {
+      background: #10b981;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    .status-indicator.connecting {
+      background: var(--gold);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    #status-text {
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Connection Panel */
+    .connection-panel {
+      background: rgba(2, 6, 23, 0.4);
+      border: 1px solid rgba(250, 204, 21, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .btn-connect {
+      width: 100%;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #facc15, #f5d76e);
+      color: #111827;
+      border: 1px solid rgba(250, 204, 21, 0.5);
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 16px;
+    }
+
+    .btn-connect:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+    }
+
+    .btn-connect:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Control Panel */
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .control-section {
+      background: rgba(2, 6, 23, 0.4);
+      border: 1px solid rgba(250, 204, 21, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .control-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold);
+      margin: 0 0 20px 0;
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 14px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(148, 163, 184, 0.2);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.6);
+    }
+
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+    }
+
+    .control-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-control {
+      flex: 1;
+      padding: 12px 24px;
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      border-radius: 8px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-control:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-control:active {
+      transform: translateY(0);
+    }
+
+    .btn-control.active {
+      background: linear-gradient(135deg, #facc15, #f5d76e);
+      color: #111827;
+      border-color: var(--gold);
+    }
+
+    /* Pattern Grid */
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .pattern-btn {
+      padding: 12px 16px;
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      border-radius: 8px;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pattern-btn:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .pattern-btn.active {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.3), rgba(250, 204, 21, 0.2));
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Game Buttons */
+    .game-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .game-btn {
+      padding: 14px 24px;
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      border-radius: 8px;
+      color: var(--gold);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .game-btn:hover {
+      background: rgba(250, 204, 21, 0.2);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.2);
     }
 
     .articles-container {
@@ -1151,6 +2011,32 @@
         font-size: 14px;
       }
 
+      /* Schedule responsive styles */
+      .schedule-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .btn-add-schedule {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .schedule-item {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .schedule-item-actions {
+        align-self: flex-end;
+      }
+
+      .schedule-modal-content {
+        max-width: 90%;
+        padding: 20px;
+      }
+
       .add-story-btn {
         width: 56px;
         height: 56px;
@@ -1191,6 +2077,103 @@
       .hero-illustration {
         height: 200px;
         margin-top: 20px;
+      }
+
+      /* Calendar responsive styles for mobile */
+      .calendar-header {
+        padding: 12px 0;
+      }
+
+      .calendar-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+      }
+
+      .date-selector-btn {
+        padding: 6px 10px;
+        font-size: 14px;
+        min-width: 45px;
+      }
+
+      .date-separator {
+        font-size: 14px;
+      }
+
+      .calendar-day {
+        min-height: 45px;
+        padding: 4px 2px;
+      }
+
+      .calendar-day-number {
+        font-size: 11px;
+      }
+
+      .calendar-day-articles-count {
+        font-size: 8px;
+        padding: 1px 3px;
+      }
+
+      .year-month-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .year-month-item {
+        padding: 10px;
+        font-size: 13px;
+      }
+
+      /* Date Articles Container - Mobile */
+      .date-articles-container {
+        padding: 12px;
+      }
+
+      .date-articles-container .date-articles-inner {
+        padding: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      .selected-date-title {
+        font-size: 20px;
+      }
+
+      .btn-close-articles {
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+      }
+
+      .lovense-game-container {
+        padding: 0 8px;
+      }
+
+      .connection-panel,
+      .control-section {
+        padding: 20px 16px;
+      }
+
+      .control-title {
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+
+      .pattern-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .pattern-btn {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+
+      .control-buttons {
+        flex-direction: column;
+      }
+
+      .btn-control {
+        width: 100%;
       }
 
       .modal-content {
@@ -1336,6 +2319,52 @@
       .form-textarea {
         min-height: 280px;
       }
+
+      /* Date Articles Container - Tablet */
+      .date-articles-container {
+        padding: 16px;
+      }
+
+      .date-articles-container .date-articles-inner {
+        padding: 20px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
+
+      .selected-date-title {
+        font-size: 22px;
+      }
+
+      /* Calendar responsive styles */
+      .calendar-header {
+        padding: 16px 0;
+      }
+
+      .calendar-nav-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+      }
+
+      .date-selector-btn {
+        padding: 6px 12px;
+        font-size: 16px;
+        min-width: 50px;
+      }
+
+      .calendar-day {
+        min-height: 50px;
+        padding: 6px 2px;
+      }
+
+      .calendar-day-number {
+        font-size: 12px;
+      }
+
+      .calendar-day-articles-count {
+        font-size: 9px;
+        padding: 1px 4px;
+      }
     }
 
     /* Large Screens */
@@ -1404,6 +2433,7 @@
       <button class="nav-tab" data-page="story-plots">故事劇情</button>
       <button class="nav-tab" data-page="life-planning">人生未來規劃</button>
       <button class="nav-tab" data-page="hero-story">關於</button>
+      <button class="nav-tab" data-page="lovense-game">互動遊戲</button>
     </div>
   </div>
 
@@ -1453,10 +2483,70 @@
       <div class="app">
         <div class="app-header">
           <div class="app-title">人生未來規劃</div>
-          <div class="app-subtitle">管理你的未來規劃文章</div>
+          <div class="app-subtitle">點擊日期新增或查看文章</div>
         </div>
-        <div class="articles-container" id="articles-container">
-          <!-- Articles will be generated here -->
+        
+        <!-- Calendar Header - Year and Month Selector -->
+        <div class="calendar-header">
+          <button class="calendar-nav-btn" id="prev-month-btn">‹</button>
+          <div class="calendar-date-selector">
+            <button class="date-selector-btn" id="year-selector-btn">
+              <span id="current-year">2024</span>
+            </button>
+            <span class="date-separator">年</span>
+            <button class="date-selector-btn" id="month-selector-btn">
+              <span id="current-month">1</span>
+            </button>
+            <span class="date-separator">月</span>
+          </div>
+          <button class="calendar-nav-btn" id="next-month-btn">›</button>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="calendar-container">
+          <div class="calendar-weekdays">
+            <div class="weekday">日</div>
+            <div class="weekday">一</div>
+            <div class="weekday">二</div>
+            <div class="weekday">三</div>
+            <div class="weekday">四</div>
+            <div class="weekday">五</div>
+            <div class="weekday">六</div>
+          </div>
+          <div class="calendar-grid" id="calendar-grid">
+            <!-- Calendar days will be generated here -->
+          </div>
+        </div>
+
+        <!-- Articles List for Selected Date -->
+        <div class="date-articles-container" id="date-articles-container" style="display: none;">
+          <div class="date-articles-inner">
+            <div class="date-articles-header">
+              <h3 class="selected-date-title" id="selected-date-title"></h3>
+              <button class="btn-close-articles" id="btn-close-articles">×</button>
+            </div>
+            
+            <!-- Schedule Section -->
+            <div class="schedule-section">
+              <div class="schedule-header">
+                <h4 class="schedule-title">時程安排</h4>
+                <button class="btn-add-schedule" id="btn-add-schedule">+ 新增行程</button>
+              </div>
+              <div class="schedule-list" id="schedule-list">
+                <!-- Schedule items will be generated here -->
+              </div>
+            </div>
+            
+            <!-- Articles Section -->
+            <div class="articles-section">
+              <div class="articles-section-header">
+                <h4 class="articles-section-title">文章</h4>
+              </div>
+              <div class="date-articles-list" id="date-articles-list">
+                <!-- Articles for selected date will be shown here -->
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1469,7 +2559,7 @@
         
         <div class="hero-content">
           <header class="hero-header">
-            <h1 class="hero-title">Ann & Lawrence 的人生攻略書</h1>
+            <h1 class="hero-title">Ann & Lawrence</h1>
             <p class="hero-subtitle">
               這是 Ann & Lawrence 的人生規劃書。<br>
               在各自經歷六年的曲折感情歷練後，<br>
@@ -1492,6 +2582,80 @@
           </div>
         </div>
       </section>
+    </div>
+
+    <!-- Lovense Interactive Game Page -->
+    <div class="page" id="lovense-game-page">
+      <div class="app">
+        <div class="app-header">
+          <div class="app-title">互動遊戲</div>
+          <div class="app-subtitle">連接 Lovense 設備進行互動控制</div>
+        </div>
+        
+        <div class="lovense-game-container">
+          <!-- Connection Status -->
+          <div class="connection-status" id="connection-status">
+            <div class="status-indicator" id="status-indicator"></div>
+            <span id="status-text">未連接</span>
+          </div>
+
+          <!-- Connection Settings -->
+          <div class="connection-panel">
+            <div class="form-group">
+              <label for="webhook-url">Webhook URL</label>
+              <input type="text" id="webhook-url" class="form-input" placeholder="輸入你的 Webhook 端點 URL">
+            </div>
+            <div class="form-group">
+              <label for="device-token">設備 Token (可選)</label>
+              <input type="text" id="device-token" class="form-input" placeholder="Lovense 設備 Token">
+            </div>
+            <button class="btn-connect" id="btn-connect">連接設備</button>
+          </div>
+
+          <!-- Control Panel -->
+          <div class="control-panel" id="control-panel" style="display: none;">
+            <div class="control-section">
+              <h3 class="control-title">振動控制</h3>
+              
+              <div class="control-group">
+                <label for="vibration-intensity">強度: <span id="intensity-value">50</span>%</label>
+                <input type="range" id="vibration-intensity" min="0" max="100" value="50" class="slider">
+              </div>
+
+              <div class="control-group">
+                <label for="vibration-duration">持續時間: <span id="duration-value">3</span> 秒</label>
+                <input type="range" id="vibration-duration" min="1" max="30" value="3" class="slider">
+              </div>
+
+              <div class="control-buttons">
+                <button class="btn-control" id="btn-start">開始振動</button>
+                <button class="btn-control" id="btn-stop">停止</button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3 class="control-title">預設模式</h3>
+              <div class="pattern-grid">
+                <button class="pattern-btn" data-pattern="gentle">輕柔</button>
+                <button class="pattern-btn" data-pattern="medium">中等</button>
+                <button class="pattern-btn" data-pattern="strong">強烈</button>
+                <button class="pattern-btn" data-pattern="wave">波浪</button>
+                <button class="pattern-btn" data-pattern="pulse">脈衝</button>
+                <button class="pattern-btn" data-pattern="random">隨機</button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3 class="control-title">互動遊戲</h3>
+              <div class="game-buttons">
+                <button class="game-btn" id="btn-game-1">節奏遊戲</button>
+                <button class="game-btn" id="btn-game-2">反應測試</button>
+                <button class="game-btn" id="btn-game-3">隨機刺激</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1559,6 +2723,43 @@
     </div>
   </div>
 
+  <!-- Year/Month Selector Modal -->
+  <div class="year-month-modal" id="year-month-modal">
+    <div class="year-month-modal-content">
+      <button class="year-month-modal-close" id="year-month-modal-close">&times;</button>
+      <div class="year-month-modal-title" id="year-month-modal-title">選擇年份</div>
+      <div class="year-month-grid" id="year-month-grid">
+        <!-- Year/Month items will be generated here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Edit/Add Modal -->
+  <div class="schedule-modal" id="schedule-modal">
+    <div class="schedule-modal-content">
+      <button class="schedule-modal-close" id="schedule-modal-close">&times;</button>
+      <div class="schedule-modal-title" id="schedule-modal-title">新增行程</div>
+      <div class="schedule-form">
+        <div class="schedule-form-group">
+          <label for="schedule-time">時間</label>
+          <input type="time" id="schedule-time" class="schedule-form-input" required>
+        </div>
+        <div class="schedule-form-group">
+          <label for="schedule-title">標題</label>
+          <input type="text" id="schedule-title" class="schedule-form-input" placeholder="輸入行程標題" required>
+        </div>
+        <div class="schedule-form-group">
+          <label for="schedule-description">描述</label>
+          <textarea id="schedule-description" class="schedule-form-input" rows="4" placeholder="輸入行程描述（選填）"></textarea>
+        </div>
+        <div class="schedule-form-actions">
+          <button class="schedule-btn-cancel" id="schedule-btn-cancel">取消</button>
+          <button class="schedule-btn-save" id="schedule-btn-save">儲存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Initialize Supabase
     const SUPABASE_URL = 'https://olqgjmuadoohbkplvhhd.supabase.co';
@@ -1594,8 +2795,8 @@
         pages.forEach(p => p.classList.remove('active'));
         document.getElementById(`${targetPage}-page`).classList.add('active');
         
-        // Update page container for story-plots, life-planning, and hero-story pages (full width)
-        if (targetPage === 'story-plots' || targetPage === 'life-planning' || targetPage === 'hero-story') {
+        // Update page container for story-plots, life-planning, hero-story, and lovense-game pages (full width)
+        if (targetPage === 'story-plots' || targetPage === 'life-planning' || targetPage === 'hero-story' || targetPage === 'lovense-game') {
           pageContainer.classList.add('story-plots-active');
         } else {
           pageContainer.classList.remove('story-plots-active');
@@ -1610,7 +2811,29 @@
         
         // Initialize articles when switching to life-planning page
         if (targetPage === 'life-planning') {
-          initArticles();
+          // Wait a bit for the page to be visible, then render calendar
+          setTimeout(async () => {
+            // Check if calendar grid exists
+            const calendarGrid = document.getElementById('calendar-grid');
+            if (calendarGrid) {
+              // Load data and render
+              await initArticles();
+              // Force re-render to ensure events are bound
+              renderCalendar();
+            } else {
+              console.error('Calendar grid not found when switching to life-planning page');
+              // Try again after longer delay
+              setTimeout(async () => {
+                await initArticles();
+                renderCalendar();
+              }, 200);
+            }
+          }, 100);
+        }
+        
+        // Initialize Lovense game when switching to lovense-game page
+        if (targetPage === 'lovense-game') {
+          initLovenseGame();
         }
         
         // Show/hide floating add story button
@@ -1812,6 +3035,9 @@
 
     // Life Planning Articles CRUD Functions
     let articles = [];
+    
+    // Schedules CRUD Functions
+    let schedules = [];
 
     async function loadArticles() {
       if (!supabase) {
@@ -1836,17 +3062,20 @@
       }
     }
 
-    async function addArticle(title, author, content) {
+    async function addArticle(title, author, content, date) {
       if (!supabase) {
         console.warn('Supabase 未初始化，无法新增文章');
         return null;
       }
       
       try {
+        // Convert date string (YYYY-MM-DD) to ISO string
+        const dateISO = date ? new Date(date + 'T00:00:00').toISOString() : new Date().toISOString();
+        
         const { data, error } = await supabase
           .from('life_planning_articles')
           .insert([
-            { title, author, content }
+            { title, author, content, date: dateISO }
           ])
           .select();
         
@@ -1861,19 +3090,23 @@
       }
     }
 
-    async function updateArticle(id, title, author, content) {
+    async function updateArticle(id, title, author, content, date) {
       if (!supabase) {
         console.warn('Supabase 未初始化，无法更新文章');
         return null;
       }
       
       try {
+        // Convert date string (YYYY-MM-DD) to ISO string
+        const dateISO = date ? new Date(date + 'T00:00:00').toISOString() : new Date().toISOString();
+        
         const { data, error } = await supabase
           .from('life_planning_articles')
           .update({ 
             title, 
             author,
-            content, 
+            content,
+            date: dateISO,
             updated_at: new Date().toISOString() 
           })
           .eq('id', id)
@@ -1925,84 +3158,738 @@
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
-    function renderArticles() {
-      const articlesContainer = document.getElementById('articles-container');
-      if (!articlesContainer) return;
+    // Schedules CRUD Functions
+    async function loadSchedules() {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，返回空数组');
+        return [];
+      }
       
-      articlesContainer.innerHTML = '';
+      try {
+        const { data, error } = await supabase
+          .from('life_planning_schedules')
+          .select('*')
+          .order('time', { ascending: true });
+        
+        if (error) {
+          console.error('加载时程安排失败:', error);
+          return [];
+        }
+        return data || [];
+      } catch (error) {
+        console.error('加载时程安排异常:', error);
+        return [];
+      }
+    }
+
+    async function addSchedule(date, time, title, description) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法新增时程安排');
+        return null;
+      }
       
-      articles.forEach((article, index) => {
-        const articleItem = document.createElement('div');
-        articleItem.className = 'article-item';
+      try {
+        // Convert date string (YYYY-MM-DD) to ISO string
+        const dateISO = date ? new Date(date + 'T00:00:00').toISOString() : new Date().toISOString();
         
-        const updatedAt = formatDateTime(article.updated_at || article.created_at);
+        const { data, error } = await supabase
+          .from('life_planning_schedules')
+          .insert([
+            { date: dateISO, time, title, description: description || '' }
+          ])
+          .select();
         
-        articleItem.innerHTML = `
-          <div class="article-item-header">
-            <h3 class="article-item-title">${article.title || '無標題'}</h3>
-            <div class="article-item-actions">
-              <button class="article-item-btn edit-article-btn" data-index="${index}" title="編輯">✎</button>
-              <button class="article-item-btn delete-article-btn delete-btn" data-index="${index}" title="刪除">×</button>
-            </div>
-          </div>
-          <div class="article-item-meta">
-            <div class="article-item-meta-item">
-              <span class="article-item-meta-label">作者：</span>
-              <span class="article-item-meta-value">${article.author || '未知'}</span>
-            </div>
-            <div class="article-item-meta-item">
-              <span class="article-item-meta-label">最後修改：</span>
-              <span class="article-item-meta-value">${updatedAt}</span>
-            </div>
-          </div>
-          <div class="article-item-content">${article.content || ''}</div>
-        `;
+        if (error) {
+          console.error('新增时程安排失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('新增时程安排异常:', error);
+        return null;
+      }
+    }
+
+    async function updateSchedule(id, date, time, title, description) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法更新时程安排');
+        return null;
+      }
+      
+      try {
+        // Convert date string (YYYY-MM-DD) to ISO string
+        const dateISO = date ? new Date(date + 'T00:00:00').toISOString() : new Date().toISOString();
         
-        // 編輯按鈕
-        const editBtn = articleItem.querySelector('.edit-article-btn');
-        editBtn.addEventListener('click', (e) => {
+        const { data, error } = await supabase
+          .from('life_planning_schedules')
+          .update({ 
+            date: dateISO,
+            time,
+            title,
+            description: description || '',
+            updated_at: new Date().toISOString() 
+          })
+          .eq('id', id)
+          .select();
+        
+        if (error) {
+          console.error('更新时程安排失败:', error);
+          return null;
+        }
+        return data[0];
+      } catch (error) {
+        console.error('更新时程安排异常:', error);
+        return null;
+      }
+    }
+
+    async function deleteSchedule(id) {
+      if (!supabase) {
+        console.warn('Supabase 未初始化，无法删除时程安排');
+        return false;
+      }
+      
+      try {
+        const { error } = await supabase
+          .from('life_planning_schedules')
+          .delete()
+          .eq('id', id);
+        
+        if (error) {
+          console.error('删除时程安排失败:', error);
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.error('删除时程安排异常:', error);
+        return false;
+      }
+    }
+
+    // Calendar state
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth() + 1; // 1-12
+    let selectedDate = null;
+
+    // Calendar functions
+    function renderCalendar() {
+      const calendarGrid = document.getElementById('calendar-grid');
+      if (!calendarGrid) {
+        console.warn('Calendar grid not found, calendar may not be visible yet');
+        // Try again after a short delay
+        setTimeout(() => {
+          const retryGrid = document.getElementById('calendar-grid');
+          if (retryGrid) {
+            console.log('Retrying calendar render...');
+            renderCalendar();
+          }
+        }, 100);
+        return;
+      }
+      
+      console.log('Rendering calendar for', currentYear, '年', currentMonth, '月');
+      
+      calendarGrid.innerHTML = '';
+      
+      // Update header
+      document.getElementById('current-year').textContent = currentYear;
+      document.getElementById('current-month').textContent = currentMonth;
+      
+      // Get first day of month and number of days
+      const firstDay = new Date(currentYear, currentMonth - 1, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+      const daysInPrevMonth = new Date(currentYear, currentMonth - 1, 0).getDate();
+      
+      // Get today's date
+      const today = new Date();
+      const isCurrentMonth = today.getFullYear() === currentYear && today.getMonth() + 1 === currentMonth;
+      const todayDate = today.getDate();
+      
+      // Group articles by date
+      const articlesByDate = {};
+      articles.forEach(article => {
+        const articleDate = new Date(article.date || article.created_at);
+        const dateKey = `${articleDate.getFullYear()}-${String(articleDate.getMonth() + 1).padStart(2, '0')}-${String(articleDate.getDate()).padStart(2, '0')}`;
+        if (!articlesByDate[dateKey]) {
+          articlesByDate[dateKey] = [];
+        }
+        articlesByDate[dateKey].push(article);
+      });
+      
+      // Previous month days
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const day = daysInPrevMonth - i;
+        const dayElement = createCalendarDay(day, true, null, currentYear, currentMonth - 1);
+        calendarGrid.appendChild(dayElement);
+      }
+      
+      // Current month days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayArticles = articlesByDate[dateKey] || [];
+        const isToday = isCurrentMonth && day === todayDate;
+        const dayElement = createCalendarDay(day, false, dayArticles, currentYear, currentMonth);
+        if (isToday) {
+          dayElement.classList.add('today');
+        }
+        if (dayArticles.length > 0) {
+          dayElement.classList.add('has-articles');
+        }
+        calendarGrid.appendChild(dayElement);
+      }
+      
+      // Next month days (fill remaining cells)
+      const totalCells = calendarGrid.children.length;
+      const remainingCells = 42 - totalCells; // 6 rows * 7 days
+      for (let day = 1; day <= remainingCells; day++) {
+        const dayElement = createCalendarDay(day, true, null, currentYear, currentMonth + 1);
+        calendarGrid.appendChild(dayElement);
+      }
+      
+      // Debug: Log calendar rendering status
+      const clickableDays = calendarGrid.querySelectorAll('.calendar-day:not(.other-month)');
+      console.log(`Calendar rendered: ${clickableDays.length} clickable days created`);
+      
+      // Test: Verify event listeners are attached
+      if (clickableDays.length > 0) {
+        const firstDay = clickableDays[0];
+        const dateAttr = firstDay.getAttribute('data-date');
+        console.log('First clickable day:', dateAttr, 'Has click handler:', firstDay.onclick !== null || firstDay.hasAttribute('data-date'));
+      }
+    }
+    
+    function createCalendarDay(day, isOtherMonth, dayArticles, year, month) {
+      const dayElement = document.createElement('div');
+      dayElement.className = 'calendar-day';
+      if (isOtherMonth) {
+        dayElement.classList.add('other-month');
+      }
+      
+      // 创建内部元素
+      const dayNumber = document.createElement('div');
+      dayNumber.className = 'calendar-day-number';
+      dayNumber.textContent = day;
+      dayElement.appendChild(dayNumber);
+      
+      if (dayArticles && dayArticles.length > 0) {
+        const articlesCount = document.createElement('div');
+        articlesCount.className = 'calendar-day-articles-count';
+        articlesCount.textContent = dayArticles.length;
+        dayElement.appendChild(articlesCount);
+      }
+      
+      if (!isOtherMonth) {
+        const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        
+        // 确保可以点击 - 设置样式
+        dayElement.style.cursor = 'pointer';
+        dayElement.style.pointerEvents = 'auto';
+        dayElement.style.userSelect = 'none';
+        dayElement.setAttribute('data-date', dateKey);
+        dayElement.setAttribute('role', 'button');
+        dayElement.setAttribute('tabindex', '0');
+        
+        // 点击事件
+        const clickHandler = (e) => {
+          e.preventDefault();
           e.stopPropagation();
-          openEditArticleModal(index);
-        });
+          console.log('Date clicked:', dateKey, 'Element:', dayElement);
+          handleDateClick(dateKey, dayArticles || []);
+        };
         
-        // 刪除按鈕
-        const deleteBtn = articleItem.querySelector('.delete-article-btn');
-        deleteBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (confirm(`確定要刪除「${article.title}」嗎？`)) {
-            deleteArticleById(article.id, index);
+        dayElement.addEventListener('click', clickHandler);
+        
+        // 键盘事件支持
+        dayElement.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            clickHandler(e);
           }
         });
         
-        articlesContainer.appendChild(articleItem);
-      });
+        // 触摸事件支持（移动设备）
+        dayElement.addEventListener('touchend', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('Date touched:', dateKey);
+          handleDateClick(dateKey, dayArticles || []);
+        });
+        
+        // 防止内部元素阻止点击
+        dayNumber.style.pointerEvents = 'none';
+        if (dayElement.querySelector('.calendar-day-articles-count')) {
+          dayElement.querySelector('.calendar-day-articles-count').style.pointerEvents = 'none';
+        }
+      }
       
-      // 添加新增文章按鈕
-      const addBtn = document.createElement('div');
-      addBtn.className = 'add-article-btn';
-      addBtn.textContent = '新增文章';
-      addBtn.addEventListener('click', () => openEditArticleModal(-1));
-      articlesContainer.appendChild(addBtn);
+      return dayElement;
+    }
+    
+    function handleDateClick(dateKey, dateArticles) {
+      try {
+        console.log('handleDateClick called with:', dateKey);
+        selectedDate = dateKey;
+        const [year, month, day] = dateKey.split('-');
+        const dateTitle = `${year}年${parseInt(month)}月${parseInt(day)}日`;
+        
+        // Re-filter articles for this date to ensure we have the latest list
+        const filteredArticles = (articles || []).filter(article => {
+          try {
+            const articleDate = new Date(article.date || article.created_at);
+            const articleDateKey = `${articleDate.getFullYear()}-${String(articleDate.getMonth() + 1).padStart(2, '0')}-${String(articleDate.getDate()).padStart(2, '0')}`;
+            return articleDateKey === dateKey;
+          } catch (e) {
+            console.error('Error filtering article:', e);
+            return false;
+          }
+        });
+        
+        // Filter schedules for this date
+        const filteredSchedules = (schedules || []).filter(schedule => {
+          try {
+            if (!schedule || !schedule.date) return false;
+            const scheduleDate = new Date(schedule.date);
+            const scheduleDateKey = `${scheduleDate.getFullYear()}-${String(scheduleDate.getMonth() + 1).padStart(2, '0')}-${String(scheduleDate.getDate()).padStart(2, '0')}`;
+            return scheduleDateKey === dateKey;
+          } catch (e) {
+            console.error('Error filtering schedule:', e);
+            return false;
+          }
+        });
+        
+        const dateTitleEl = document.getElementById('selected-date-title');
+        const dateContainerEl = document.getElementById('date-articles-container');
+        
+        if (!dateTitleEl || !dateContainerEl) {
+          console.error('Required elements not found:', { dateTitleEl, dateContainerEl });
+          alert('無法找到必要的元素，請刷新頁面重試');
+          return;
+        }
+        
+        dateTitleEl.textContent = dateTitle;
+        renderSchedules(filteredSchedules);
+        renderDateArticles(filteredArticles);
+        dateContainerEl.style.display = 'block';
+        
+        // Scroll to the container
+        dateContainerEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        console.log('Date clicked successfully:', dateTitle);
+      } catch (error) {
+        console.error('Error in handleDateClick:', error);
+        alert('點擊日期時發生錯誤：' + error.message);
+      }
+    }
+    
+    function renderSchedules(dateSchedules) {
+      const scheduleList = document.getElementById('schedule-list');
+      if (!scheduleList) return;
+      
+      scheduleList.innerHTML = '';
+      
+      if (dateSchedules.length === 0) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.style.textAlign = 'center';
+        emptyMsg.style.color = 'var(--text-muted)';
+        emptyMsg.style.padding = '20px';
+        emptyMsg.textContent = '尚無時程安排';
+        scheduleList.appendChild(emptyMsg);
+      } else {
+        // Sort schedules by time
+        const sortedSchedules = [...dateSchedules].sort((a, b) => {
+          if (a.time < b.time) return -1;
+          if (a.time > b.time) return 1;
+          return 0;
+        });
+        
+        sortedSchedules.forEach((schedule) => {
+          const scheduleIndex = schedules.findIndex(s => s.id === schedule.id);
+          const scheduleItem = document.createElement('div');
+          scheduleItem.className = 'schedule-item';
+          
+          scheduleItem.innerHTML = `
+            <div class="schedule-item-content">
+              <div class="schedule-item-time">${schedule.time || '未設定'}</div>
+              <h5 class="schedule-item-title">${schedule.title || '無標題'}</h5>
+              ${schedule.description ? `<p class="schedule-item-description">${schedule.description}</p>` : ''}
+            </div>
+            <div class="schedule-item-actions">
+              <button class="schedule-item-btn edit-schedule-btn" data-index="${scheduleIndex}" title="編輯">✎</button>
+              <button class="schedule-item-btn delete-schedule-btn delete-btn" data-index="${scheduleIndex}" title="刪除">×</button>
+            </div>
+          `;
+          
+          // Edit button
+          const editBtn = scheduleItem.querySelector('.edit-schedule-btn');
+          editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEditScheduleModal(scheduleIndex);
+          });
+          
+          // Delete button
+          const deleteBtn = scheduleItem.querySelector('.delete-schedule-btn');
+          deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`確定要刪除「${schedule.title}」嗎？`)) {
+              deleteScheduleById(schedule.id, scheduleIndex);
+            }
+          });
+          
+          scheduleList.appendChild(scheduleItem);
+        });
+      }
+    }
+    
+    function renderDateArticles(dateArticles) {
+      const articlesList = document.getElementById('date-articles-list');
+      if (!articlesList) return;
+      
+      articlesList.innerHTML = '';
+      
+      if (dateArticles.length === 0) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.style.textAlign = 'center';
+        emptyMsg.style.color = 'var(--text-muted)';
+        emptyMsg.style.padding = '20px';
+        emptyMsg.innerHTML = '<p>此日期尚無文章</p><button class="btn-save" style="margin-top: 12px;" id="btn-add-article-to-date">新增文章</button>';
+        articlesList.appendChild(emptyMsg);
+        
+        const addBtn = document.getElementById('btn-add-article-to-date');
+        if (addBtn) {
+          addBtn.addEventListener('click', () => {
+            openEditArticleModal(-1, selectedDate);
+          });
+        }
+      } else {
+        dateArticles.forEach((article, index) => {
+          const articleIndex = articles.findIndex(a => a.id === article.id);
+          const articleItem = document.createElement('div');
+          articleItem.className = 'article-item';
+          
+          const updatedAt = formatDateTime(article.updated_at || article.created_at);
+          
+          articleItem.innerHTML = `
+            <div class="article-item-header">
+              <h3 class="article-item-title">${article.title || '無標題'}</h3>
+              <div class="article-item-actions">
+                <button class="article-item-btn edit-article-btn" data-index="${articleIndex}" title="編輯">✎</button>
+                <button class="article-item-btn delete-article-btn delete-btn" data-index="${articleIndex}" title="刪除">×</button>
+              </div>
+            </div>
+            <div class="article-item-meta">
+              <div class="article-item-meta-item">
+                <span class="article-item-meta-label">作者：</span>
+                <span class="article-item-meta-value">${article.author || '未知'}</span>
+              </div>
+              <div class="article-item-meta-item">
+                <span class="article-item-meta-label">最後修改：</span>
+                <span class="article-item-meta-value">${updatedAt}</span>
+              </div>
+            </div>
+            <div class="article-item-content">${article.content || ''}</div>
+          `;
+          
+          // 編輯按鈕
+          const editBtn = articleItem.querySelector('.edit-article-btn');
+          editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEditArticleModal(articleIndex);
+          });
+          
+          // 刪除按鈕
+          const deleteBtn = articleItem.querySelector('.delete-article-btn');
+          deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`確定要刪除「${article.title}」嗎？`)) {
+              deleteArticleById(article.id, articleIndex);
+            }
+          });
+          
+          articlesList.appendChild(articleItem);
+        });
+        
+        // Add button to add more articles
+        const addBtn = document.createElement('div');
+        addBtn.className = 'add-article-btn';
+        addBtn.textContent = '新增文章';
+        addBtn.addEventListener('click', () => openEditArticleModal(-1, selectedDate));
+        articlesList.appendChild(addBtn);
+      }
+    }
+    
+    // Schedule Edit Modal Functions
+    let currentScheduleEditIndex = -1;
+
+    function openEditScheduleModal(index) {
+      currentScheduleEditIndex = index;
+      const modal = document.getElementById('schedule-modal');
+      const title = document.getElementById('schedule-modal-title');
+      const timeInput = document.getElementById('schedule-time');
+      const titleInput = document.getElementById('schedule-title');
+      const descriptionInput = document.getElementById('schedule-description');
+      
+      if (index === -1) {
+        // 新增模式
+        title.textContent = '新增行程';
+        timeInput.value = '';
+        timeInput.disabled = false;
+        titleInput.value = '';
+        descriptionInput.value = '';
+      } else {
+        // 編輯模式
+        title.textContent = '編輯行程';
+        const schedule = schedules[index];
+        
+        // 确保时间字段可以编辑
+        timeInput.disabled = false;
+        
+        // 处理时间格式 - HTML time input需要HH:MM格式
+        let timeValue = schedule.time || '';
+        // 如果时间格式不是HH:MM，尝试转换
+        if (timeValue && !/^\d{2}:\d{2}$/.test(timeValue)) {
+          // 尝试从其他格式转换
+          if (timeValue.includes(':')) {
+            const parts = timeValue.split(':');
+            if (parts.length >= 2) {
+              timeValue = `${String(parts[0]).padStart(2, '0')}:${String(parts[1]).padStart(2, '0')}`;
+            }
+          } else if (timeValue.length === 4) {
+            // 假设是HHMM格式
+            timeValue = `${timeValue.substring(0, 2)}:${timeValue.substring(2, 4)}`;
+          }
+        }
+        
+        timeInput.value = timeValue;
+        titleInput.value = schedule.title || '';
+        descriptionInput.value = schedule.description || '';
+        
+        console.log('Editing schedule:', schedule, 'Time value:', timeValue);
+      }
+      
+      modal.classList.add('active');
+      // 聚焦到时间输入框，方便用户直接修改
+      setTimeout(() => {
+        timeInput.focus();
+        timeInput.select();
+      }, 100);
+    }
+
+    function closeEditScheduleModal() {
+      const modal = document.getElementById('schedule-modal');
+      const timeInput = document.getElementById('schedule-time');
+      const titleInput = document.getElementById('schedule-title');
+      const descriptionInput = document.getElementById('schedule-description');
+      
+      // 确保所有字段都可用
+      if (timeInput) {
+        timeInput.disabled = false;
+      }
+      
+      modal.classList.remove('active');
+      currentScheduleEditIndex = -1;
+      
+      // 清空表单（可选，根据需求决定）
+      // if (timeInput) timeInput.value = '';
+      // if (titleInput) titleInput.value = '';
+      // if (descriptionInput) descriptionInput.value = '';
+    }
+
+    async function saveSchedule() {
+      const timeInput = document.getElementById('schedule-time');
+      const titleInput = document.getElementById('schedule-title');
+      const descriptionInput = document.getElementById('schedule-description');
+      
+      if (!timeInput || !titleInput) {
+        console.error('Schedule form inputs not found');
+        alert('表單元素未找到，請刷新頁面重試');
+        return;
+      }
+      
+      // 确保时间输入框没有被禁用
+      if (timeInput.disabled) {
+        timeInput.disabled = false;
+      }
+      
+      const time = timeInput.value.trim();
+      const title = titleInput.value.trim();
+      const description = descriptionInput.value.trim();
+      
+      console.log('Saving schedule:', { time, title, description, isEdit: currentScheduleEditIndex !== -1 });
+      
+      if (!time || !title) {
+        alert('請填寫時間和標題');
+        return;
+      }
+      
+      // 验证时间格式 (HH:MM)
+      if (!/^\d{2}:\d{2}$/.test(time)) {
+        alert('時間格式不正確，請使用 HH:MM 格式（例如：14:30）');
+        timeInput.focus();
+        return;
+      }
+      
+      // Use selected date or current date
+      let scheduleDate = selectedDate;
+      if (!scheduleDate) {
+        const today = new Date();
+        scheduleDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      }
+      
+      if (currentScheduleEditIndex === -1) {
+        // 新增
+        const newSchedule = await addSchedule(scheduleDate, time, title, description);
+        if (newSchedule) {
+          schedules.push(newSchedule);
+          if (selectedDate) {
+            const filteredSchedules = schedules.filter(schedule => {
+              const scheduleDate = new Date(schedule.date);
+              const scheduleDateKey = `${scheduleDate.getFullYear()}-${String(scheduleDate.getMonth() + 1).padStart(2, '0')}-${String(scheduleDate.getDate()).padStart(2, '0')}`;
+              return scheduleDateKey === selectedDate;
+            });
+            renderSchedules(filteredSchedules);
+          }
+          closeEditScheduleModal();
+        }
+      } else {
+        // 編輯
+        const schedule = schedules[currentScheduleEditIndex];
+        console.log('Updating schedule:', schedule.id, 'with time:', time);
+        const updated = await updateSchedule(schedule.id, scheduleDate, time, title, description);
+        if (updated) {
+          console.log('Schedule updated successfully:', updated);
+          schedules[currentScheduleEditIndex] = updated;
+          if (selectedDate) {
+            const filteredSchedules = schedules.filter(schedule => {
+              const scheduleDate = new Date(schedule.date);
+              const scheduleDateKey = `${scheduleDate.getFullYear()}-${String(scheduleDate.getMonth() + 1).padStart(2, '0')}-${String(scheduleDate.getDate()).padStart(2, '0')}`;
+              return scheduleDateKey === selectedDate;
+            });
+            renderSchedules(filteredSchedules);
+          }
+          closeEditScheduleModal();
+        } else {
+          alert('更新失敗，請檢查控制台錯誤信息');
+        }
+      }
+    }
+
+    async function deleteScheduleById(id, index) {
+      const success = await deleteSchedule(id);
+      if (success) {
+        schedules.splice(index, 1);
+        if (selectedDate) {
+          const filteredSchedules = schedules.filter(schedule => {
+            const scheduleDate = new Date(schedule.date);
+            const scheduleDateKey = `${scheduleDate.getFullYear()}-${String(scheduleDate.getMonth() + 1).padStart(2, '0')}-${String(scheduleDate.getDate()).padStart(2, '0')}`;
+            return scheduleDateKey === selectedDate;
+          });
+          renderSchedules(filteredSchedules);
+        }
+      }
+    }
+    
+    function prevMonth() {
+      currentMonth--;
+      if (currentMonth < 1) {
+        currentMonth = 12;
+        currentYear--;
+      }
+      renderCalendar();
+    }
+    
+    function nextMonth() {
+      currentMonth++;
+      if (currentMonth > 12) {
+        currentMonth = 1;
+        currentYear++;
+      }
+      renderCalendar();
+    }
+    
+    function openYearMonthSelector(type) {
+      const modal = document.getElementById('year-month-modal');
+      const title = document.getElementById('year-month-modal-title');
+      const grid = document.getElementById('year-month-grid');
+      
+      if (type === 'year') {
+        title.textContent = '選擇年份';
+        grid.innerHTML = '';
+        const currentYearValue = currentYear;
+        const startYear = currentYearValue - 10;
+        const endYear = currentYearValue + 10;
+        
+        for (let year = startYear; year <= endYear; year++) {
+          const item = document.createElement('div');
+          item.className = 'year-month-item';
+          if (year === currentYearValue) {
+            item.classList.add('selected');
+          }
+          item.textContent = year;
+          item.addEventListener('click', () => {
+            currentYear = year;
+            renderCalendar();
+            closeYearMonthSelector();
+          });
+          grid.appendChild(item);
+        }
+      } else if (type === 'month') {
+        title.textContent = '選擇月份';
+        grid.innerHTML = '';
+        const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+        
+        monthNames.forEach((monthName, index) => {
+          const item = document.createElement('div');
+          item.className = 'year-month-item';
+          if (index + 1 === currentMonth) {
+            item.classList.add('selected');
+          }
+          item.textContent = monthName;
+          item.addEventListener('click', () => {
+            currentMonth = index + 1;
+            renderCalendar();
+            closeYearMonthSelector();
+          });
+          grid.appendChild(item);
+        });
+      }
+      
+      modal.classList.add('active');
+    }
+    
+    function closeYearMonthSelector() {
+      const modal = document.getElementById('year-month-modal');
+      modal.classList.remove('active');
     }
 
     async function deleteArticleById(id, index) {
       const success = await deleteArticle(id);
       if (success) {
         articles.splice(index, 1);
-        renderArticles();
+        renderCalendar();
+        if (selectedDate) {
+          const dateArticles = articles.filter(a => {
+            const aDate = new Date(a.date || a.created_at);
+            const dateKey = `${aDate.getFullYear()}-${String(aDate.getMonth() + 1).padStart(2, '0')}-${String(aDate.getDate()).padStart(2, '0')}`;
+            return dateKey === selectedDate;
+          });
+          renderDateArticles(dateArticles);
+        }
       }
     }
 
     async function initArticles() {
       articles = await loadArticles();
-      renderArticles();
+      schedules = await loadSchedules();
+      renderCalendar();
     }
 
     // Article Edit Modal Functions
     let currentArticleEditIndex = -1;
+    let currentArticleDate = null;
 
-    function openEditArticleModal(index) {
+    function openEditArticleModal(index, date = null) {
       currentArticleEditIndex = index;
+      currentArticleDate = date || selectedDate;
       const editModal = document.getElementById('edit-article-modal');
       const editTitle = document.getElementById('edit-article-modal-title');
       const titleInput = document.getElementById('edit-article-title');
@@ -2011,7 +3898,7 @@
       
       if (index === -1) {
         // 新增模式
-        editTitle.textContent = '新增文章';
+        editTitle.textContent = currentArticleDate ? `新增文章 - ${currentArticleDate}` : '新增文章';
         titleInput.value = '';
         authorInput.value = '';
         contentInput.value = '';
@@ -2022,6 +3909,7 @@
         titleInput.value = article.title || '';
         authorInput.value = article.author || '';
         contentInput.value = article.content || '';
+        currentArticleDate = article.date || currentArticleDate;
       }
       
       editModal.classList.add('active');
@@ -2032,6 +3920,7 @@
       const editModal = document.getElementById('edit-article-modal');
       editModal.classList.remove('active');
       currentArticleEditIndex = -1;
+      currentArticleDate = null;
     }
 
     async function saveArticle() {
@@ -2048,21 +3937,44 @@
         return;
       }
       
+      // Use selected date or current date
+      let articleDate = currentArticleDate;
+      if (!articleDate) {
+        const today = new Date();
+        articleDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      }
+      
       if (currentArticleEditIndex === -1) {
         // 新增
-        const newArticle = await addArticle(title, author, content);
+        const newArticle = await addArticle(title, author, content, articleDate);
         if (newArticle) {
           articles.push(newArticle);
-          renderArticles();
+          renderCalendar();
+          if (selectedDate === articleDate) {
+            const dateArticles = articles.filter(a => {
+              const aDate = new Date(a.date || a.created_at);
+              const dateKey = `${aDate.getFullYear()}-${String(aDate.getMonth() + 1).padStart(2, '0')}-${String(aDate.getDate()).padStart(2, '0')}`;
+              return dateKey === articleDate;
+            });
+            renderDateArticles(dateArticles);
+          }
           closeEditArticleModal();
         }
       } else {
         // 編輯
         const article = articles[currentArticleEditIndex];
-        const updated = await updateArticle(article.id, title, author, content);
+        const updated = await updateArticle(article.id, title, author, content, articleDate);
         if (updated) {
           articles[currentArticleEditIndex] = updated;
-          renderArticles();
+          renderCalendar();
+          if (selectedDate === articleDate) {
+            const dateArticles = articles.filter(a => {
+              const aDate = new Date(a.date || a.created_at);
+              const dateKey = `${aDate.getFullYear()}-${String(aDate.getMonth() + 1).padStart(2, '0')}-${String(aDate.getDate()).padStart(2, '0')}`;
+              return dateKey === articleDate;
+            });
+            renderDateArticles(dateArticles);
+          }
           closeEditArticleModal();
         }
       }
@@ -2400,6 +4312,287 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       }
     ];
 
+    // Lovense Interactive Game Functions
+    let lovenseWebhookUrl = '';
+    let lovenseToken = '';
+    let isConnected = false;
+    let currentVibration = null;
+
+    // Update connection status
+    function updateConnectionStatus(connected, connecting = false) {
+      const statusIndicator = document.getElementById('status-indicator');
+      const statusText = document.getElementById('status-text');
+      const controlPanel = document.getElementById('control-panel');
+      
+      if (statusIndicator && statusText) {
+        statusIndicator.className = 'status-indicator';
+        if (connected) {
+          statusIndicator.classList.add('connected');
+          statusText.textContent = '已連接';
+          isConnected = true;
+          if (controlPanel) controlPanel.style.display = 'flex';
+        } else if (connecting) {
+          statusIndicator.classList.add('connecting');
+          statusText.textContent = '連接中...';
+          isConnected = false;
+        } else {
+          statusText.textContent = '未連接';
+          isConnected = false;
+          if (controlPanel) controlPanel.style.display = 'none';
+        }
+      }
+    }
+
+    // Send vibration command via webhook
+    async function sendVibrationCommand(command) {
+      if (!lovenseWebhookUrl) {
+        alert('請先設定 Webhook URL');
+        return false;
+      }
+
+      try {
+        const payload = {
+          action: 'vibrate',
+          intensity: command.intensity || 50,
+          duration: command.duration || 3,
+          pattern: command.pattern || 'constant',
+          token: lovenseToken || undefined,
+          timestamp: new Date().toISOString()
+        };
+
+        const response = await fetch(lovenseWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Vibration command sent:', data);
+        return true;
+      } catch (error) {
+        console.error('Failed to send vibration command:', error);
+        alert('發送振動命令失敗: ' + error.message);
+        return false;
+      }
+    }
+
+    // Connect to Lovense
+    function connectLovense() {
+      const webhookUrl = document.getElementById('webhook-url')?.value.trim();
+      const token = document.getElementById('device-token')?.value.trim();
+
+      if (!webhookUrl) {
+        alert('請輸入 Webhook URL');
+        return;
+      }
+
+      lovenseWebhookUrl = webhookUrl;
+      lovenseToken = token || '';
+
+      updateConnectionStatus(false, true);
+
+      // Test connection
+      setTimeout(() => {
+        // Simulate connection test
+        updateConnectionStatus(true);
+      }, 1000);
+    }
+
+    // Stop vibration
+    async function stopVibration() {
+      if (!isConnected) return;
+
+      try {
+        const payload = {
+          action: 'stop',
+          token: lovenseToken || undefined,
+          timestamp: new Date().toISOString()
+        };
+
+        await fetch(lovenseWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (currentVibration) {
+          clearInterval(currentVibration);
+          currentVibration = null;
+        }
+      } catch (error) {
+        console.error('Failed to stop vibration:', error);
+      }
+    }
+
+    // Start vibration
+    async function startVibration() {
+      if (!isConnected) {
+        alert('請先連接設備');
+        return;
+      }
+
+      const intensity = parseInt(document.getElementById('vibration-intensity')?.value || 50);
+      const duration = parseInt(document.getElementById('vibration-duration')?.value || 3);
+
+      await sendVibrationCommand({
+        intensity: intensity,
+        duration: duration,
+        pattern: 'constant'
+      });
+    }
+
+    // Pattern functions
+    const patterns = {
+      gentle: { intensity: 20, duration: 5, pattern: 'wave' },
+      medium: { intensity: 50, duration: 5, pattern: 'wave' },
+      strong: { intensity: 80, duration: 5, pattern: 'constant' },
+      wave: { intensity: 60, duration: 10, pattern: 'wave' },
+      pulse: { intensity: 70, duration: 8, pattern: 'pulse' },
+      random: { intensity: Math.floor(Math.random() * 100), duration: 5, pattern: 'random' }
+    };
+
+    // Game functions
+    function startRhythmGame() {
+      if (!isConnected) {
+        alert('請先連接設備');
+        return;
+      }
+
+      let beatCount = 0;
+      const rhythm = setInterval(() => {
+        beatCount++;
+        const intensity = 30 + (beatCount % 4) * 20;
+        sendVibrationCommand({
+          intensity: intensity,
+          duration: 0.5,
+          pattern: 'pulse'
+        });
+
+        if (beatCount >= 20) {
+          clearInterval(rhythm);
+          alert('節奏遊戲結束！');
+        }
+      }, 1000);
+    }
+
+    function startReactionTest() {
+      if (!isConnected) {
+        alert('請先連接設備');
+        return;
+      }
+
+      const randomDelay = Math.random() * 3000 + 2000; // 2-5 seconds
+      
+      setTimeout(() => {
+        sendVibrationCommand({
+          intensity: 80,
+          duration: 1,
+          pattern: 'constant'
+        });
+        alert('反應測試開始！');
+      }, randomDelay);
+    }
+
+    function startRandomStimulation() {
+      if (!isConnected) {
+        alert('請先連接設備');
+        return;
+      }
+
+      const randomInterval = setInterval(() => {
+        const intensity = Math.floor(Math.random() * 100);
+        const duration = Math.random() * 3 + 1;
+        
+        sendVibrationCommand({
+          intensity: intensity,
+          duration: duration,
+          pattern: 'random'
+        });
+      }, 3000);
+
+      // Stop after 30 seconds
+      setTimeout(() => {
+        clearInterval(randomInterval);
+        stopVibration();
+      }, 30000);
+    }
+
+    // Initialize Lovense controls
+    function initLovenseGame() {
+      // Connection button
+      const btnConnect = document.getElementById('btn-connect');
+      if (btnConnect) {
+        btnConnect.addEventListener('click', connectLovense);
+      }
+
+      // Control buttons
+      const btnStart = document.getElementById('btn-start');
+      const btnStop = document.getElementById('btn-stop');
+      
+      if (btnStart) {
+        btnStart.addEventListener('click', startVibration);
+      }
+      
+      if (btnStop) {
+        btnStop.addEventListener('click', stopVibration);
+      }
+
+      // Sliders
+      const intensitySlider = document.getElementById('vibration-intensity');
+      const durationSlider = document.getElementById('vibration-duration');
+      const intensityValue = document.getElementById('intensity-value');
+      const durationValue = document.getElementById('duration-value');
+
+      if (intensitySlider && intensityValue) {
+        intensitySlider.addEventListener('input', (e) => {
+          intensityValue.textContent = e.target.value;
+        });
+      }
+
+      if (durationSlider && durationValue) {
+        durationSlider.addEventListener('input', (e) => {
+          durationValue.textContent = e.target.value;
+        });
+      }
+
+      // Pattern buttons
+      const patternButtons = document.querySelectorAll('.pattern-btn');
+      patternButtons.forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          patternButtons.forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          
+          const pattern = e.target.getAttribute('data-pattern');
+          if (pattern && patterns[pattern]) {
+            await sendVibrationCommand(patterns[pattern]);
+          }
+        });
+      });
+
+      // Game buttons
+      const btnGame1 = document.getElementById('btn-game-1');
+      const btnGame2 = document.getElementById('btn-game-2');
+      const btnGame3 = document.getElementById('btn-game-3');
+
+      if (btnGame1) {
+        btnGame1.addEventListener('click', startRhythmGame);
+      }
+      if (btnGame2) {
+        btnGame2.addEventListener('click', startReactionTest);
+      }
+      if (btnGame3) {
+        btnGame3.addEventListener('click', startRandomStimulation);
+      }
+    }
+
     // Load stories from Supabase on page load
     async function initStories() {
       try {
@@ -2652,18 +4845,124 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     document.getElementById("btn-article-cancel").addEventListener("click", closeEditArticleModal);
     document.getElementById("btn-article-save").addEventListener("click", saveArticle);
 
+    // Calendar Controls
+    const prevMonthBtn = document.getElementById('prev-month-btn');
+    const nextMonthBtn = document.getElementById('next-month-btn');
+    const yearSelectorBtn = document.getElementById('year-selector-btn');
+    const monthSelectorBtn = document.getElementById('month-selector-btn');
+    const yearMonthModal = document.getElementById('year-month-modal');
+    const yearMonthModalClose = document.getElementById('year-month-modal-close');
+    const btnCloseArticles = document.getElementById('btn-close-articles');
+    
+    if (prevMonthBtn) {
+      prevMonthBtn.addEventListener('click', prevMonth);
+    }
+    if (nextMonthBtn) {
+      nextMonthBtn.addEventListener('click', nextMonth);
+    }
+    if (yearSelectorBtn) {
+      yearSelectorBtn.addEventListener('click', () => openYearMonthSelector('year'));
+    }
+    if (monthSelectorBtn) {
+      monthSelectorBtn.addEventListener('click', () => openYearMonthSelector('month'));
+    }
+    if (yearMonthModalClose) {
+      yearMonthModalClose.addEventListener('click', closeYearMonthSelector);
+    }
+    if (yearMonthModal) {
+      yearMonthModal.addEventListener('click', (e) => {
+        if (e.target.id === 'year-month-modal') {
+          closeYearMonthSelector();
+        }
+      });
+    }
+    if (btnCloseArticles) {
+      btnCloseArticles.addEventListener('click', () => {
+        document.getElementById('date-articles-container').style.display = 'none';
+        selectedDate = null;
+      });
+    }
+    
+    // Close date articles container when clicking on background
+    const dateArticlesContainer = document.getElementById('date-articles-container');
+    if (dateArticlesContainer) {
+      dateArticlesContainer.addEventListener('click', (e) => {
+        // Only close if clicking directly on the container background, not on inner content
+        if (e.target === dateArticlesContainer || e.target.classList.contains('date-articles-container')) {
+          dateArticlesContainer.style.display = 'none';
+          selectedDate = null;
+        }
+      });
+      
+      // Prevent closing when clicking on inner content
+      const dateArticlesInner = dateArticlesContainer.querySelector('.date-articles-inner');
+      if (dateArticlesInner) {
+        dateArticlesInner.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+    }
+
+    // Schedule Controls
+    const btnAddSchedule = document.getElementById('btn-add-schedule');
+    const scheduleModal = document.getElementById('schedule-modal');
+    const scheduleModalClose = document.getElementById('schedule-modal-close');
+    const scheduleBtnCancel = document.getElementById('schedule-btn-cancel');
+    const scheduleBtnSave = document.getElementById('schedule-btn-save');
+    
+    if (btnAddSchedule) {
+      btnAddSchedule.addEventListener('click', () => {
+        if (!selectedDate) {
+          alert('請先選擇日期');
+          return;
+        }
+        openEditScheduleModal(-1);
+      });
+    }
+    
+    if (scheduleModalClose) {
+      scheduleModalClose.addEventListener('click', closeEditScheduleModal);
+    }
+    
+    if (scheduleModal) {
+      scheduleModal.addEventListener('click', (e) => {
+        if (e.target.id === 'schedule-modal') {
+          closeEditScheduleModal();
+        }
+      });
+    }
+    
+    if (scheduleBtnCancel) {
+      scheduleBtnCancel.addEventListener('click', closeEditScheduleModal);
+    }
+    
+    if (scheduleBtnSave) {
+      scheduleBtnSave.addEventListener('click', saveSchedule);
+    }
+
     // Keyboard support for modals (ESC key)
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const storyModal = document.getElementById("story-modal");
         const editModal = document.getElementById("edit-story-modal");
         const articleModal = document.getElementById("edit-article-modal");
-        if (storyModal.classList.contains("active")) {
+        const yearMonthModal = document.getElementById("year-month-modal");
+        const scheduleModal = document.getElementById("schedule-modal");
+        const dateArticlesContainer = document.getElementById("date-articles-container");
+        
+        if (storyModal && storyModal.classList.contains("active")) {
           closeStoryModal();
-        } else if (editModal.classList.contains("active")) {
+        } else if (editModal && editModal.classList.contains("active")) {
           closeEditModal();
-        } else if (articleModal.classList.contains("active")) {
+        } else if (articleModal && articleModal.classList.contains("active")) {
           closeEditArticleModal();
+        } else if (yearMonthModal && yearMonthModal.classList.contains("active")) {
+          closeYearMonthSelector();
+        } else if (scheduleModal && scheduleModal.classList.contains("active")) {
+          closeEditScheduleModal();
+        } else if (dateArticlesContainer && dateArticlesContainer.style.display !== 'none') {
+          dateArticlesContainer.style.display = 'none';
+          selectedDate = null;
         }
       }
     });
@@ -2707,6 +5006,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
             console.log('Supabase 连接成功（延迟初始化）');
           }
           initStories();
+          initArticles();
         }, 100);
       });
     } else {
@@ -2717,6 +5017,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
           console.log('Supabase 连接成功（延迟初始化）');
         }
         initStories();
+        initArticles();
       }, 100);
     }
   </script>
