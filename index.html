@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>角色扮演抽籤卡牌｜黑金版</title>
+  <title>人生伴侶成長營</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Favicon - Golden Intertwined Hearts (Intimate Feel) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23facc15'/%3E%3Cstop offset='50%25' stop-color='%23f5d76e'/%3E%3Cstop offset='100%25' stop-color='%23facc15'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M35 30 C30 20 20 20 15 30 C15 40 25 50 35 70 C45 50 55 40 55 30 C50 20 40 20 35 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M65 30 C60 20 50 20 45 30 C45 40 55 50 65 70 C75 50 85 40 85 30 C80 20 70 20 65 30 Z' fill='url(%23gold)'/%3E%3Cpath d='M50 50 C48 45 45 45 42 50 C42 55 46 60 50 65 C54 60 58 55 58 50 C55 45 52 45 50 50 Z' fill='%23facc15' opacity='0.8'/%3E%3C/svg%3E" />
@@ -60,33 +60,95 @@
       max-width: 600px;
       margin: 0 auto;
       justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 8px;
+      margin: 0 16px;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo:hover {
+      background: rgba(197, 158, 107, 0.1);
+      transform: scale(1.05);
+    }
+
+    .nav-logo svg {
+      width: 32px;
+      height: 32px;
+      display: block;
     }
 
     .nav-tab {
       flex: 1;
       padding: 10px 16px;
       background: transparent;
-      border: 1px solid rgba(197, 158, 107, 0.3);
-      border-radius: 8px;
+      border: none;
+      border-radius: 0;
       color: var(--text-muted);
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
       text-align: center;
       min-width: 0;
+      position: relative;
+      transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+    }
+
+    .nav-tab::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: translateX(-50%);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
     }
 
     .nav-tab:hover {
-      border-color: rgba(197, 158, 107, 0.5);
       color: var(--text-sub);
     }
 
-    .nav-tab.active {
-      background: linear-gradient(135deg, rgba(197, 158, 107, 0.25), rgba(197, 158, 107, 0.15));
-      border-color: var(--gold);
+    .nav-tab:hover::after {
+      width: 80%;
+      opacity: 0.8;
+    }
+
+    .nav-tab:focus,
+    .nav-tab:focus-visible {
       color: var(--gold);
-      box-shadow: 0 0 12px rgba(197, 158, 107, 0.4);
+      outline: none;
+    }
+
+    .nav-tab:focus::after,
+    .nav-tab:focus-visible::after {
+      width: 100%;
+      opacity: 1;
+    }
+
+    .nav-tab.active {
+      color: var(--gold);
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .nav-tab.active::after {
+      width: 100%;
+      opacity: 1;
     }
 
     /* Page Container */
@@ -100,10 +162,75 @@
       justify-content: center;
     }
 
+    /* Games Page - Align content to top */
+    .page-container.games-active {
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 20px;
+    }
+    
+    .page-container:has(#games-page.active) {
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 20px;
+    }
+
+    /* Story Plots Content - Full Width Layout */
+    .page-container.story-plots-fullwidth {
+      max-width: 100%;
+      width: 100%;
+      padding: 20px 16px;
+    }
+
+    #story-plots-content {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    #story-plots-content .app-header {
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+    }
+
+    #story-plots-content .story-grid {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+
+    /* Story Plots Add Button */
+    .story-plots-add-btn {
+      margin-top: 16px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.2), rgba(197, 158, 107, 0.15));
+      border: 1px solid rgba(197, 158, 107, 0.4);
+      border-radius: 8px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .story-plots-add-btn:hover {
+      background: linear-gradient(135deg, rgba(197, 158, 107, 0.3), rgba(197, 158, 107, 0.25));
+      border-color: var(--gold);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(197, 158, 107, 0.2);
+    }
+
+    .story-plots-add-btn:active {
+      transform: translateY(0);
+    }
+
     /* Story Plots Page Container - Full Width */
     .page-container.story-plots-active {
       max-width: 100%;
-      padding: 20px;
+      padding: 0;
       align-items: flex-start;
     }
 
@@ -142,8 +269,9 @@
     /* Games Page with Tabs */
     #games-page.active {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
+      width: 100%;
     }
 
     .game-tabs {
@@ -179,10 +307,16 @@
 
     .game-content {
       display: none;
+      width: 100%;
+      max-width: 100%;
     }
 
     .game-content.active {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
     }
 
     @keyframes fadeIn {
@@ -230,28 +364,34 @@
     /* Card Styles */
     .card-wrapper {
       display: flex;
+      flex-direction: row !important;
       justify-content: center;
-      align-items: center;
+      align-items: stretch;
       margin-top: 24px;
       margin-bottom: 16px;
       padding: 20px 40px;
+      gap: 20px;
+      flex-wrap: nowrap !important;
     }
 
     .card {
-      width: 100%;
-      max-width: 320px;
-      min-height: 200px;
-      border-radius: 24px;
+      width: 300px !important;
+      height: 420px;
+      flex-shrink: 0;
+      flex-grow: 0;
+      border-radius: 16px;
       background:
         radial-gradient(circle at 20% 30%, rgba(197, 158, 107, 0.18), transparent 50%),
         radial-gradient(circle at 80% 70%, rgba(139, 106, 70, 0.15), transparent 50%),
         linear-gradient(135deg, rgba(37, 37, 37, 0.95), rgba(28, 28, 28, 0.98));
       box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.95),
-        0 0 0 1px rgba(197, 158, 107, 0.3),
-        inset 0 1px 0 rgba(197, 158, 107, 0.15);
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 0 2px rgba(197, 158, 107, 0.4),
+        0 0 0 4px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(197, 158, 107, 0.1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
       color: var(--text-sub);
-      padding: 28px 24px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -260,6 +400,7 @@
       position: relative;
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(197, 158, 107, 0.2);
     }
 
     .card::before {
@@ -307,12 +448,24 @@
         linear-gradient(135deg, rgba(37, 37, 37, 0.95), rgba(28, 28, 28, 0.98));
     }
 
-    .card:active {
-      transform: translateY(-1px) scale(0.998);
+    .card:hover {
+      transform: translateY(-2px) scale(1.01);
       box-shadow:
-        0 16px 35px rgba(0, 0, 0, 0.95),
-        0 0 0 1px rgba(197, 158, 107, 0.4),
-        inset 0 1px 0 rgba(197, 158, 107, 0.18);
+        0 12px 40px rgba(0, 0, 0, 0.9),
+        0 0 0 2px rgba(197, 158, 107, 0.5),
+        0 0 0 4px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(197, 158, 107, 0.15),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .card:active {
+      transform: translateY(0px) scale(0.99);
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.85),
+        0 0 0 2px rgba(197, 158, 107, 0.4),
+        0 0 0 4px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(197, 158, 107, 0.1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .card-title {
@@ -374,7 +527,7 @@
     }
 
     .card-attitude::before {
-      content: "中文";
+      content: "態度";
       font-size: 10px;
       letter-spacing: 0.1em;
       color: rgba(197, 158, 107, 0.6);
@@ -403,7 +556,7 @@
     }
 
     .card-scene::before {
-      content: "韓文";
+      content: "地點";
       font-size: 10px;
       letter-spacing: 0.1em;
       color: rgba(136, 136, 136, 0.6);
@@ -448,7 +601,7 @@
     }
 
     .result-attitude::before {
-      content: "中文";
+      content: "態度";
       font-size: 9px;
       letter-spacing: 0.1em;
       color: rgba(197, 158, 107, 0.6);
@@ -473,7 +626,7 @@
     }
 
     .result-scene::before {
-      content: "韓文";
+      content: "地點";
       font-size: 9px;
       letter-spacing: 0.1em;
       color: rgba(136, 136, 136, 0.6);
@@ -526,13 +679,40 @@
       padding: 0;
     }
 
+    /* Games Page - Remove Background Card */
+    #games-page .app {
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 0;
+    }
+
     /* Story Cards Grid */
     .story-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: 1fr;
       gap: 16px;
       margin-top: 20px;
       width: 100%;
+      padding: 0;
+    }
+
+    /* Dream Grid - 3 columns layout */
+    #husband-dream-grid,
+    #wife-dream-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+      width: 100%;
+      padding: 0;
     }
 
     .story-card {
@@ -604,6 +784,11 @@
     #life-planning-page .app {
       max-width: 100%;
       width: 100%;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      padding: 0;
     }
 
     /* Calendar Styles */
@@ -1747,39 +1932,88 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      display: flex;
-      gap: 8px;
       z-index: 10;
     }
 
-    .story-card-edit-btn,
-    .story-card-delete-btn {
+    .story-card-menu-btn {
       width: 32px;
       height: 32px;
-      border-radius: 50%;
-      border: 1px solid rgba(197, 158, 107, 0.45);
+      border-radius: 6px;
+      border: 1px solid rgba(197, 158, 107, 0.3);
       background: rgba(37, 37, 37, 0.85);
       color: var(--gold);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 16px;
       transition: all 0.2s ease;
       backdrop-filter: blur(4px);
+      padding: 0;
+      line-height: 1;
     }
 
-    .story-card-edit-btn:hover {
+    .story-card-menu-btn:hover {
+      background: rgba(197, 158, 107, 0.15);
+      border-color: var(--gold);
+      transform: scale(1.05);
+    }
+
+    .story-card-menu-btn.active {
       background: rgba(197, 158, 107, 0.25);
       border-color: var(--gold);
-      transform: scale(1.1);
     }
 
-    .story-card-delete-btn:hover {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: #ef4444;
+    .story-card-menu-dropdown {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: var(--card-black);
+      border: 1px solid rgba(197, 158, 107, 0.4);
+      border-radius: 8px;
+      padding: 6px;
+      min-width: 120px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .story-card-menu-dropdown.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .story-card-menu-item {
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-sub);
+    }
+
+    .story-card-menu-item:hover {
+      background: rgba(197, 158, 107, 0.1);
+      color: var(--gold);
+    }
+
+    .story-card-menu-item.edit {
+      border-bottom: 1px solid rgba(197, 158, 107, 0.2);
+      margin-bottom: 4px;
+      padding-bottom: 10px;
+    }
+
+    .story-card-menu-item.delete {
       color: #ef4444;
-      transform: scale(1.1);
+    }
+
+    .story-card-menu-item.delete:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
     }
 
     /* Floating Action Button for Add Story */
@@ -1976,26 +2210,26 @@
     }
 
     .modal-title {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 700;
       color: var(--gold);
       margin: 0;
-      padding: 80px 20px 30px;
+      padding: 50px 20px 20px;
       text-align: center;
       border-bottom: 1px solid rgba(197, 158, 107, 0.25);
       background: rgba(197, 158, 107, 0.08);
     }
 
     .modal-body {
-      font-size: 16px;
+      font-size: 15px;
       color: var(--text-sub);
-      line-height: 1.9;
+      line-height: 1.6;
       white-space: pre-line;
-      padding: 40px 20px;
-      max-width: 800px;
+      padding: 24px 20px;
+      max-width: 700px;
       width: 100%;
       margin: 0 auto;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
     }
 
     /* 文章内容样式 - 大标题 */
@@ -2011,13 +2245,13 @@
 
     /* 通过JavaScript处理的样式类 */
     .article-main-title {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--gold);
-      margin: 32px 0 20px;
-      padding-bottom: 16px;
+      margin: 20px 0 12px;
+      padding-bottom: 10px;
       border-bottom: 2px solid rgba(197, 158, 107, 0.4);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.03em;
       text-align: center;
     }
 
@@ -2026,44 +2260,44 @@
     }
 
     .article-chapter-title {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 600;
       color: var(--gold-soft);
-      margin: 32px 0 16px;
-      padding: 12px 0 12px 12px;
-      border-left: 4px solid rgba(197, 158, 107, 0.7);
+      margin: 18px 0 10px;
+      padding: 8px 0 8px 10px;
+      border-left: 3px solid rgba(197, 158, 107, 0.7);
       background: rgba(197, 158, 107, 0.08);
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
     }
 
     .article-theme {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--text-muted);
-      margin: 20px 0 16px;
-      padding: 8px 0 8px 16px;
+      margin: 12px 0 10px;
+      padding: 6px 0 6px 12px;
       border-left: 2px solid rgba(197, 158, 107, 0.4);
       font-style: italic;
       background: rgba(68, 68, 68, 0.2);
     }
 
     .article-content {
-      font-size: 16px;
+      font-size: 15px;
       color: var(--text-sub);
-      line-height: 1.9;
-      margin: 12px 0;
-      padding: 0 4px;
+      line-height: 1.6;
+      margin: 6px 0;
+      padding: 0 2px;
       letter-spacing: 0.01em;
     }
 
     .article-role {
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--gold-soft);
-      margin: 24px 0 12px;
-      padding: 8px 12px;
+      margin: 14px 0 8px;
+      padding: 6px 10px;
       background: rgba(197, 158, 107, 0.12);
-      border-radius: 6px;
+      border-radius: 5px;
       display: inline-block;
     }
 
@@ -2174,6 +2408,56 @@
       margin-bottom: 4px;
     }
 
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .history-table tbody {
+      display: block;
+      max-height: 140px;
+      overflow-y: auto;
+      width: 100%;
+    }
+
+    .history-table tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      border-bottom: 1px solid rgba(68, 68, 68, 0.3);
+    }
+
+    .history-table tr:first-child {
+      border-top: none;
+    }
+
+    .history-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .history-table td {
+      padding: 8px 0;
+      text-align: left;
+      vertical-align: top;
+      word-wrap: break-word;
+    }
+
+    .history-interaction-label {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+      margin-right: 4px;
+    }
+
+    .history-interaction-value {
+      font-size: 13px;
+      color: rgba(197, 158, 107, 0.95);
+      font-weight: 600;
+    }
+
+    /* 保留舊的 .history-list 樣式以防其他地方使用 */
     .history-list {
       list-style: none;
       padding: 0;
@@ -2195,6 +2479,26 @@
 
     /* Mobile Responsive */
     @media (max-width: 480px) {
+      .nav-tabs {
+        gap: 4px;
+      }
+
+      .nav-tab {
+        font-size: 12px;
+        padding: 8px 10px;
+        min-width: 0;
+      }
+
+      .nav-logo {
+        margin: 0 8px;
+        padding: 6px;
+      }
+
+      .nav-logo svg {
+        width: 28px;
+        height: 28px;
+      }
+
       .page-container {
         padding: 16px 12px;
       }
@@ -2215,26 +2519,54 @@
       }
 
       .card-wrapper {
-        padding: 0;
+        padding: 10px 15px !important;
         margin-top: 20px;
         margin-bottom: 12px;
+        flex-direction: row !important;
+        gap: 10px !important;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        align-items: stretch;
+        display: flex !important;
       }
 
       .card {
-        max-width: 100%;
-        width: 100%;
-        padding: 24px 20px;
-        border-radius: 20px;
-        min-height: 180px;
+        width: calc(50% - 5px) !important;
+        max-width: calc(50% - 5px) !important;
+        min-width: calc(50% - 5px) !important;
+        height: auto;
+        min-height: 280px;
+        padding: 16px 12px;
+        border-radius: 14px;
+        flex-shrink: 0 !important;
+        flex-grow: 0 !important;
       }
 
       .card-main {
-        font-size: 20px;
+        font-size: 14px;
+        line-height: 1.4;
       }
 
       .card-title {
+        font-size: 8px;
+        margin-bottom: 8px;
+        letter-spacing: 0.2em;
+      }
+      
+      .card-hint {
         font-size: 9px;
-        margin-bottom: 12px;
+        margin-top: 8px;
+      }
+      
+      .card-role-info {
+        gap: 6px;
+        margin-top: 8px;
+      }
+      
+      .card-attitude,
+      .card-scene {
+        font-size: 11px;
+        padding: 4px 8px;
       }
 
       .card-role-info {
@@ -2296,7 +2628,13 @@
       }
 
       .story-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      #husband-dream-grid,
+      #wife-dream-grid {
+        grid-template-columns: 1fr;
         gap: 12px;
       }
 
@@ -2352,6 +2690,17 @@
       .btn-add-schedule {
         width: 100%;
         padding: 10px;
+      }
+
+      /* Story card menu responsive */
+      .story-card-menu-dropdown {
+        min-width: 100px;
+        padding: 4px;
+      }
+
+      .story-card-menu-item {
+        padding: 8px 10px;
+        font-size: 13px;
       }
 
       .schedule-item {
@@ -2514,14 +2863,14 @@
       }
 
       .modal-title {
-        font-size: 22px;
-        padding: 70px 16px 24px;
+        font-size: 20px;
+        padding: 50px 16px 16px;
       }
 
       .modal-body {
-        font-size: 15px;
-        padding: 24px 16px;
-        line-height: 1.8;
+        font-size: 14px;
+        padding: 20px 16px;
+        line-height: 1.5;
       }
 
       .modal-close {
@@ -2533,34 +2882,34 @@
       }
 
       .article-main-title {
-        font-size: 20px;
-        margin: 24px 0 16px;
-        padding-bottom: 12px;
+        font-size: 18px;
+        margin: 16px 0 10px;
+        padding-bottom: 8px;
       }
 
       .article-chapter-title {
-        font-size: 18px;
-        margin: 28px 0 12px;
-        padding: 10px 0 10px 10px;
-        border-left-width: 3px;
+        font-size: 16px;
+        margin: 14px 0 8px;
+        padding: 6px 0 6px 8px;
+        border-left-width: 2px;
       }
 
       .article-theme {
-        font-size: 14px;
-        margin: 16px 0 12px;
-        padding: 6px 0 6px 12px;
+        font-size: 13px;
+        margin: 10px 0 8px;
+        padding: 5px 0 5px 10px;
       }
 
       .article-content {
-        font-size: 15px;
-        line-height: 1.8;
-        margin: 10px 0;
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 5px 0;
       }
 
       .article-role {
-        font-size: 16px;
-        margin: 20px 0 10px;
-        padding: 6px 10px;
+        font-size: 14px;
+        margin: 12px 0 6px;
+        padding: 5px 8px;
       }
 
       .story-card-actions {
@@ -2622,18 +2971,24 @@
     /* Tablet and Medium Screens */
     @media (min-width: 481px) and (max-width: 768px) {
       .story-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      #husband-dream-grid,
+      #wife-dream-grid {
+        grid-template-columns: repeat(2, 1fr);
         gap: 14px;
       }
 
       .modal-body {
-        max-width: 700px;
-        padding: 40px 24px;
+        max-width: 650px;
+        padding: 24px 24px;
       }
 
       .modal-title {
-        font-size: 26px;
-        padding: 80px 24px 30px;
+        font-size: 22px;
+        padding: 50px 24px 20px;
       }
 
       .edit-form {
@@ -2700,10 +3055,45 @@
 
     /* Large Screens */
     @media (min-width: 769px) {
+      /* Life Planning Page - Desktop: Add padding and limit width */
+      .page-container:has(#life-planning-page.active),
+      .page-container.story-plots-active:has(#life-planning-page.active) {
+        max-width: 1400px;
+        padding: 40px;
+      }
+
+      #life-planning-page .app {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+      }
+
+      /* Life Goals Page - Desktop: Add padding and limit width */
+      .page-container:has(#life-goals-page.active),
+      .page-container.story-plots-active:has(#life-goals-page.active) {
+        max-width: 1400px;
+        padding: 40px;
+      }
+
+      #life-goals-page .app {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+      }
+
       .story-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: 1fr;
         gap: 16px;
         width: 100%;
+      }
+
+      /* Dream Grid - Desktop: 3 columns */
+      #husband-dream-grid,
+      #wife-dream-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
       }
 
       .modal-body {
@@ -2734,23 +3124,27 @@
 
     /* Scrollbar Styling */
     .history-list::-webkit-scrollbar,
+    .history-table::-webkit-scrollbar,
     .modal-content::-webkit-scrollbar {
       width: 6px;
     }
 
     .history-list::-webkit-scrollbar-track,
+    .history-table::-webkit-scrollbar-track,
     .modal-content::-webkit-scrollbar-track {
       background: rgba(0, 0, 0, 0.3);
       border-radius: 3px;
     }
 
     .history-list::-webkit-scrollbar-thumb,
+    .history-table::-webkit-scrollbar-thumb,
     .modal-content::-webkit-scrollbar-thumb {
       background: rgba(197, 158, 107, 0.5);
       border-radius: 3px;
     }
 
     .history-list::-webkit-scrollbar-thumb:hover,
+    .history-table::-webkit-scrollbar-thumb:hover,
     .modal-content::-webkit-scrollbar-thumb:hover {
       background: rgba(197, 158, 107, 0.7);
     }
@@ -2759,6 +3153,11 @@
     #life-goals-page .app {
       max-width: 100%;
       width: 100%;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      padding: 0;
     }
 
     #life-goals-page.active {
@@ -2949,8 +3348,21 @@
   <div class="nav-container">
     <div class="nav-tabs">
       <button class="nav-tab active" data-page="games">遊戲</button>
-      <button class="nav-tab" data-page="story-plots">故事劇情</button>
       <button class="nav-tab" data-page="life-planning">行程安排</button>
+      <a href="#" class="nav-logo" id="nav-logo" title="回到首頁">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="nav-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#facc15"/>
+              <stop offset="50%" stop-color="#f5d76e"/>
+              <stop offset="100%" stop-color="#facc15"/>
+            </linearGradient>
+          </defs>
+          <path d="M35 30 C30 20 20 20 15 30 C15 40 25 50 35 70 C45 50 55 40 55 30 C50 20 40 20 35 30 Z" fill="url(#nav-gold)"/>
+          <path d="M65 30 C60 20 50 20 45 30 C45 40 55 50 65 70 C75 50 85 40 85 30 C80 20 70 20 65 30 Z" fill="url(#nav-gold)"/>
+          <path d="M50 50 C48 45 45 45 42 50 C42 55 46 60 50 65 C54 60 58 55 58 50 C55 45 52 45 50 50 Z" fill="#facc15" opacity="0.8"/>
+        </svg>
+      </a>
       <button class="nav-tab" data-page="hero-story">夢想清單</button>
       <button class="nav-tab" data-page="life-goals">人生目標</button>
     </div>
@@ -2965,6 +3377,7 @@
         <div class="game-tabs">
           <button class="game-tab active" data-game="role-play">角色扮演遊戲</button>
           <button class="game-tab" data-game="truth-dare">真心話大冒險</button>
+          <button class="game-tab" data-game="story-plots">故事劇情</button>
         </div>
 
         <!-- Role Play Game Content -->
@@ -2977,17 +3390,19 @@
             <div class="card" id="card">
               <div class="card-title">TAP TO DRAW</div>
               <div class="card-main" id="card-main">？</div>
-              <div class="card-hint" id="card-hint">點擊卡牌或下方按鈕開始洗牌</div>
+              <div class="card-hint" id="card-hint">點擊卡牌開始洗牌</div>
             </div>
-          </div>
-          <div class="controls">
-            <button id="draw-btn">開始抽卡</button>
-            <div class="result">抽到的角色：</div>
-            <div class="result-highlight" id="result">尚未抽籤</div>
+            <div class="card" id="interaction-card">
+              <div class="card-title">互動方式抽籤</div>
+              <div class="card-main" id="interaction-card-main">？</div>
+              <div class="card-hint" id="interaction-card-hint">點擊卡牌開始抽互動方式</div>
+            </div>
           </div>
           <div class="history">
             <div class="history-title">歷史紀錄</div>
-            <ul class="history-list" id="history-list"></ul>
+            <table class="history-table">
+              <tbody id="history-list"></tbody>
+            </table>
           </div>
         </div>
 
@@ -3011,20 +3426,34 @@
           </div>
           <div class="history">
             <div class="history-title">歷史紀錄</div>
-            <ul class="history-list" id="truth-dare-history-list"></ul>
+            <table class="history-table">
+              <tbody id="truth-dare-history-list"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Story Plots Game Content -->
+        <div class="game-content" id="story-plots-content">
+          <div class="app-header">
+            <div class="app-title">STORY PLOTS</div>
+            <div class="app-subtitle">點擊卡片查看完整劇情內容</div>
+            <button class="story-plots-add-btn" id="story-plots-add-btn" title="新增故事">+ 新增故事</button>
+          </div>
+          <div class="story-grid" id="story-grid">
+            <!-- Story cards will be generated here -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Story Plots Page -->
-    <div class="page" id="story-plots-page">
+    <!-- Story Plots Page (Legacy - now integrated into games page) -->
+    <div class="page" id="story-plots-page" style="display: none;">
       <div class="app">
         <div class="app-header">
           <div class="app-title">STORY PLOTS</div>
           <div class="app-subtitle">點擊卡片查看完整劇情內容</div>
         </div>
-        <div class="story-grid" id="story-grid">
+        <div class="story-grid" id="story-grid-legacy">
           <!-- Story cards will be generated here -->
         </div>
       </div>
@@ -3110,8 +3539,25 @@
           <div class="app-title">夢想清單</div>
           <div class="app-subtitle">點擊卡片查看完整內容</div>
         </div>
-        <div class="story-grid" id="dream-grid">
-          <!-- Dream cards will be generated here -->
+        
+        <!-- Person Tabs -->
+        <div class="person-tabs">
+          <button class="person-tab active" data-person="husband">老公</button>
+          <button class="person-tab" data-person="wife">老婆</button>
+        </div>
+
+        <!-- Husband Dreams Content -->
+        <div class="person-content active" id="husband-dreams-content">
+          <div class="story-grid" id="husband-dream-grid">
+            <!-- Husband dream cards will be generated here -->
+          </div>
+        </div>
+
+        <!-- Wife Dreams Content -->
+        <div class="person-content" id="wife-dreams-content">
+          <div class="story-grid" id="wife-dream-grid">
+            <!-- Wife dream cards will be generated here -->
+          </div>
         </div>
       </div>
     </div>
@@ -3348,6 +3794,13 @@
       <div class="modal-title" id="edit-dream-modal-title">新增夢想</div>
       <div class="edit-form">
         <div class="form-group">
+          <label for="edit-dream-person">人物</label>
+          <select id="edit-dream-person" class="form-input">
+            <option value="husband">老公</option>
+            <option value="wife">老婆</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label for="edit-dream-title">標題</label>
           <input type="text" id="edit-dream-title" class="form-input" placeholder="輸入夢想標題">
         </div>
@@ -3450,8 +3903,27 @@
     // Navigation System
     const navTabs = document.querySelectorAll('.nav-tab');
     const pages = document.querySelectorAll('.page');
+    const navLogo = document.getElementById('nav-logo');
 
     const pageContainer = document.querySelector('.page-container');
+    
+    // Logo click handler - go to homepage (games page)
+    if (navLogo) {
+      navLogo.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Find and click the games tab
+        const gamesTab = document.querySelector('.nav-tab[data-page="games"]');
+        if (gamesTab) {
+          gamesTab.click();
+        }
+      });
+    }
+    
+    // Initialize games-active class if games page is active on load
+    const gamesPage = document.getElementById('games-page');
+    if (gamesPage && gamesPage.classList.contains('active')) {
+      pageContainer.classList.add('games-active');
+    }
     
     navTabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -3472,9 +3944,12 @@
           pageContainer.classList.remove('story-plots-active');
         }
         
-        // Games page should be centered (like role-draw was)
+        // Games page should align to top
         if (targetPage === 'games') {
+          pageContainer.classList.add('games-active');
           pageContainer.classList.remove('story-plots-active');
+        } else {
+          pageContainer.classList.remove('games-active');
         }
         
         // Remove special padding handling for hero-story page (now uses same layout as story-plots)
@@ -3508,22 +3983,21 @@
           setTimeout(() => {
             initTruthDareGame();
           }, 100);
+          
+          // Check if story-plots tab is active
+          const storyPlotsTab = document.querySelector('.game-tab[data-game="story-plots"]');
+          if (storyPlotsTab && storyPlotsTab.classList.contains('active')) {
+            setTimeout(async () => {
+              stories = await loadStories();
+              renderStories();
+            }, 100);
+          }
         }
         
-        // Show/hide floating add story button
+        // Hide floating add story button (now using inline button in story plots)
         const floatingBtn = document.getElementById('floating-add-story-btn');
         if (floatingBtn) {
-          if (targetPage === 'story-plots' || targetPage === 'hero-story') {
-            floatingBtn.style.display = 'flex';
-            // Update button title based on page
-            if (targetPage === 'hero-story') {
-              floatingBtn.title = '新增夢想';
-            } else {
-              floatingBtn.title = '新增故事';
-            }
-          } else {
-            floatingBtn.style.display = 'none';
-          }
+          floatingBtn.style.display = 'none';
         }
         
         // Initialize dreams when switching to hero-story page
@@ -3557,28 +4031,68 @@
           setTimeout(() => {
             initTruthDareGame();
           }, 100);
+        } else if (gameType === 'story-plots') {
+          document.getElementById('story-plots-content').classList.add('active');
+          // Initialize stories when switching to story plots
+          setTimeout(async () => {
+            stories = await loadStories();
+            renderStories();
+          }, 100);
+          
+          // Button is now inline in the header, no need to show floating button
+        } else {
+          // Hide floating add button when switching away from story plots
+          const floatingBtn = document.getElementById('floating-add-story-btn');
+          if (floatingBtn) {
+            floatingBtn.style.display = 'none';
+          }
         }
       });
     });
 
-    // Person Tab Switching (for Life Goals Page)
+    // Person Tab Switching (for Life Goals Page and Hero Story Page)
     document.querySelectorAll('.person-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         const personType = tab.getAttribute('data-person');
+        const heroStoryPage = document.getElementById('hero-story-page');
+        const lifeGoalsPage = document.getElementById('life-goals-page');
+        const isHeroStoryActive = heroStoryPage && heroStoryPage.classList.contains('active');
         
-        // Update tab active state
-        document.querySelectorAll('.person-tab').forEach(t => t.classList.remove('active'));
+        // Update tab active state - only for tabs in the same page
+        const pageTabs = isHeroStoryActive 
+          ? heroStoryPage.querySelectorAll('.person-tab')
+          : lifeGoalsPage ? lifeGoalsPage.querySelectorAll('.person-tab') : [];
+        
+        pageTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         
-        // Update content visibility
-        document.querySelectorAll('.person-content').forEach(content => {
-          content.classList.remove('active');
-        });
-        
-        if (personType === 'husband') {
-          document.getElementById('husband-content').classList.add('active');
-        } else if (personType === 'wife') {
-          document.getElementById('wife-content').classList.add('active');
+        if (isHeroStoryActive) {
+          // Hero Story Page (Dreams) Tab Switching
+          currentDreamPerson = personType;
+          
+          // Update content visibility
+          const husbandContent = document.getElementById('husband-dreams-content');
+          const wifeContent = document.getElementById('wife-dreams-content');
+          
+          if (husbandContent) husbandContent.classList.remove('active');
+          if (wifeContent) wifeContent.classList.remove('active');
+          
+          if (personType === 'husband' && husbandContent) {
+            husbandContent.classList.add('active');
+          } else if (personType === 'wife' && wifeContent) {
+            wifeContent.classList.add('active');
+          }
+        } else {
+          // Life Goals Page Tab Switching
+          document.querySelectorAll('.person-content').forEach(content => {
+            content.classList.remove('active');
+          });
+          
+          if (personType === 'husband') {
+            document.getElementById('husband-content').classList.add('active');
+          } else if (personType === 'wife') {
+            document.getElementById('wife-content').classList.add('active');
+          }
         }
       });
     });
@@ -3773,19 +4287,39 @@
       return { ko: scene, koRoman: "" };
     }
     
+    // 互動方式卡牌組
+    const interactionModes = [
+      "S對M有不合理的要求，M必須表現反抗但是身體順從",
+      "S對M直接言語或是肢體性騷擾，M不能有任何反應",
+      "S要浪漫的挑逗M，M要好好扮演好角色",
+      "S跟M互相偷吃的劇情",
+      "S強暴M的劇情",
+      "S用權力壓迫M，M必須服從但內心抗拒",
+      "S和M是陌生人，S強制對M進行性行為",
+      "S是M的上司，利用職權對M進行性騷擾",
+      "S和M是敵對關係，S用暴力征服M",
+      "S是M的債主，M用身體償還債務"
+    ];
+
     const card = document.getElementById("card");
     const cardMain = document.getElementById("card-main");
     const cardHint = document.getElementById("card-hint");
-    const drawBtn = document.getElementById("draw-btn");
-    const resultEl = document.getElementById("result");
     const historyList = document.getElementById("history-list");
+    
+    const interactionCard = document.getElementById("interaction-card");
+    const interactionCardMain = document.getElementById("interaction-card-main");
+    const interactionCardHint = document.getElementById("interaction-card-hint");
+    
     let isDrawing = false;
+    let isDrawingInteraction = false;
     let currentJob = null;
     let currentRole = null;
     let currentAttitude = null;
     let currentScene = null;
+    let currentInteraction = null;
     let hasDrawnRole = false;
     let hasDrawnScene = false;
+    let hasDrawnInteraction = false;
 
     function randomSM() {
       return roles[Math.floor(Math.random() * roles.length)];
@@ -3795,10 +4329,9 @@
       return attitudes[Math.floor(Math.random() * attitudes.length)];
     }
 
-    function drawCard() {
+      function drawCard() {
       if (isDrawing) return;
       isDrawing = true;
-      drawBtn.disabled = true;
       card.classList.add("shuffling");
       cardMain.innerHTML = "…";
       cardHint.textContent = "洗牌中";
@@ -3834,11 +4367,6 @@
             card.classList.remove("shuffling");
             cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${chosenAttitude}</span></div>`;
             cardHint.textContent = "角色已抽出，點擊抽場景";
-            resultEl.innerHTML = `${displayText}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${chosenAttitude}</span></div>`;
-            
-            // 更新按鈕
-            drawBtn.textContent = "抽場景";
-            drawBtn.disabled = false;
             isDrawing = false;
           }, 130);
         }
@@ -3852,7 +4380,6 @@
       const availableScenes = jobScenes[currentJob] || ["辦公室", "家中", "戶外", "車上", "公共場所"];
       
       isDrawing = true;
-      drawBtn.disabled = true;
       card.classList.add("shuffling");
       cardHint.textContent = "抽場景中";
 
@@ -3862,35 +4389,34 @@
 
       const shuffleTimer = setInterval(() => {
         const randomScene = availableScenes[Math.floor(Math.random() * availableScenes.length)];
-        const sceneKo = getSceneKorean(randomScene);
         const displayText = `${currentJob}（${currentRole}）`;
-        cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene"><span class="korean-text">${sceneKo.ko}</span><span class="korean-roman">${sceneKo.koRoman}</span></span></div>`;
+        cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene">${randomScene}</span></div>`;
         elapsed += intervalTime;
 
         if (elapsed >= shuffleDuration) {
           clearInterval(shuffleTimer);
           const chosenScene = availableScenes[Math.floor(Math.random() * availableScenes.length)];
-          const sceneKo = getSceneKorean(chosenScene);
           currentScene = chosenScene;
           hasDrawnScene = true;
           
           const displayText = `${currentJob}（${currentRole}）`;
-          const finalDisplayText = `${currentJob}（${currentRole}）｜態度：${currentAttitude}｜場景：${chosenScene}`;
 
           setTimeout(() => {
             card.classList.remove("shuffling");
-            cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene"><span class="korean-text">${sceneKo.ko}</span><span class="korean-roman">${sceneKo.koRoman}</span></span></div>`;
+            cardMain.innerHTML = `${displayText}<div class="card-role-info"><span class="card-attitude">${currentAttitude}</span><span class="card-scene">${chosenScene}</span></div>`;
             cardHint.textContent = "完整角色已抽出";
-            resultEl.innerHTML = `${displayText}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${currentAttitude}</span><span class="result-scene"><span class="korean-text">${sceneKo.ko}</span><span class="korean-roman">${sceneKo.koRoman}</span></span></div>`;
             
-            // 記錄到歷史
-            const li = document.createElement("li");
-            li.innerHTML = finalDisplayText;
-            historyList.prepend(li);
+            // 記錄到歷史 - 使用簡單的表格格式（包含互動方式）
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            let historyText = `${displayText} - <span class="result-attitude">${currentAttitude}</span> - <span class="result-scene">${chosenScene}</span>`;
+            if (currentInteraction) {
+              historyText += ` - <span class="history-interaction-label">互動方式：</span><span class="history-interaction-value">${currentInteraction}</span>`;
+            }
+            td.innerHTML = historyText;
+            tr.appendChild(td);
+            historyList.prepend(tr);
             
-            // 重置按鈕
-            drawBtn.textContent = "開始抽卡";
-            drawBtn.disabled = false;
             isDrawing = false;
             
             // 重置狀態（可選：如果需要重新開始）
@@ -3912,14 +4438,51 @@
         currentRole = null;
         currentAttitude = null;
         currentScene = null;
+        currentInteraction = null;
         hasDrawnRole = false;
         hasDrawnScene = false;
+        hasDrawnInteraction = false;
         cardMain.innerHTML = "？";
         cardHint.textContent = "點擊卡牌或下方按鈕開始洗牌";
-        resultEl.textContent = "尚未抽籤";
-        drawBtn.textContent = "開始抽卡";
+        interactionCardMain.innerHTML = "？";
+        interactionCardHint.textContent = "點擊卡牌開始抽互動方式";
         drawCard();
       }
+    }
+
+    // 互動方式抽籤函數
+    function drawInteraction() {
+      if (isDrawingInteraction) return;
+      isDrawingInteraction = true;
+      interactionCard.classList.add("shuffling");
+      interactionCardMain.innerHTML = "…";
+      interactionCardHint.textContent = "抽互動方式中";
+
+      const shuffleDuration = 900;
+      const intervalTime = 90;
+      let elapsed = 0;
+
+      const shuffleTimer = setInterval(() => {
+        const randomInteraction = interactionModes[Math.floor(Math.random() * interactionModes.length)];
+        interactionCardMain.innerHTML = randomInteraction;
+        elapsed += intervalTime;
+
+        if (elapsed >= shuffleDuration) {
+          clearInterval(shuffleTimer);
+          const chosenInteraction = interactionModes[Math.floor(Math.random() * interactionModes.length)];
+          currentInteraction = chosenInteraction;
+          hasDrawnInteraction = true;
+
+          setTimeout(() => {
+            interactionCard.classList.remove("shuffling");
+            interactionCardMain.innerHTML = chosenInteraction;
+            interactionCardHint.textContent = "互動方式已抽出";
+            
+            
+            isDrawingInteraction = false;
+          }, 130);
+        }
+      }, intervalTime);
     }
 
     card.addEventListener("click", () => {
@@ -3927,9 +4490,27 @@
         drawCard();
       } else if (hasDrawnRole && !hasDrawnScene) {
         drawScene();
+      } else {
+        // 重新開始
+        currentJob = null;
+        currentRole = null;
+        currentAttitude = null;
+        currentScene = null;
+        currentInteraction = null;
+        hasDrawnRole = false;
+        hasDrawnScene = false;
+        hasDrawnInteraction = false;
+        cardMain.innerHTML = "？";
+        cardHint.textContent = "點擊卡牌開始洗牌";
+        interactionCardMain.innerHTML = "？";
+        interactionCardHint.textContent = "點擊卡牌開始抽互動方式";
+        drawCard();
       }
     });
-    drawBtn.addEventListener("click", handleDrawClick);
+    
+    if (interactionCard) {
+      interactionCard.addEventListener("click", drawInteraction);
+    }
 
     // Story Plots System
     // Stories array - will be loaded from Supabase
@@ -3976,6 +4557,7 @@
         
         if (error) {
           console.error('新增故事失败:', error);
+          console.error('錯誤詳情:', JSON.stringify(error, null, 2));
           return null;
         }
         return data[0];
@@ -4005,6 +4587,7 @@
         
         if (error) {
           console.error('更新故事失败:', error);
+          console.error('錯誤詳情:', JSON.stringify(error, null, 2));
           return null;
         }
         return data[0];
@@ -5535,132 +6118,96 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     }
 
     // Initialize Lovense controls
-    // Truth & Dare Card Game
+    // Truth & Dare Card Game - 性開放議題版本
     const truthDareCards = [
-      // Quick Picks
-      { en: "What's your biggest fear?", zh: "你最大的恐懼是什麼？", ko: "당신의 가장 큰 두려움은 무엇인가요?", koRoman: "Dangsin-ui gajang keun duryeoum-eun mueos-ingayo?" },
-      { en: "What was your very first impression of me?", zh: "你對我的第一印象是什麼？", ko: "나에 대한 당신의 첫인상은 무엇이었나요?", koRoman: "Na-e daehan dangsin-ui cheosin-sang-eun mueos-ieossnayo?" },
-      { en: "What's your ultimate relationship dealbreaker?", zh: "你認為關係中最大的禁忌是什麼？", ko: "관계에서 가장 큰 결별 사유는 무엇인가요?", koRoman: "Gwangye-eseo gajang keun gyeolbyeol sayu-neun mueos-ingayo?" },
-      { en: "Who was the last person you searched on Instagram?", zh: "你在Instagram上最後搜尋的人是誰？", ko: "인스타그램에서 마지막으로 검색한 사람은 누구인가요?", koRoman: "Inseutageuram-eseo majimag-euro geomsaekhan saram-eun nugu-ingayo?" },
-      { en: "Name something you do only when you're alone?", zh: "說出一件你只在獨處時才會做的事？", ko: "혼자 있을 때만 하는 일을 말해보세요?", koRoman: "Honja iss-eul ttae-man haneun il-eul malhaeboseyo?" },
-      { en: "Let me update your social media status pretending to be you", zh: "讓我假裝是你來更新你的社群媒體狀態", ko: "당신인 척 당신의 소셜 미디어 상태를 업데이트하게 해주세요", koRoman: "Dangsin-in cheog dangsin-ui sosyeol midieo sangtae-reul eobdeiteuhage haejuseyo" },
-      { en: "Spell out your name with your tongue somewhere on my body", zh: "用你的舌頭在我身體的某個地方拼寫出你的名字", ko: "당신의 혀로 내 몸 어딘가에 당신의 이름을 철자로 써보세요", koRoman: "Dangsin-ui hyeollo nae mom eodinga-e dangsin-ui ileum-eul cheoljalo sseoboseyo" },
-      { en: "Allow yourself to be blindfolded and fed something of my choosing", zh: "讓自己被蒙住眼睛，然後讓我餵你吃我選擇的東西", ko: "눈가리개를 하고 제가 선택한 것을 먹게 해주세요", koRoman: "Nungaligae-reul hago jega seontaekhan geos-eul meokge haejuseyo" },
-      { en: "Do your best impression of me", zh: "盡你所能模仿我", ko: "나를 최대한 흉내내보세요", koRoman: "Nareul choedaehan hyungnaenaeboseyo" },
-      { en: "Kiss me passionately for five minutes", zh: "熱情地親吻我五分鐘", ko: "5분 동안 열정적으로 저를 키스해주세요", koRoman: "5bun dong-an yeoljeongjeog-euro jeoreul kiseuhaejuseyo" },
+      // 能不能接受一邊xx一邊xx類型（日常生活場景性行為）
+      { en: "", zh: "能不能接受一邊講電話一邊被舔私處？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊做家事一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊辦公一邊被舔？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊煮飯一邊被玩弄？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊開會一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊洗澡一邊做愛？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊看電視一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊打掃一邊被舔私處？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊化妝一邊被玩弄？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊開車一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊購物一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊吃飯一邊被舔？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊運動一邊做愛？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊閱讀一邊被玩弄私處？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊聽音樂一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊寫字一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊玩手機一邊被舔？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊整理房間一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊看書一邊被玩弄？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊泡茶一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊敷面膜一邊被舔私處？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊做瑜伽一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊工作一邊被玩弄？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊聊天一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊學習一邊被舔？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊洗衣服一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊做作業一邊被玩弄私處？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊刷牙一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊看電影一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊打遊戲一邊被舔？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊洗碗一邊被玩弄？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊敷臉一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊整理衣櫃一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊聽演講一邊被舔私處？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊做手工一邊被玩弄？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊上網一邊被口交？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊照顧寵物一邊被插入？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊寫報告一邊被舔？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊做菜一邊被玩弄私處？", ko: "", koRoman: "" },
+      { en: "", zh: "能不能接受一邊聽音樂會一邊被口交？", ko: "", koRoman: "" },
       
-      // Best Truth Questions
-      { en: "What's your love language?", zh: "你的愛語是什麼？", ko: "당신의 사랑의 언어는 무엇인가요?", koRoman: "Dangsin-ui salang-ui eoneo-neun mueos-ingayo?" },
-      { en: "Who's your celebrity crush?", zh: "你的明星偶像是誰？", ko: "당신의 연예인 짝사랑은 누구인가요?", koRoman: "Dangsin-ui yeon-yein jjagsalang-eun nugu-ingayo?" },
-      { en: "What secretly gives you the ick?", zh: "什麼會讓你偷偷感到厭惡？", ko: "무엇이 당신을 몰래 역겨워하게 하나요?", koRoman: "Mueos-i dangsin-eul mollae yeoggyeowohage hanayo?" },
-      { en: "What song do you currently have on repeat?", zh: "你最近一直重複聽的歌是什麼？", ko: "요즘 반복해서 듣는 노래는 무엇인가요?", koRoman: "Yojeum banboghaeseo deudneun nolae-neun mueos-ingayo?" },
-      { en: "Reveal something that you've never told anyone else", zh: "說出一件你從未告訴過任何人的事", ko: "다른 사람에게 한 번도 말하지 않은 것을 공개하세요", koRoman: "Daleun saram-ege han beon-do malhaji anh-eun geos-eul gonggaehasayo" },
-      { en: "Have you ever told a lie to make yourself look better?", zh: "你是否曾經為了讓自己看起來更好而說謊？", ko: "자신을 더 좋아 보이게 하기 위해 거짓말을 한 적이 있나요?", koRoman: "Jasin-eul deo joh-a boige hagi wihae geojismal-eul han jeog-i issnayo?" },
-      { en: "What crime would you commit if you knew you wouldn't get caught?", zh: "如果你知道自己不會被抓，你會犯什麼罪？", ko: "잡히지 않는다는 것을 안다면 어떤 범죄를 저지를까요?", koRoman: "Jabhiji anhneundaneun geos-eul andamyeon eotteon beomjoe-reul jeojilkka-yo?" },
-      { en: "What has been the best day of your life so far?", zh: "到目前為止，你人生中最美好的一天是什麼？", ko: "지금까지 인생에서 가장 좋았던 날은 언제였나요?", koRoman: "Jigeumkkaji insaeng-eseo gajang joh-assdeon nal-eun eonjeyeossnayo?" },
-      { en: "What's your favourite compliment to receive?", zh: "你最喜歡收到什麼樣的讚美？", ko: "받고 싶은 칭찬은 무엇인가요?", koRoman: "Badgo sip-eun chingchan-eun mueos-ingayo?" },
-      { en: "What's your biggest fear about our relationship?", zh: "你對我們關係最大的擔憂是什麼？", ko: "우리 관계에 대한 가장 큰 두려움은 무엇인가요?", koRoman: "Uri gwangye-e daehan gajang keun duryeoum-eun mueos-ingayo?" },
-      { en: "Have you ever knowingly done anything illegal?", zh: "你是否曾經明知故犯地做過任何違法的事？", ko: "고의로 불법적인 일을 한 적이 있나요?", koRoman: "Go-uiro bulbeobjeog-in il-eul han jeog-i issnayo?" },
-      { en: "Name something you think could improve our relationship", zh: "說出一件你認為可以改善我們關係的事", ko: "우리 관계를 개선할 수 있다고 생각하는 것을 말해보세요", koRoman: "Uri gwangye-reul gaeseonhal su issdago saeng-gaghaneun geos-eul malhaeboseyo" },
-      { en: "What do you believe is the biggest misconception about you?", zh: "你認為別人對你最大的誤解是什麼？", ko: "당신에 대한 가장 큰 오해는 무엇이라고 생각하나요?", koRoman: "Dangsin-e daehan gajang keun ohae-neun mueos-ilago saeng-gaghanayo?" },
-      { en: "What's the strangest thing you've ever eaten?", zh: "你吃過最奇怪的東西是什麼？", ko: "가장 이상한 음식을 먹은 적이 있나요?", koRoman: "Gajang isanghan eumsig-eul meog-eun jeog-i issnayo?" },
-      { en: "Where do you think you'll be in 10 years' time?", zh: "你認為十年後你會在哪裡？", ko: "10년 후에 어디에 있을 것 같나요?", koRoman: "10nyeon hue eodie iss-eul geos gatnayo?" },
-      { en: "What's your ultimate unpopular opinion?", zh: "你最不受歡迎的觀點是什麼？", ko: "가장 인기 없는 의견은 무엇인가요?", koRoman: "Gajang ingi eobsneun uigyeon-eun mueos-ingayo?" },
-      { en: "What was our best date?", zh: "我們最好的約會是什麼？", ko: "우리의 가장 좋았던 데이트는 무엇이었나요?", koRoman: "Uri-ui gajang joh-assdeon deiteu-neun mueos-ieossnayo?" },
-      { en: "When was the last time you lied?", zh: "你最後一次說謊是什麼時候？", ko: "마지막으로 거짓말을 한 때는 언제였나요?", koRoman: "Majimag-euro geojismal-eul han ttae-neun eonjeyeossnayo?" },
-      
-      // Spicy Truth Questions
-      { en: "When did you know that you were attracted to me?", zh: "你什麼時候知道自己被我吸引了？", ko: "언제 저에게 끌렸다는 것을 알았나요?", koRoman: "Eonje jeoege kkeullyeossdaneun geos-eul al-assnayo?" },
-      { en: "Where's the weirdest/most adventurous place you've had sex?", zh: "你在最奇怪/最冒險的地方做愛是在哪裡？", ko: "가장 이상하거나 모험적인 곳에서 섹스를 한 곳은 어디인가요?", koRoman: "Gajang isanghageona moheomjeog-in gos-eseo segseu-reul han gos-eun eodi-ingayo?" },
-      { en: "Do you have any secret fantasies?", zh: "你有什麼秘密幻想嗎？", ko: "비밀스러운 환상이 있나요?", koRoman: "Bimilsuleoun hwansang-i issnayo?" },
-      { en: "What's your favourite sex position?", zh: "你最喜歡的性愛姿勢是什麼？", ko: "가장 좋아하는 성적 자세는 무엇인가요?", koRoman: "Gajang joh-ahaneun seongjeog jase-neun mueos-ingayo?" },
-      { en: "When was the last time you masturbated?", zh: "你最後一次自慰是什麼時候？", ko: "마지막으로 자위한 때는 언제였나요?", koRoman: "Majimag-euro jawihan ttae-neun eonjeyeossnayo?" },
-      { en: "Name something typically non-sexual that turns you on?", zh: "說出一件通常非性但會讓你興奮的事？", ko: "일반적으로 비성적인데 당신을 흥분시키는 것을 말해보세요?", koRoman: "Ilbanjeog-euro biseongjeog-inde dangsin-eul heungbunsikineun geos-eul malhaeboseyo?" },
-      { en: "What was your funniest sexual mishap?", zh: "你最搞笑的性愛意外是什麼？", ko: "가장 재미있는 성적 실수는 무엇이었나요?", koRoman: "Gajang jaemiissneun seongjeog silsu-neun mueos-ieossnayo?" },
-      { en: "Have you ever had a sexy dream about me?", zh: "你曾經做過關於我的性愛夢嗎？", ko: "저에 대한 섹시한 꿈을 꾼 적이 있나요?", koRoman: "Jeoe daehan segsihan kkum-eul kkun jeog-i issnayo?" },
-      { en: "When do you feel your most sensual?", zh: "你什麼時候感覺最性感？", ko: "언제 가장 관능적으로 느껴지나요?", koRoman: "Eonje gajang gwannungjeog-euro neukkyeojinayo?" },
-      { en: "How would you describe the way I taste?", zh: "你會如何描述我的味道？", ko: "제 맛을 어떻게 표현하시겠어요?", koRoman: "Je mas-eul eotteohge pyohyeonhasigess-eoyo?" },
-      { en: "What's your secret bedroom talent?", zh: "你的秘密臥室才華是什麼？", ko: "당신의 비밀 침실 재능은 무엇인가요?", koRoman: "Dangsin-ui bimil chimsil jaeneung-eun mueos-ingayo?" },
-      { en: "What are your top three places to be touched?", zh: "你最喜歡被觸摸的三個地方是哪裡？", ko: "가장 좋아하는 세 곳의 만져지는 곳은 어디인가요?", koRoman: "Gajang joh-ahaneun se gog-ui manjyeojineun gos-eun eodi-ingayo?" },
-      { en: "Do you prefer to be dominant or submissive?", zh: "你更喜歡主導還是順從？", ko: "지배적이거나 복종적인 것을 선호하시나요?", koRoman: "Jibaejeog-igeona bogjongjeog-in geos-eul seonhohasinayo?" },
-      { en: "What sexual act(s) are you not into?", zh: "你不喜歡的性行為是什麼？", ko: "좋아하지 않는 성적 행위는 무엇인가요?", koRoman: "Joh-ahaji anhneun seongjeog haeng-wi-neun mueos-ingayo?" },
-      { en: "Have you ever had a one-night stand?", zh: "你曾經有過一夜情嗎？", ko: "원나잇 스탠드를 한 적이 있나요?", koRoman: "Won-nais seutaendeu-reul han jeog-i issnayo?" },
-      { en: "Have you ever fantasised about a partner other than me?", zh: "你曾經幻想過我以外的伴侶嗎？", ko: "저 외의 파트너에 대해 환상한 적이 있나요?", koRoman: "Jeo oe-ui pateuneo-e daehae hwansanghan jeog-i issnayo?" },
-      { en: "What's the naughtiest thing you've ever done in public?", zh: "你在公共場所做過最調皮的事是什麼？", ko: "공공장소에서 한 가장 장난스러운 일은 무엇인가요?", koRoman: "Gong-gong jangso-eseo han gajang jangnanseuleoun il-eun mueos-ingayo?" },
-      { en: "Describe your perfect date night that ends in the bedroom.", zh: "描述你完美的約會之夜，以臥室結束。", ko: "침실에서 끝나는 완벽한 데이트 밤을 설명해보세요", koRoman: "Chimsil-eseo kkeutnaneun wanbyeoghan deiteu bam-eul seolmyeonghaeboseyo" },
-      { en: "Which outfit of mine do you find most irresistible?", zh: "你覺得我最無法抗拒的服裝是哪一套？", ko: "제 옷 중 가장 저항할 수 없는 것은 무엇인가요?", koRoman: "Je ot jung gajang jeohanghal su eobsneun geos-eun mueos-ingayo?" },
-      { en: "Have you ever had a dream about someone else while in a relationship?", zh: "在戀愛關係中，你是否曾經夢到過其他人？", ko: "관계 중에 다른 사람에 대한 꿈을 꾼 적이 있나요?", koRoman: "Gwangye jung-e daleun saram-e daehan kkum-eul kkun jeog-i issnayo?" },
-      
-      // Funny Truth Questions
-      { en: "Name a weird food combination that you love", zh: "說出一個你喜歡的奇怪食物組合", ko: "좋아하는 이상한 음식 조합을 말해보세요", koRoman: "Joh-ahaneun isanghan eumsig johab-eul malhaeboseyo" },
-      { en: "What's your guilty pleasure?", zh: "你的罪惡快感是什麼？", ko: "죄책감을 느끼는 즐거움은 무엇인가요?", koRoman: "Joechaeg-gam-eul neukkineun jeulgeoum-eun mueos-ingayo?" },
-      { en: "What was the last thing you Googled?", zh: "你最後一次Google搜尋的是什麼？", ko: "마지막으로 구글 검색한 것은 무엇인가요?", koRoman: "Majimag-euro gugeul geomsaekhan geos-eun mueos-ingayo?" },
-      { en: "Reveal something about yourself you'd never want your family to know", zh: "說出一件你永遠不想讓家人知道的事", ko: "가족이 절대 알고 싶지 않은 자신에 대한 것을 공개하세요", koRoman: "Gajog-i jeoldae algo sipji anh-eun jasin-e daehan geos-eul gonggaehasayo" },
-      { en: "If you could pick a theme song for every time you entered a room, what would it be?", zh: "如果你每次進房間都能選擇一首主題曲，會是什麼？", ko: "방에 들어갈 때마다 테마송을 선택할 수 있다면 무엇일까요?", koRoman: "Bang-e deul-eogal ttaemada temasong-eul seontaekhal su issdamyeon mueos-ilkka-yo?" },
-      { en: "Who is someone you pretend to like but actually can't stand?", zh: "你假裝喜歡但實際上無法忍受的人是誰？", ko: "좋아하는 척하지만 실제로는 참을 수 없는 사람은 누구인가요?", koRoman: "Joh-ahaneun cheoghajiman siljelo-neun cham-eul su eobsneun saram-eun nugu-ingayo?" },
-      { en: "What's the worst gift you've ever received?", zh: "你收到過最糟糕的禮物是什麼？", ko: "받은 가장 나쁜 선물은 무엇인가요?", koRoman: "Bad-eun gajang nappeun seonmul-eun mueos-ingayo?" },
-      { en: "What's the weirdest thing you've ever done in front of a mirror?", zh: "你在鏡子前做過最奇怪的事是什麼？", ko: "거울 앞에서 한 가장 이상한 일은 무엇인가요?", koRoman: "Geoul ap-eseo han gajang isanghan il-eun mueos-ingayo?" },
-      { en: "Who do you think is the most attractive out of the two of us?", zh: "你認為我們兩個中誰最有吸引力？", ko: "우리 둘 중 누가 가장 매력적이라고 생각하나요?", koRoman: "Uri dul jung nuga gajang maelyeogjeog-ilago saeng-gaghanayo?" },
-      { en: "Have you ever farted and blamed someone else?", zh: "你曾經放屁然後怪罪別人嗎？", ko: "방귀를 뀌고 다른 사람을 탓한 적이 있나요?", koRoman: "Banggwi-reul kkwigo daleun saram-eul tas-han jeog-i issnayo?" },
-      { en: "If you had to go on a reality TV show, which one would it be and why?", zh: "如果你必須參加一個真人秀節目，會是哪一個？為什麼？", ko: "리얼리티 TV 쇼에 나가야 한다면 어떤 것이고 왜일까요?", koRoman: "Rieolliti TV syoe nagaya handamyeon eotteon geos-igo wae-ilkka-yo?" },
-      { en: "What's the longest you've gone without washing your bed sheets?", zh: "你最長多久沒洗床單？", ko: "침대 시트를 안 씻은 가장 긴 기간은 얼마나 되나요?", koRoman: "Chimdae siteu-reul an ssiss-eun gajang gin gigan-eun eolmana doenayo?" },
-      { en: "What's the worst thing you've ever done at work?", zh: "你在工作中做過最糟糕的事是什麼？", ko: "직장에서 한 가장 나쁜 일은 무엇인가요?", koRoman: "Jigjang-eseo han gajang nappeun il-eun mueos-ingayo?" },
-      { en: "How many selfies do you take a day?", zh: "你一天拍多少張自拍？", ko: "하루에 셀카를 몇 장 찍나요?", koRoman: "Halu-e selka-reul myeot jang jjignayo?" },
-      { en: "What's one question you don't want me to ask you?", zh: "你不想讓我問你的一個問題是什麼？", ko: "제가 물어보지 않았으면 하는 질문은 무엇인가요?", koRoman: "Jega mul-eoboji anh-ass-eumyeon haneun jilmun-eun mueos-ingayo?" },
-      { en: "If you could swap lives with me for a day, what would you do first?", zh: "如果你能和我交換生活一天，你會先做什麼？", ko: "하루 동안 저와 인생을 바꿀 수 있다면 먼저 무엇을 하시겠어요?", koRoman: "Halu dong-an jeowa insaeng-eul bakkul su issdamyeon meonjeo mueos-eul hasigess-eoyo?" },
-      { en: "What's the silliest lie you've ever told me?", zh: "你對我說過最愚蠢的謊言是什麼？", ko: "제게 한 가장 어리석은 거짓말은 무엇인가요?", koRoman: "Jege han gajang eoliseog-eun geojismal-eun mueos-ingayo?" },
-      { en: "Make the weirdest face you can and hold it for 10 seconds.", zh: "做出你能做的最奇怪的表情，並保持10秒", ko: "할 수 있는 가장 이상한 표정을 짓고 10초 동안 유지하세요", koRoman: "Hal su issneun gajang isanghan pyojeong-eul jisgo 10cho dong-an yujihaseyo" },
-      { en: "Imitate your partner's laugh perfectly.", zh: "完美地模仿你伴侶的笑聲", ko: "파트너의 웃음소리를 완벽하게 흉내내보세요", koRoman: "Pateuneo-ui us-eumsoli-reul wanbyeoghage hyungnaenaeboseyo" },
-      { en: "What's the most ridiculous thing you've ever Googled at 3am?", zh: "你在凌晨3點Google過最荒謬的事是什麼？", ko: "새벽 3시에 구글 검색한 가장 터무니없는 것은 무엇인가요?", koRoman: "Saebyeog 3si-e gugeul geomsaekhan gajang teomunieobsneun geos-eun mueos-ingayo?" },
-      
-      // Best Dares
-      { en: "Go live on one of your social media accounts and declare your love for me", zh: "在你的其中一個社群媒體帳號上直播並向我表白", ko: "소셜 미디어 계정 중 하나에서 라이브로 나가서 저에 대한 사랑을 선언하세요", koRoman: "Sosyeol midieo gyejeung jung hana-eseo laibeu-ro nagaseo jeoe daehan salang-eul seon-eonhaseyo" },
-      { en: "Close your eyes, pick a random contact in your Whatsapp and leave them a dirty voice note", zh: "閉上眼睛，在你的WhatsApp中隨機選擇一個聯絡人，給他們留下一條色情語音訊息", ko: "눈을 감고 왓츠앱에서 무작위로 연락처를 선택해 더러운 음성 메시지를 남기세요", koRoman: "Nun-eul gamgo wascheu-aeb-eseo mujag-wilo yeollagcheo-reul seontaekhae deoleoun eumseong mesiji-reul namgiseyo" },
-      { en: "Recall the day/night we met, from your perspective", zh: "從你的角度回憶我們相遇的那一天/夜晚", ko: "당신의 관점에서 우리가 만난 날/밤을 회상해보세요", koRoman: "Dangsin-ui gwanjeom-eseo uri-ga mannan nal/bam-eul hoesanghaeboseyo" },
-      { en: "Draw or paint a picture using only your feet", zh: "只用你的腳畫或畫一幅畫", ko: "발만 사용해서 그림을 그리거나 칠해보세요", koRoman: "Balman sayonghaeseo geulim-eul geuligeona chilhaeboseyo" },
-      { en: "Post the oldest selfie that's on your phone on Instagram Stories", zh: "把你手機上最舊的自拍發到Instagram限時動態", ko: "휴대폰에 있는 가장 오래된 셀카를 인스타그램 스토리에 올리세요", koRoman: "Hyudaepon-e issneun gajang olaedoen selka-reul inseutageuram seutoli-e olliseyo" },
-      { en: "Let me shave a part of your body", zh: "讓我剃掉你身體的某個部位", ko: "제가 당신 몸의 일부를 면도하게 해주세요", koRoman: "Jega dangsin mom-ui ilbu-reul myeondohage haejuseyo" },
-      { en: "Write a love poem for me in five minutes or less", zh: "在五分鐘或更短的時間內為我寫一首情詩", ko: "5분 이내로 저를 위한 사랑 시를 써보세요", koRoman: "5bun inaero jeoreul wihan salang si-reul sseoboseyo" },
-      { en: "Grab something from the kitchen and attempt to eat it in the flirtiest/sexiest way possible", zh: "從廚房拿點東西，用最調情/最性感的方式試著吃它", ko: "부엌에서 무언가를 가져와 가장 유혹적이거나 섹시한 방식으로 먹어보세요", koRoman: "Bueog-eseo mueong-a-reul gajyeowa gajang yuhogjeog-igeona segsihan bangsig-eulo meog-eoboseyo" },
-      { en: "See how many ice cubes you can fit into your mouth and let them melt", zh: "看看你能在嘴裡放多少冰塊，然後讓它們融化", ko: "입에 얼마나 많은 얼음 조각을 넣을 수 있는지 보고 녹여보세요", koRoman: "Ib-e eolmana manh-eun eoleum jogag-eul neoh-eul su issneunji bogo nog-yeoboseyo" },
-      { en: "Deliver your best five-minute stand up", zh: "表演你最好的五分鐘脫口秀", ko: "최고의 5분 스탠드업 코미디를 해보세요", koRoman: "Choegoui 5bun seutaendeu-eob komidi-reul haeboseyo" },
-      { en: "Let me do your makeup while blindfolded", zh: "讓我蒙住眼睛為你化妝", ko: "눈가리개를 한 채로 제가 당신의 메이크업을 해드리겠습니다", koRoman: "Nungaligae-reul han chaero jega dangsin-ui meikeu-eob-eul haedeuligessseubnida" },
-      { en: "Swap outfits with me", zh: "和我交換服裝", ko: "저와 옷을 바꿔입어보세요", koRoman: "Jeowa os-eul bakkweoib-eoboseyo" },
-      { en: "Say yes to everything for the next hour", zh: "在接下來的一個小時內對所有事情說「是」", ko: "다음 한 시간 동안 모든 것에 예라고 말하세요", koRoman: "Da-eum han sigan dong-an modeun geos-e ye-lago malhaseyo" },
-      { en: "Read out the last five things on your Google search history", zh: "大聲讀出你Google搜尋歷史中的最後五項", ko: "구글 검색 기록의 마지막 5가지를 소리내어 읽어보세요", koRoman: "Gugeul geomsaek girog-ui majimag 5gaji-reul solinae-eo ilg-eoboseyo" },
-      { en: "Let me draw somewhere on your body in permanent marker", zh: "讓我在你身體的某個地方用永久性記號筆畫畫", ko: "제가 당신 몸 어딘가에 영구 마커로 그림을 그려보겠습니다", koRoman: "Jega dangsin mom eodinga-e yeong-gu makeo-ro geulim-eul geulyeobogessseubnida" },
-      { en: "Call someone of my choosing and sing happy birthday to them", zh: "打電話給我選擇的人，為他們唱生日快樂歌", ko: "제가 선택한 사람에게 전화를 걸어 생일 축하 노래를 불러주세요", koRoman: "Jega seontaekhan saram-ege jeonhwa-reul geol-eo saeng-il chugha nolae-reul bulleojuseyo" },
-      { en: "Have a shower with your clothes on", zh: "穿著衣服洗澡", ko: "옷을 입은 채로 샤워하세요", koRoman: "Os-eul ib-eun chaero syawohaseyo" },
-      { en: "Scroll through your Instagram followers until I say stop – then like all of their photos", zh: "滾動瀏覽你的Instagram追蹤者，直到我說停——然後點讚他們所有的照片", ko: "제가 멈추라고 할 때까지 인스타그램 팔로워를 스크롤한 다음 그들의 모든 사진에 좋아요를 누르세요", koRoman: "Jega meomchulago hal ttaekkaji inseutageuram pallowo-reul seukeulolhan da-eum geudeul-ui modeun sajin-e joh-ayo-reul nuleuseyo" },
-      { en: "Send me a flirty message using only emojis", zh: "只用表情符號給我發一條調情訊息", ko: "이모지만 사용해서 저에게 유혹적인 메시지를 보내세요", koRoman: "Imojiman sayonghaeseo jeoege yuhogjeog-in mesiji-reul bonaeseyo" },
-      { en: "Send the weirdest GIF you can find to the 15th person in your contact list", zh: "把你找到的最奇怪的GIF發送給你聯絡人列表中的第15個人", ko: "찾을 수 있는 가장 이상한 GIF를 연락처 목록의 15번째 사람에게 보내세요", koRoman: "Chaj-eul su issneun gajang isanghan GIF-reul yeollagcheo moglog-ui 15beonjjae saram-ege bonaeseyo" },
-      
-      // Sexy Dares
-      { en: "Remove three items of clothing", zh: "脫掉三件衣服", ko: "옷 세 벌을 벗으세요", koRoman: "Ot se bel-eul beos-euseyo" },
-      { en: "Kiss your favourite part of my body", zh: "親吻我身體你最喜歡的部位", ko: "제 몸에서 당신이 가장 좋아하는 부분에 키스하세요", koRoman: "Je mom-eseo dangsin-i gajang joh-ahaneun bubun-e kiseuhaseyo" },
-      { en: "Do a seductive dance", zh: "跳一段誘人的舞蹈", ko: "유혹적인 춤을 춰보세요", koRoman: "Yuhogjeog-in chum-eul chwoboseyo" },
-      { en: "Let me draw you naked", zh: "讓我畫你的裸體", ko: "제가 당신을 나체로 그려보겠습니다", koRoman: "Jega dangsin-eul nache-lo geulyeobogessseubnida" },
-      { en: "Lick something off my finger", zh: "舔掉我手指上的東西", ko: "제 손가락에서 무언가를 핥아보세요", koRoman: "Je songalag-eseo mueong-a-reul halh-aboseyo" },
-      { en: "Take off an item of my clothing without using your hands", zh: "不用手脫掉我的一件衣服", ko: "손을 사용하지 않고 제 옷 한 벌을 벗기세요", koRoman: "Son-eul sayonghaji anhgo je ot han bel-eul beosgiseyo" },
-      { en: "Name three songs you'd add to a sex playlist", zh: "說出三首你會加入性愛播放清單的歌", ko: "섹스 플레이리스트에 추가할 세 곡의 노래를 말해보세요", koRoman: "Segseu peulleiliseuteu-e chugahal se gog-ui nolae-reul malhaeboseyo" },
-      { en: "Drop an ice cube in your underwear", zh: "在你的內衣裡放一個冰塊", ko: "속옷 안에 얼음 조각을 넣어보세요", koRoman: "Sog-os an-e eoleum jogag-eul neoh-eoboseyo" },
-      { en: "Go to another room, take a sexy photo and send it to me", zh: "去另一個房間，拍一張性感照片並發給我", ko: "다른 방으로 가서 섹시한 사진을 찍어 저에게 보내세요", koRoman: "Daleun bang-eulo gaseo segsihan sajin-eul jjig-eo jeoege bonaeseyo" },
-      { en: "Give me a five-minute foot massage", zh: "給我五分鐘的腳底按摩", ko: "5분 동안 발 마사지를 해주세요", koRoman: "5bun dong-an bal masaji-reul haejuseyo" },
-      { en: "Let me give you a light spanking", zh: "讓我輕輕打你屁股", ko: "제가 가볍게 엉덩이를 때려보겠습니다", koRoman: "Jega gabyeobge eongdeong-i-reul ttaelyeobogessseubnida" },
-      { en: "Go without underwear on our next date night", zh: "在我們下一次約會之夜不穿內衣", ko: "다음 데이트 밤에 속옷을 입지 마세요", koRoman: "Da-eum deiteu bam-e sog-os-eul ibji maseyo" },
-      { en: "Read an erotic passage out loud", zh: "大聲朗讀一段色情段落", ko: "에로틱한 구절을 소리내어 읽어보세요", koRoman: "Elotig-han gujeol-eul solinae-eo ilg-eoboseyo" },
-      { en: "Re-enact our first kiss", zh: "重現我們的初吻", ko: "우리의 첫 키스를 재현해보세요", koRoman: "Uri-ui cheos kiseu-reul jaehyeonhaeboseyo" },
-      { en: "Challenge me to a pillow fight", zh: "向我發起枕頭大戰", ko: "저에게 베개 싸움을 도전하세요", koRoman: "Jeoege begae ssaum-eul dojeonhaseyo" },
-      { en: "Hide a chocolate in your clothes and let me find it", zh: "在你的衣服裡藏一塊巧克力，讓我找到它", ko: "옷 안에 초콜릿을 숨기고 제가 찾게 해주세요", koRoman: "Ot an-e chokollis-eul sumgigo jega chatge haejuseyo" },
-      { en: "(If there's a pool or hot tub) go skinny-dipping", zh: "（如果有游泳池或熱水浴缸）去裸泳", ko: "(수영장이나 온수 욕조가 있다면) 나체로 수영하세요", koRoman: "(Suyeongjang-ina onsu yogjoga issdamyeon) nache-lo suyeonghaseyo" },
-      { en: "Let me order something sexy from your Amazon account (max £20)", zh: "讓我從你的Amazon帳號訂購一些性感的東西（最高£20）", ko: "제가 당신의 아마존 계정에서 섹시한 것을 주문하게 해주세요 (최대 £20)", koRoman: "Jega dangsin-ui amajon gyejeung-eseo segsihan geos-eul jumunhage haejuseyo (choedae £20)" },
-      { en: "Turn off the lights and try to arouse me using only noises", zh: "關掉燈，只用聲音試著讓我興奮", ko: "불을 끄고 소리만 사용해서 저를 흥분시켜보세요", koRoman: "Bul-eul kkeugo soliman sayonghaeseo jeoreul heungbunsikyeoboseyo" },
-      { en: "Play the rest of the game naked", zh: "裸體玩剩下的遊戲", ko: "나체로 나머지 게임을 하세요", koRoman: "Nache-lo nameoji geim-eul haseyo" },
-      { en: "Whisper something naughty in my ear for one minute.", zh: "在我耳邊低語一分鐘的色情話", ko: "1분 동안 제 귀에 더러운 말을 속삭여보세요", koRoman: "1bun dong-an je gwie deoleoun mal-eul sogsag-yeoboseyo" },
-      { en: "Give me a sensual back massage for five minutes.", zh: "給我五分鐘的感性背部按摩", ko: "5분 동안 관능적인 등 마사지를 해주세요", koRoman: "5bun dong-an gwannungjeog-in deung masaji-reul haejuseyo" },
-      { en: "Draw a heart on my body with your lips.", zh: "用你的嘴唇在我身體上畫一顆心", ko: "입술로 제 몸에 하트를 그려보세요", koRoman: "Ibsul-lo je mom-e hateu-reul geulyeoboseyo" },
-      { en: "Trace my body with your fingers while I'm blindfolded.", zh: "在我被蒙住眼睛時，用你的手指描繪我的身體", ko: "제가 눈가리개를 한 동안 손가락으로 제 몸을 따라가보세요", koRoman: "Jega nungaligae-reul han dong-an songalag-eulo je mom-eul ttalagaboseyo" },
-      { en: "Kiss me in a way that makes me laugh and melt at the same time.", zh: "用一種讓我同時大笑和融化的方式親吻我", ko: "저를 동시에 웃게 하고 녹게 만드는 방식으로 키스하세요", koRoman: "Jeoreul dongsi-e utge hago nogge mandeuneun bangsig-eulo kiseuhaseyo" }
+      // 扮演xx命令xx類型（猥褻命令）
+      { en: "", zh: "扮演我的性奴，完全服從我的所有命令", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我對你為所欲為", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我任意玩弄你的身體", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，用嘴為我服務直到我滿意", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴隸，讓我強制你達到高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我用各種方式羞辱你", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性服務員，用你的身體為我服務", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我插入你的所有部位", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我綁住你並為所欲為", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴，讓我拍攝你最淫蕩的樣子", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我強制你服從各種變態指令", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我用各種道具玩弄你", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我完全控制你的身體", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴隸，讓我強制你達到連續高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我對你進行最變態的調教", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性服務員，用你的嘴為我深喉服務", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我插入你的前庭和後庭", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我用各種方式羞辱和調教你", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴，讓我強制你服從最淫蕩的命令", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我拍攝你被調教的過程", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我用性玩具玩弄你的所有部位", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我強制你達到高潮並繼續玩弄", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴隸，讓我完全控制你並為所欲為", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我對你進行最極端的性愛調教", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性服務員，用你的身體為我服務直到我滿意", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我插入並強制你達到高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我用各種變態方式玩弄你", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴，讓我強制你服從所有變態指令", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我拍攝你最淫蕩的性愛畫面", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我用各種方式強制你高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我完全控制你的身體並為所欲為", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴隸，讓我強制你達到連續高潮並繼續玩弄", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我對你進行最變態的性愛調教和羞辱", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性服務員，用你的嘴和身體為我服務直到我射精", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我插入你的所有部位並強制高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我用各種變態方式完全控制你", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴，讓我強制你服從最淫蕩的變態指令", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我拍攝你被最變態方式調教的過程", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我用性玩具強制你達到連續高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我完全控制你的身體並強制你服從", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性奴隸，讓我對你為所欲為並強制達到高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的調教對象，讓我用最變態的方式調教和羞辱你", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性服務員，用你的身體為我服務並完全服從", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的性玩具，讓我插入並強制你達到最極端的高潮", ko: "", koRoman: "" },
+      { en: "", zh: "扮演我的寵物，讓我用各種變態方式完全控制並玩弄你", ko: "", koRoman: "" }
     ];
 
     function initTruthDareGame() {
@@ -5687,7 +6234,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
 
         const shuffleTimer = setInterval(() => {
           const randomCard = truthDareCards[Math.floor(Math.random() * truthDareCards.length)];
-          truthDareCardMain.innerHTML = `${randomCard.en}<div class="card-role-info"><span class="card-attitude">${randomCard.zh}</span><span class="card-scene"><span class="korean-text">${randomCard.ko}</span><span class="korean-roman">${randomCard.koRoman}</span></span></div>`;
+          truthDareCardMain.innerHTML = `${randomCard.zh}`;
           elapsed += intervalTime;
 
           if (elapsed >= shuffleDuration) {
@@ -5696,13 +6243,15 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
 
             setTimeout(() => {
               truthDareCard.classList.remove('shuffling');
-              truthDareCardMain.innerHTML = `${chosenCard.en}<div class="card-role-info"><span class="card-attitude">${chosenCard.zh}</span><span class="card-scene"><span class="korean-text">${chosenCard.ko}</span><span class="korean-roman">${chosenCard.koRoman}</span></span></div>`;
+              truthDareCardMain.innerHTML = `${chosenCard.zh}`;
               truthDareCardHint.textContent = '今天抽到的卡片';
-              truthDareResult.innerHTML = `${chosenCard.en}<div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; flex-wrap: wrap;"><span class="result-attitude">${chosenCard.zh}</span><span class="result-scene"><span class="korean-text">${chosenCard.ko}</span><span class="korean-roman">${chosenCard.koRoman}</span></span></div>`;
+              truthDareResult.innerHTML = `${chosenCard.zh}`;
 
-              const li = document.createElement('li');
-              li.innerHTML = `${chosenCard.en} | ${chosenCard.zh}`;
-              truthDareHistoryList.prepend(li);
+              const tr = document.createElement('tr');
+              const td = document.createElement('td');
+              td.innerHTML = `${chosenCard.zh}`;
+              tr.appendChild(td);
+              truthDareHistoryList.prepend(tr);
 
               isDrawingTruthDare = false;
               truthDareDrawBtn.disabled = false;
@@ -5767,17 +6316,42 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       }
     }
 
-    const storyGrid = document.getElementById("story-grid");
+    function getStoryGrid() {
+      // Check if story-plots-content is active (in games page)
+      const storyPlotsContent = document.getElementById("story-plots-content");
+      if (storyPlotsContent && storyPlotsContent.classList.contains("active")) {
+        return storyPlotsContent.querySelector(".story-grid");
+      }
+      // Fallback to story-plots-page (legacy)
+      const storyPlotsPage = document.getElementById("story-plots-page");
+      if (storyPlotsPage) {
+        return storyPlotsPage.querySelector(".story-grid");
+      }
+      // Last resort: get by id
+      return document.getElementById("story-grid");
+    }
 
     function renderStories() {
+      const storyGrid = getStoryGrid();
+      if (!storyGrid) return;
+      
       storyGrid.innerHTML = "";
       stories.forEach((story, index) => {
         const storyCard = document.createElement("div");
         storyCard.className = "story-card";
         storyCard.innerHTML = `
           <div class="story-card-actions">
-            <button class="story-card-edit-btn" data-index="${index}" title="編輯">✎</button>
-            <button class="story-card-delete-btn" data-index="${index}" title="刪除">×</button>
+            <button class="story-card-menu-btn" data-index="${index}" title="選項">⋯</button>
+            <div class="story-card-menu-dropdown">
+              <div class="story-card-menu-item edit" data-action="edit" data-index="${index}">
+                <span>✎</span>
+                <span>編輯</span>
+              </div>
+              <div class="story-card-menu-item delete" data-action="delete" data-index="${index}">
+                <span>×</span>
+                <span>刪除</span>
+              </div>
+            </div>
           </div>
           <div class="story-card-title">${story.title}</div>
           <div class="story-card-preview">${story.preview}</div>
@@ -5791,23 +6365,54 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
           }
         });
         
-        // 編輯按鈕
-        const editBtn = storyCard.querySelector('.story-card-edit-btn');
-        editBtn.addEventListener("click", (e) => {
+        // 三點按鈕點擊
+        const menuBtn = storyCard.querySelector('.story-card-menu-btn');
+        const dropdown = storyCard.querySelector('.story-card-menu-dropdown');
+        
+        menuBtn.addEventListener("click", (e) => {
           e.stopPropagation();
+          // 關閉其他打開的菜單
+          document.querySelectorAll('.story-card-menu-dropdown.show').forEach(menu => {
+            if (menu !== dropdown) {
+              menu.classList.remove('show');
+              menu.closest('.story-card-actions').querySelector('.story-card-menu-btn').classList.remove('active');
+            }
+          });
+          
+          // 切換當前菜單
+          dropdown.classList.toggle('show');
+          menuBtn.classList.toggle('active');
+        });
+        
+        // 編輯選項
+        const editItem = storyCard.querySelector('.story-card-menu-item.edit');
+        editItem.addEventListener("click", (e) => {
+          e.stopPropagation();
+          dropdown.classList.remove('show');
+          menuBtn.classList.remove('active');
           openEditModal(index);
         });
         
-        // 刪除按鈕
-        const deleteBtn = storyCard.querySelector('.story-card-delete-btn');
-        deleteBtn.addEventListener("click", async (e) => {
+        // 刪除選項
+        const deleteItem = storyCard.querySelector('.story-card-menu-item.delete');
+        deleteItem.addEventListener("click", async (e) => {
           e.stopPropagation();
+          dropdown.classList.remove('show');
+          menuBtn.classList.remove('active');
           if (confirm(`確定要刪除「${story.title}」嗎？`)) {
             const success = await deleteStory(story.id);
             if (success) {
               stories.splice(index, 1);
               renderStories();
             }
+          }
+        });
+        
+        // 點擊外部關閉菜單
+        document.addEventListener('click', (e) => {
+          if (!storyCard.contains(e.target)) {
+            dropdown.classList.remove('show');
+            menuBtn.classList.remove('active');
           }
         });
         
@@ -5824,7 +6429,8 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
         const line = lines[i].trim();
         
         if (!line) {
-          html += '<br>';
+          // 減少空行的間距，只添加一個小的間距
+          html += '<div style="height: 4px;"></div>';
           continue;
         }
         
@@ -5914,6 +6520,12 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       const previewInput = document.getElementById("edit-story-preview");
       const contentInput = document.getElementById("edit-story-content");
       
+      if (!titleInput || !previewInput || !contentInput) {
+        console.error('找不到輸入欄位');
+        alert("系統錯誤：找不到輸入欄位");
+        return;
+      }
+      
       const title = titleInput.value.trim();
       const preview = previewInput.value.trim();
       const content = contentInput.value.trim();
@@ -5925,20 +6537,73 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       
       if (currentEditIndex === -1) {
         // 新增
-        const newStory = await addStory(title, preview, content);
-        if (newStory) {
-          stories.push(newStory);
-          renderStories();
-          closeEditModal();
+        let savedStory = null;
+        let dbSaveSuccess = false;
+        
+        if (supabase) {
+          // 嘗試保存到資料庫
+          savedStory = await addStory(title, preview, content);
+          if (savedStory) {
+            dbSaveSuccess = true;
+          }
+        }
+        
+        // 如果資料庫保存失敗或未連接，保存到本地
+        if (!dbSaveSuccess) {
+          savedStory = {
+            id: `local_${Date.now()}`,
+            title,
+            preview,
+            content,
+            created_at: new Date().toISOString()
+          };
+        }
+        
+        stories.push(savedStory);
+        renderStories();
+        closeEditModal();
+        
+        if (!dbSaveSuccess && supabase) {
+          alert("已保存到本地（資料庫連接失敗，資料僅在當前頁面有效）");
+        } else if (!supabase) {
+          alert("已保存到本地（Supabase 未連接，資料僅在當前頁面有效）");
         }
       } else {
         // 編輯
         const story = stories[currentEditIndex];
-        const updated = await updateStory(story.id, title, preview, content);
-        if (updated) {
-          stories[currentEditIndex] = updated;
-          renderStories();
-          closeEditModal();
+        if (!story) {
+          alert("找不到要編輯的故事");
+          return;
+        }
+        
+        let updatedStory = null;
+        let dbUpdateSuccess = false;
+        
+        if (story.id && supabase && !story.id.toString().startsWith('local_')) {
+          // 有資料庫 ID，嘗試更新到資料庫
+          updatedStory = await updateStory(story.id, title, preview, content);
+          if (updatedStory) {
+            dbUpdateSuccess = true;
+          }
+        }
+        
+        // 如果資料庫更新失敗或沒有 ID，更新本地資料
+        if (!dbUpdateSuccess) {
+          updatedStory = {
+            ...story,
+            title,
+            preview,
+            content,
+            updated_at: new Date().toISOString()
+          };
+        }
+        
+        stories[currentEditIndex] = updatedStory;
+        renderStories();
+        closeEditModal();
+        
+        if (!dbUpdateSuccess && story.id && supabase && !story.id.toString().startsWith('local_')) {
+          alert("已保存到本地（資料庫更新失敗，資料僅在當前頁面有效）");
         }
       }
     }
@@ -5952,17 +6617,77 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     });
 
     // Edit Modal Controls
-    document.getElementById("edit-modal-close").addEventListener("click", closeEditModal);
-    document.getElementById("edit-story-modal").addEventListener("click", (e) => {
-      if (e.target.id === "edit-story-modal") {
-        closeEditModal();
-      }
-    });
-    document.getElementById("btn-cancel").addEventListener("click", closeEditModal);
-    document.getElementById("btn-save").addEventListener("click", saveStory);
+    const editModalClose = document.getElementById("edit-modal-close");
+    const editStoryModal = document.getElementById("edit-story-modal");
+    const btnCancel = document.getElementById("btn-cancel");
+    const btnSave = document.getElementById("btn-save");
+    
+    if (editModalClose) {
+      editModalClose.addEventListener("click", closeEditModal);
+    }
+    
+    if (editStoryModal) {
+      editStoryModal.addEventListener("click", (e) => {
+        if (e.target.id === "edit-story-modal") {
+          closeEditModal();
+        }
+      });
+    }
+    
+    if (btnCancel) {
+      btnCancel.addEventListener("click", closeEditModal);
+    }
+    
+    if (btnSave) {
+      btnSave.addEventListener("click", saveStory);
+    } else {
+      console.error('找不到 btn-save 按鈕');
+    }
 
     // Dream List System (same structure as Story Plots)
     let dreams = [];
+
+    // Mockup data for dreams
+    const initialDreams = [
+      // Husband dreams (3 items)
+      {
+        title: "每天玩弄老婆的身體",
+        preview: "每天可以舔小穴，做愛，舔奶頭，喝小穴的水",
+        content: "每天玩弄老婆的身體\n\n每天可以：\n- 舔小穴\n- 做愛\n- 舔奶頭\n- 喝小穴的水",
+        person: "husband"
+      },
+      {
+        title: "收入穩定",
+        preview: "不用為錢擔心生活",
+        content: "收入穩定，不用為錢擔心生活\n\n目標：\n- 有穩定的收入來源\n- 財務規劃完善\n- 生活無憂",
+        person: "husband"
+      },
+      {
+        title: "每天保持情色變態的愉悅",
+        preview: "可以跟老婆每天保持情色變態的愉悅",
+        content: "可以跟老婆每天保持情色變態的愉悅\n\n希望能夠：\n- 每天與老婆保持親密關係\n- 探索各種情色玩法\n- 享受變態帶來的愉悅",
+        person: "husband"
+      },
+      // Wife dreams (3 items)
+      {
+        title: "開一家咖啡廳",
+        preview: "打造屬於自己的咖啡空間",
+        content: "夢想開一家溫馨的咖啡廳，提供優質的咖啡和甜點。\n\n理念：\n- 創造舒適的環境\n- 使用優質的咖啡豆\n- 提供美味的輕食",
+        person: "wife"
+      },
+      {
+        title: "學習攝影",
+        preview: "用鏡頭記錄美好時刻",
+        content: "想要學習攝影，用鏡頭記錄生活中的美好時刻。\n\n目標：\n- 掌握基本的攝影技巧\n- 學習後期處理\n- 舉辦個人攝影展",
+        person: "wife"
+      },
+      {
+        title: "學會做甜點",
+        preview: "成為甜點達人",
+        content: "學習製作各種精美的甜點，成為甜點達人。\n\n計劃：\n- 學習法式甜點製作\n- 嘗試各種創新口味\n- 分享給親朋好友",
+        person: "wife"
+      }
+    ];
 
     // Supabase CRUD Functions for Dreams
     async function loadDreams() {
@@ -5988,7 +6713,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       }
     }
 
-    async function addDream(title, preview, content) {
+    async function addDream(title, preview, content, person = 'husband') {
       if (!supabase) {
         console.warn('Supabase 未初始化，无法新增梦想');
         return null;
@@ -5998,7 +6723,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
         const { data, error } = await supabase
           .from('dreams')
           .insert([
-            { title, preview, content }
+            { title, preview, content, person }
           ])
           .select();
         
@@ -6013,7 +6738,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       }
     }
 
-    async function updateDream(id, title, preview, content) {
+    async function updateDream(id, title, preview, content, person = 'husband') {
       if (!supabase) {
         console.warn('Supabase 未初始化，无法更新梦想');
         return null;
@@ -6025,7 +6750,8 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
           .update({ 
             title, 
             preview, 
-            content, 
+            content,
+            person,
             updated_at: new Date().toISOString() 
           })
           .eq('id', id)
@@ -6065,18 +6791,44 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       }
     }
 
-    const dreamGrid = document.getElementById("dream-grid");
+    let currentDreamPerson = 'husband'; // Track current selected person for dreams
+
+    function getDreamGrid() {
+      if (currentDreamPerson === 'husband') {
+        return document.getElementById("husband-dream-grid");
+      } else {
+        return document.getElementById("wife-dream-grid");
+      }
+    }
 
     function renderDreams() {
-      if (!dreamGrid) return;
-      dreamGrid.innerHTML = "";
+      const husbandGrid = document.getElementById("husband-dream-grid");
+      const wifeGrid = document.getElementById("wife-dream-grid");
+      
+      if (husbandGrid) husbandGrid.innerHTML = "";
+      if (wifeGrid) wifeGrid.innerHTML = "";
+      
       dreams.forEach((dream, index) => {
+        const person = dream.person || 'husband'; // Default to husband if not specified
+        const targetGrid = person === 'husband' ? husbandGrid : wifeGrid;
+        
+        if (!targetGrid) return;
+        
         const dreamCard = document.createElement("div");
         dreamCard.className = "story-card";
         dreamCard.innerHTML = `
           <div class="story-card-actions">
-            <button class="story-card-edit-btn" data-index="${index}" title="編輯">✎</button>
-            <button class="story-card-delete-btn" data-index="${index}" title="刪除">×</button>
+            <button class="story-card-menu-btn" data-index="${index}" title="選項">⋯</button>
+            <div class="story-card-menu-dropdown">
+              <div class="story-card-menu-item edit" data-action="edit" data-index="${index}">
+                <span>✎</span>
+                <span>編輯</span>
+              </div>
+              <div class="story-card-menu-item delete" data-action="delete" data-index="${index}">
+                <span>×</span>
+                <span>刪除</span>
+              </div>
+            </div>
           </div>
           <div class="story-card-title">${dream.title}</div>
           <div class="story-card-preview">${dream.preview}</div>
@@ -6090,27 +6842,65 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
           }
         });
         
-        // 編輯按鈕
-        const editBtn = dreamCard.querySelector('.story-card-edit-btn');
-        editBtn.addEventListener("click", (e) => {
+        // 三點按鈕點擊
+        const menuBtn = dreamCard.querySelector('.story-card-menu-btn');
+        const dropdown = dreamCard.querySelector('.story-card-menu-dropdown');
+        
+        menuBtn.addEventListener("click", (e) => {
           e.stopPropagation();
+          // 關閉其他打開的菜單
+          document.querySelectorAll('.story-card-menu-dropdown.show').forEach(menu => {
+            if (menu !== dropdown) {
+              menu.classList.remove('show');
+              menu.closest('.story-card-actions').querySelector('.story-card-menu-btn').classList.remove('active');
+            }
+          });
+          
+          // 切換當前菜單
+          dropdown.classList.toggle('show');
+          menuBtn.classList.toggle('active');
+        });
+        
+        // 編輯選項
+        const editItem = dreamCard.querySelector('.story-card-menu-item.edit');
+        editItem.addEventListener("click", (e) => {
+          e.stopPropagation();
+          dropdown.classList.remove('show');
+          menuBtn.classList.remove('active');
           openEditDreamModal(index);
         });
         
-        // 刪除按鈕
-        const deleteBtn = dreamCard.querySelector('.story-card-delete-btn');
-        deleteBtn.addEventListener("click", async (e) => {
+        // 刪除選項
+        const deleteItem = dreamCard.querySelector('.story-card-menu-item.delete');
+        deleteItem.addEventListener("click", async (e) => {
           e.stopPropagation();
+          dropdown.classList.remove('show');
+          menuBtn.classList.remove('active');
           if (confirm(`確定要刪除「${dream.title}」嗎？`)) {
-            const success = await deleteDream(dream.id);
-            if (success) {
+            if (dream.id) {
+              // If dream has id, delete from database
+              const success = await deleteDream(dream.id);
+              if (success) {
+                dreams.splice(index, 1);
+                renderDreams();
+              }
+            } else {
+              // Mockup data, just remove from array
               dreams.splice(index, 1);
               renderDreams();
             }
           }
         });
         
-        dreamGrid.appendChild(dreamCard);
+        // 點擊外部關閉菜單
+        document.addEventListener('click', (e) => {
+          if (!dreamCard.contains(e.target)) {
+            dropdown.classList.remove('show');
+            menuBtn.classList.remove('active');
+          }
+        });
+        
+        targetGrid.appendChild(dreamCard);
       });
     }
 
@@ -6123,7 +6913,8 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
         const line = lines[i].trim();
         
         if (!line) {
-          html += '<br>';
+          // 減少空行的間距，只添加一個小的間距
+          html += '<div style="height: 4px;"></div>';
           continue;
         }
         
@@ -6158,17 +6949,19 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     }
 
     function openDreamModal(dream) {
-      const modal = document.getElementById("dream-modal");
-      const modalTitle = document.getElementById("dream-modal-title");
-      const modalBody = document.getElementById("dream-modal-body");
+      // Use the same modal as story plots
+      const modal = document.getElementById("story-modal");
+      const modalTitle = document.getElementById("modal-title");
+      const modalBody = document.getElementById("modal-body");
       
       modalTitle.textContent = dream.title;
-      modalBody.innerHTML = parseDreamContent(dream.content);
+      modalBody.innerHTML = parseStoryContent(dream.content);
       modal.classList.add("active");
     }
 
     function closeDreamModal() {
-      const modal = document.getElementById("dream-modal");
+      // Use the same modal as story plots
+      const modal = document.getElementById("story-modal");
       modal.classList.remove("active");
     }
 
@@ -6182,20 +6975,27 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       const titleInput = document.getElementById("edit-dream-title");
       const previewInput = document.getElementById("edit-dream-preview");
       const contentInput = document.getElementById("edit-dream-content");
+      const personSelect = document.getElementById("edit-dream-person");
       
       if (index === -1) {
-        // 新增模式
+        // 新增模式 - 使用當前選中的人物
         editTitle.textContent = "新增夢想";
         titleInput.value = "";
         previewInput.value = "";
         contentInput.value = "";
+        if (personSelect) {
+          personSelect.value = currentDreamPerson;
+        }
       } else {
-        // 編輯模式
+        // 編輯模式 - 使用夢想原有的人物
         editTitle.textContent = "編輯夢想";
         const dream = dreams[index];
         titleInput.value = dream.title;
         previewInput.value = dream.preview;
         contentInput.value = dream.content;
+        if (personSelect) {
+          personSelect.value = dream.person || 'husband';
+        }
       }
       
       editModal.classList.add("active");
@@ -6212,10 +7012,12 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       const titleInput = document.getElementById("edit-dream-title");
       const previewInput = document.getElementById("edit-dream-preview");
       const contentInput = document.getElementById("edit-dream-content");
+      const personSelect = document.getElementById("edit-dream-person");
       
       const title = titleInput.value.trim();
       const preview = previewInput.value.trim();
       const content = contentInput.value.trim();
+      const person = personSelect ? personSelect.value : currentDreamPerson;
       
       if (!title || !preview || !content) {
         alert("請填寫所有欄位");
@@ -6224,7 +7026,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       
       if (currentEditDreamIndex === -1) {
         // 新增
-        const newDream = await addDream(title, preview, content);
+        const newDream = await addDream(title, preview, content, person);
         if (newDream) {
           dreams.push(newDream);
           renderDreams();
@@ -6233,7 +7035,7 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       } else {
         // 編輯
         const dream = dreams[currentEditDreamIndex];
-        const updated = await updateDream(dream.id, title, preview, content);
+        const updated = await updateDream(dream.id, title, preview, content, person);
         if (updated) {
           dreams[currentEditDreamIndex] = updated;
           renderDreams();
@@ -6245,28 +7047,30 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     async function initDreams() {
       try {
         const loadedDreams = await loadDreams();
-        dreams = loadedDreams;
-        renderDreams();
+        if (loadedDreams.length > 0) {
+          // Database has dreams, use them
+          dreams = loadedDreams;
+          renderDreams();
+        } else {
+          // Database is empty, use mockup data
+          console.log('数据库为空，使用mockup数据');
+          dreams = initialDreams;
+          renderDreams();
+          
+          // Optionally import mockup data to database
+          // for (const dream of initialDreams) {
+          //   await addDream(dream.title, dream.preview, dream.content, dream.person);
+          // }
+        }
       } catch (error) {
-        console.error('加载梦想时发生错误:', error);
-        dreams = [];
+        console.error('加载梦想时发生错误，使用mockup数据:', error);
+        dreams = initialDreams;
         renderDreams();
       }
     }
 
-    // Dream Modal Controls
-    const dreamModalClose = document.getElementById("dream-modal-close");
-    if (dreamModalClose) {
-      dreamModalClose.addEventListener("click", closeDreamModal);
-    }
-    const dreamModal = document.getElementById("dream-modal");
-    if (dreamModal) {
-      dreamModal.addEventListener("click", (e) => {
-        if (e.target.id === "dream-modal") {
-          closeDreamModal();
-        }
-      });
-    }
+    // Dream Modal Controls - use story modal (shared)
+    // Modal controls are already set up for story-modal
 
     // Edit Dream Modal Controls
     const editDreamModalClose = document.getElementById("edit-dream-modal-close");
@@ -6400,7 +7204,6 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
       if (e.key === "Escape") {
         const storyModal = document.getElementById("story-modal");
         const editModal = document.getElementById("edit-story-modal");
-        const dreamModal = document.getElementById("dream-modal");
         const editDreamModal = document.getElementById("edit-dream-modal");
         const articleModal = document.getElementById("edit-article-modal");
         const yearMonthModal = document.getElementById("year-month-modal");
@@ -6411,8 +7214,6 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
           closeStoryModal();
         } else if (editModal && editModal.classList.contains("active")) {
           closeEditModal();
-        } else if (dreamModal && dreamModal.classList.contains("active")) {
-          closeDreamModal();
         } else if (editDreamModal && editDreamModal.classList.contains("active")) {
           closeEditDreamModal();
         } else if (articleModal && articleModal.classList.contains("active")) {
@@ -6431,28 +7232,21 @@ Q:在被玩弄時，能否保持專業形象跟語氣，持續認真工作?
     // Floating Add Story/Dream Button
     const floatingAddBtn = document.getElementById('floating-add-story-btn');
     if (floatingAddBtn) {
+      // Floating button is no longer used for story plots - using inline button instead
+      // Keep the handler for backward compatibility, but it won't be visible
       floatingAddBtn.addEventListener('click', () => {
-        const storyPlotsPage = document.getElementById('story-plots-page');
-        const heroStoryPage = document.getElementById('hero-story-page');
-        
-        if (storyPlotsPage && storyPlotsPage.classList.contains('active')) {
-          openEditModal(-1);
-        } else if (heroStoryPage && heroStoryPage.classList.contains('active')) {
-          openEditDreamModal(-1);
-        }
+        // This should not be triggered anymore, but kept for safety
       });
       
-      // Check initial page state
-      const storyPlotsPage = document.getElementById('story-plots-page');
-      const heroStoryPage = document.getElementById('hero-story-page');
-      if ((storyPlotsPage && storyPlotsPage.classList.contains('active')) || 
-          (heroStoryPage && heroStoryPage.classList.contains('active'))) {
-        floatingAddBtn.style.display = 'flex';
-        if (heroStoryPage && heroStoryPage.classList.contains('active')) {
-          floatingAddBtn.title = '新增夢想';
-        }
-      } else {
-        floatingAddBtn.style.display = 'none';
+      // Hide floating button - using inline button in story plots header instead
+      floatingAddBtn.style.display = 'none';
+      
+      // Add click handler for inline story plots add button
+      const storyPlotsAddBtn = document.getElementById('story-plots-add-btn');
+      if (storyPlotsAddBtn) {
+        storyPlotsAddBtn.addEventListener('click', () => {
+          openEditModal(-1);
+        });
       }
     }
 
